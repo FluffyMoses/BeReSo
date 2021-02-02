@@ -1,0 +1,70 @@
+<p class="headline1">Neues Rezept</p>
+<br>
+
+<div class="boxed">
+<form enctype="multipart/form-data" action="?module=new_recipe&action=add" method="POST">
+	<p class="headline2">Name<p>
+	<input name="add_name" type="text" style="width:100%;" value="(bereso_new_recipe_add_name)" />				
+	<p class="headline2">Beschreibung<p>
+	<textarea name="add_text" rows="10" cols="32" style="width:100%;">(bereso_new_recipe_add_text)</textarea>
+
+	<br>
+	(bereso_new_recipe_message)
+	<br>
+	<input type="submit" value="Speichern" />
+</div>
+<br>
+
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">Vorschaubild</p><br>
+				<input name="add_photo0" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+	
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">Rezeptseite 1</p><br>
+				<input name="add_photo1" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">Rezeptseite 2 (optional)</p><br>
+				<input name="add_photo2" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">Rezeptseite 3 (optional)</p><br>
+				<input name="add_photo3" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+
+</form>

@@ -1,0 +1,1 @@
+<img height="200" src="(bereso_recipe_images)(bereso_edit_recipe_imagename)_(bereso_edit_recipe_image_id)(bereso_edit_recipe_image_extension)" /><br>

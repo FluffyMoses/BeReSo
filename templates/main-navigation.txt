@@ -1,0 +1,22 @@
+        <!-- ++ menu ++ --> 		
+        <nav>
+          <ul>
+            <li class="submenu"><a href="#" class="menu1">&#9776;</a>
+              <ul>            
+                <li><a href="?module=list_tags">Kategorien</a></li>  
+				<li><a href="?module=show_recipe&action=random">Zufalls Rezept</a></li>
+                <li><a href="?module=new_recipe">Neues Rezept</a></li>
+				(bereso_navigation)
+				<li><a href="?module=login&action=logout">(bereso_user) abmelden</a></li>
+              </ul>
+            </li>                      
+          </ul>
+		  <br>
+		  
+		  <form enctype="multipart/form-data" action="?module=list_recipes&action=search" method="POST">
+		  <input type="image" src="templates/main_navigation-search.png" style="float: right;" width="37" height="21" />
+		  <input type="text" name="search" value="" size="30" style="float: right;">
+		  </form>
+
+        </nav>
+        <!-- -- menu -- -->	

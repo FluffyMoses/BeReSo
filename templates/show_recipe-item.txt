@@ -1,0 +1,5 @@
+<div class="boxednopadding">
+<a href="?module=show_recipe_image&recipe=(bereso_show_recipe_id)&recipe_image_id=(bereso_show_recipe_image_id)" border="0"><img width="100%" src="(bereso_recipe_images)(bereso_show_recipe_imagename)_(bereso_show_recipe_image_id)(bereso_show_recipe_image_extension)" /></a>
+</div>
+<br>
+<br>

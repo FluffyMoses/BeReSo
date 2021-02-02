@@ -1,0 +1,7 @@
+<div class="boxed">
+	<p class="headline1">
+		<font color="#ff0000">
+			Rezept nicht mehr Freigegeben oder Share ID falsch!
+		</font>
+	</p>
+</div>

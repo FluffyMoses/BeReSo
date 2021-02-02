@@ -1,0 +1,5 @@
+<div class="boxed">
+	Benutzer erfolgreich abgemeldet.
+</div>
+<br>
+<br>

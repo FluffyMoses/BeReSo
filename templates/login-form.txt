@@ -1,0 +1,19 @@
+<center>
+<table width="300" cellpadding="0" cellspacing="0" border="0"><tr><td>
+	<p class="headline1">Bereso Anmeldung</p>
+	<br>
+	(bereso_login_message)
+	<div class="boxed">
+	<form enctype="multipart/form-data" action="?module=login&action=dologin" method="POST">
+		<p class="headline2">Name<p>
+		<input name="login_name" type="text" style="width:100%;" />				
+		<p class="headline2">Passwort<p>
+		<input name="login_password" type="password" style="width:100%;"  />				
+
+		<br>		
+		<br>
+		<center><input type="submit" value="Anmelden" /></center>
+	</div>
+	</form>
+</td></tr></table>
+</center>

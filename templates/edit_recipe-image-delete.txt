@@ -1,0 +1,21 @@
+<p class="headline1">Bild l&ouml;schen</p>
+<br>
+<center>
+<table width="300" cellpadding="0" cellspacing="0" border="0"><tr><td>
+<a class="none" href="?module=edit_recipe&recipe=(bereso_edit_recipe_id)&recipe_image_id=(bereso_edit_recipe_image_id)&action=confirm_delete_image">
+<div class="boxed">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+						<img height="200" src="(bereso_recipe_images)(bereso_edit_recipe_imagename)_(bereso_edit_recipe_image_id)(bereso_edit_recipe_image_extension)" /><br>
+						<br>
+						L&Ouml;SCHEN best&auml;tigen!
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+</a>
+</td></tr></table>
+</center>

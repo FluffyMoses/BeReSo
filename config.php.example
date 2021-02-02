@@ -1,0 +1,59 @@
+<?php
+// Bereso
+// BEst REcipe SOftware
+// ###################################
+// Configuration
+// ###################################
+
+// php.ini - important php modules:
+// extension=gd // image conversion
+// extension=mysqli // mysql and mariadb connections
+// extension=mbstring // mb_substr => multibyte safe substring (for example ü,ö,ä are two chars in regular substr or $string[ID] char
+
+// Generate Password for new user
+// /?module=login&action=generate_pw&generate_password=PASSWORD
+
+// PHP Error Level
+// Simple Errors Fehler: E_ERROR | E_WARNING | E_PARSE
+// All Errors: E_ALL
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
+
+// SQL configuration
+$bereso['sql']['host'] = "HOST";
+$bereso['sql']['user'] = "DBUser";
+$bereso['sql']['password'] = "DBPassword";
+$bereso['sql']['database'] = "DBName";
+
+// Main URL
+$bereso['url'] = "http://bereso/";
+
+// Image filepath
+$bereso['recipe_images'] = "recipes/";
+
+// Recipe images thumbnail height
+$bereso['recipe_images_thumbnail_height'] = 200;
+
+// Version
+$bereso['version'] = "0.9";
+
+// Last update
+$bereso['last_change'] = "02.02.2021";
+
+// Creation Date
+$bereso['created'] = "14.01.2021";
+
+// Title
+$bereso['title'] = "BeReSo";
+
+// Timezone
+date_default_timezone_set('Europe/Berlin'); 
+
+// Date time format
+$bereso['datetimestring'] = "d.m.Y H:i:s";
+$bereso['datestring'] = "d.m.Y";
+
+// Session and Cookie timeout
+ini_set('session.gc_maxlifetime', 30*24*60*60);
+ini_set('session.cookie_lifetime', 30*24*60*60);
+
+?>

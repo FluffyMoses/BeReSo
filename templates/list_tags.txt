@@ -1,0 +1,42 @@
+<p class="headline1">Kategorien</p>
+<br>
+
+<a class="none" href="?module=list_recipes&tag=ALL">
+<div class="boxed">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td width="3%">
+				<img src="tags/all_recipes.png" width="50">
+			</td>
+
+			<td with="94%">
+				Alle Rezepte
+			</td>
+			<td width="3%">
+				<b>(bereso_list_tags_allrecipe_numbers)</b>
+			</td>			
+		</tr>
+	</table>
+</div>
+</a>
+<br>
+
+<a class="none" href="?module=list_recipes&tag=SHARED">
+<div class="boxed">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td width="3%">
+				<img src="tags/all_recipes_shared.png" width="50">
+			</td>
+
+			<td with="94%">
+				Alle geteilten Rezepte
+			</td>
+			<td width="3%">
+				<b>(bereso_list_tags_sharedrecipe_numbers)</b>
+			</td>			
+		</tr>
+	</table>
+</div>
+</a>
+<br>

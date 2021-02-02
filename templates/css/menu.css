@@ -1,0 +1,70 @@
+nav {
+  float: left;
+  width: 100%;
+  background: #ab0e00;
+  font-size: 16px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  display: block;
+  text-decoration: none;
+  font-weight:bold;
+}
+
+
+nav ul li {
+  position: relative;
+  float: left;
+  list-style: none;  
+  transition: 0.5s;
+}
+
+nav ul li a {
+  padding: 10px;
+  color: #3b3b3b;
+}
+
+
+
+nav ul li:hover {
+  background: #f06a5d;
+}
+
+nav ul ul {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  background: #fce5e3;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+nav ul ul li {
+  float: none;
+  width: 200px;
+  border-bottom: 1px solid #555;
+}
+
+nav ul ul li a {
+  padding: 10px 20px;
+}
+
+nav ul ul li:last-child {
+  border-bottom: none;
+}
+
+nav ul li:hover > ul {
+  top: 100%;
+  left: 0;
+}
+
+nav ul ul li:hover > ul {
+  top: 0;
+  left: 200px;
+}
+
+

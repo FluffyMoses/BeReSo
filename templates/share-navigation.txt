@@ -1,0 +1,1 @@
+<li><a href="?module=import&shareid=(bereso_share_id)">Rezept importieren</a></li>
