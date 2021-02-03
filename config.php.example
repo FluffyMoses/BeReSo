@@ -16,6 +16,7 @@
 // PHP Error Level
 // Simple Errors Fehler: E_ERROR | E_WARNING | E_PARSE
 // All Errors: E_ALL
+// No Errors: 0
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 // SQL configuration
@@ -34,10 +35,10 @@ $bereso['recipe_images'] = "recipes/";
 $bereso['recipe_images_thumbnail_height'] = 200;
 
 // Version
-$bereso['version'] = "0.9";
+$bereso['version'] = "1.0";
 
 // Last update
-$bereso['last_change'] = "02.02.2021";
+$bereso['last_change'] = "03.02.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";
@@ -51,6 +52,12 @@ date_default_timezone_set('Europe/Berlin');
 // Date time format
 $bereso['datetimestring'] = "d.m.Y H:i:s";
 $bereso['datestring'] = "d.m.Y";
+
+// Max allowed upload size
+	// example config in php.ini:
+	//post_max_size = 60M
+	//upload_max_filesize = 60M
+$bereso['max_upload_size'] = 60 * 1024 * 1024; // Size in Bytes
 
 // Session and Cookie timeout
 ini_set('session.gc_maxlifetime', 30*24*60*60);

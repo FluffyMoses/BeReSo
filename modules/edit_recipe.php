@@ -87,115 +87,122 @@ if ($f->is_recipe_owned_by_user($user,$recipe)) {
 	// Upload Image
 	if ($action == "upload_image")
 	{
-		if ($result = $sql->query("SELECT recipe_imagename from bereso_recipe WHERE recipe_user='".$f->get_user_id_by_user_name($user)."' AND recipe_id='".$recipe."'"))
-		{	
-			$row = $result -> fetch_assoc();		
+		// check max_file_upload size
+		if ($_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size'])
+		{		
+			if ($result = $sql->query("SELECT recipe_imagename from bereso_recipe WHERE recipe_user='".$f->get_user_id_by_user_name($user)."' AND recipe_id='".$recipe."'"))
+			{	
+				$row = $result -> fetch_assoc();		
 			
 
-			// Thumbnail upload - needs resizing!
-			if ($recipe_image_id == 0 && file_exists($edit_photo0['tmp_name']))
-			{
-				// Check Fileextensions				
-				if (!($f->get_image_extension($edit_photo0['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo0['tmp_name']) == ".png")) 
+				// Thumbnail upload - needs resizing!
+				if ($recipe_image_id == 0 && file_exists($edit_photo0['tmp_name']))
 				{
-					$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>"; // fileextension
-				}
-				else
-				{					
-					// delete "old" image file 
-					@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
-					@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 
-
-					// Resize Thumbnail
-					$thumbnail_path = $bereso['recipe_images'] . $row['recipe_imagename'] . "_0".$f->get_image_extension($edit_photo0['tmp_name']);
-					$thumbnail_old_size=getimagesize($edit_photo0['tmp_name']); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
-					$thumbnail_new_height=$bereso['recipe_images_thumbnail_height']; 
-					$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)
-					if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($edit_photo0['tmp_name']); } // JPEG
-					elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($edit_photo0['tmp_name']); } // PNG
-					$new_image = ImageCreateTrueColor($thumbnail_new_width,$thumbnail_new_height);
-					imagecopyresized($new_image,$old_image,0,0,0,0,$thumbnail_new_width,$thumbnail_new_height,$thumbnail_old_size[0],$thumbnail_old_size[1]);
-					if ($thumbnail_old_size[2] == 2) { imagejpeg($new_image,$thumbnail_path,95); } // JPG
-					elseif ($thumbnail_old_size[2] == 3) { imagepng($new_image,$thumbnail_path);  }	// PNG
-					imagedestroy($new_image);
-					imagedestroy($old_image);		
-
-					// change timestamp_edit
-					$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");					
-					
-					$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";	
-				}
-			}
-			else // other recipe images upload
-			{
-				if ($recipe_image_id == 1 && file_exists($edit_photo1['tmp_name']))
-				{
-					// Check Fileextensions
-					if (!($f->get_image_extension($edit_photo1['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo1['tmp_name']) == ".png"))
+					// Check Fileextensions				
+					if (!($f->get_image_extension($edit_photo0['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo0['tmp_name']) == ".png")) 
 					{
-						$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+						$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>"; // fileextension
 					}
-					else 
-					{
+					else
+					{					
 						// delete "old" image file 
 						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
 						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 
-						// Copy File
-						move_uploaded_file($edit_photo1['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_1".$f->get_image_extension($edit_photo1['tmp_name']));		
-						
+
+						// Resize Thumbnail
+						$thumbnail_path = $bereso['recipe_images'] . $row['recipe_imagename'] . "_0".$f->get_image_extension($edit_photo0['tmp_name']);
+						$thumbnail_old_size=getimagesize($edit_photo0['tmp_name']); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
+						$thumbnail_new_height=$bereso['recipe_images_thumbnail_height']; 
+						$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)
+						if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($edit_photo0['tmp_name']); } // JPEG
+						elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($edit_photo0['tmp_name']); } // PNG
+						$new_image = ImageCreateTrueColor($thumbnail_new_width,$thumbnail_new_height);
+						imagecopyresized($new_image,$old_image,0,0,0,0,$thumbnail_new_width,$thumbnail_new_height,$thumbnail_old_size[0],$thumbnail_old_size[1]);
+						if ($thumbnail_old_size[2] == 2) { imagejpeg($new_image,$thumbnail_path,95); } // JPG
+						elseif ($thumbnail_old_size[2] == 3) { imagepng($new_image,$thumbnail_path);  }	// PNG
+						imagedestroy($new_image);
+						imagedestroy($old_image);		
+
 						// change timestamp_edit
-						$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");			
-						
-						$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";							
-					}
-				}
-				elseif ($recipe_image_id == 2 && file_exists($edit_photo2['tmp_name']))
-				{
-					// Check Fileextensions
-					if (!($f->get_image_extension($edit_photo2['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo2['tmp_name']) == ".png")) 
-					{
-						$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
-					}
-					else
-					{
-						// delete "old" image file 
-						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
-						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 						
-						// Copy File						
-						move_uploaded_file($edit_photo2['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_2".$f->get_image_extension($edit_photo2['tmp_name']));			
-												
-						// change timestamp_edit
-						$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");		
-						
+						$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");					
+					
 						$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";	
 					}
 				}
-				elseif ($recipe_image_id == 3 && file_exists($edit_photo3['tmp_name']))
+				else // other recipe images upload
 				{
-					// Check Fileextensions
-					if (!($f->get_image_extension($edit_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo3['tmp_name']) == ".png"))
+					if ($recipe_image_id == 1 && file_exists($edit_photo1['tmp_name']))
 					{
-						$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
-					}
-					else
-					{
-						// delete "old" image file 
-						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
-						@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 							
-						// Copy File						
-						move_uploaded_file($edit_photo3['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_3".$f->get_image_extension($edit_photo3['tmp_name']));	
-						
-						// change timestamp_edit
-						$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");		
-						
-						$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";						
+						// Check Fileextensions
+						if (!($f->get_image_extension($edit_photo1['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo1['tmp_name']) == ".png"))
+						{
+							$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
 						}
-				}										
-			}
-			
+						else 
+						{
+							// delete "old" image file 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 
+							// Copy File
+							move_uploaded_file($edit_photo1['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_1".$f->get_image_extension($edit_photo1['tmp_name']));		
 						
-			$action = null; // Load Edit Form again	
+							// change timestamp_edit
+							$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");			
+						
+							$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";							
+						}
+					}
+					elseif ($recipe_image_id == 2 && file_exists($edit_photo2['tmp_name']))
+					{
+						// Check Fileextensions
+						if (!($f->get_image_extension($edit_photo2['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo2['tmp_name']) == ".png")) 
+						{
+							$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+						}
+						else
+						{
+							// delete "old" image file 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 						
+							// Copy File						
+							move_uploaded_file($edit_photo2['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_2".$f->get_image_extension($edit_photo2['tmp_name']));			
+												
+							// change timestamp_edit
+							$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");		
+						
+							$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";	
+						}
+					}
+					elseif ($recipe_image_id == 3 && file_exists($edit_photo3['tmp_name']))
+					{
+						// Check Fileextensions
+						if (!($f->get_image_extension($edit_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo3['tmp_name']) == ".png"))
+						{
+							$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+						}
+						else
+						{
+							// delete "old" image file 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".jpg"); 
+							@unlink ($bereso['recipe_images'].$row['recipe_imagename']."_".$recipe_image_id.".png"); 							
+							// Copy File						
+							move_uploaded_file($edit_photo3['tmp_name'], $bereso['recipe_images'] . $row['recipe_imagename'] . "_3".$f->get_image_extension($edit_photo3['tmp_name']));	
+						
+							// change timestamp_edit
+							$sql->query("UPDATE bereso_recipe SET recipe_timestamp_edit='".$timestamp."' WHERE recipe_id='".$recipe."'");		
+						
+							$recipe_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";						
+							}
+					}										
+				}													
+			}
+		} 
+		// max_file_upload size exceeded
+		else
+		{
+			$recipe_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Maximale Datei Uploadgr&ouml;sse (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes) &uuml;berschritten!</font>"; // max_file_upload size exceeded					
 		}
+		$action = null; // Load Edit Form again	
 	}		
 	
 	// sharing on/off

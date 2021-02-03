@@ -12,27 +12,27 @@ $recipe_new_addmessage = null;
 // save new entry and uploaded file
 if ($action == "add")
 {
-	// delete old temp files if they exist
-	if (file_exists($bereso['recipe_images']."temp_0")) { unlink ($bereso['recipe_images']."temp_0"); }
-	if (file_exists($bereso['recipe_images']."temp_1")) { unlink ($bereso['recipe_images']."temp_1"); }
-	
-	// Filetype only jpg or png
 	$form_recipe_file_type_error = false;
-	if (file_exists($add_photo0['tmp_name'])) {
-		if (!($f->get_image_extension($add_photo0['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo0['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
+
+	// check max_file_upload size
+	if ($_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size'])
+	{
+		// Filetype only jpg or png		
+		if (file_exists($add_photo0['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo0['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo0['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
+		}
+		if (file_exists($add_photo1['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo1['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo1['tmp_name']) == ".png")) {  $form_recipe_file_type_error = true; }
+		}
+		if (file_exists($add_photo2['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo2['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo2['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
+		}
+		if (file_exists($add_photo3['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo3['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
+		}
 	}
-	if (file_exists($add_photo1['tmp_name'])) {
-		if (!($f->get_image_extension($add_photo1['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo1['tmp_name']) == ".png")) {  $form_recipe_file_type_error = true; }
-	}
-	if (file_exists($add_photo2['tmp_name'])) {
-		if (!($f->get_image_extension($add_photo2['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo2['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
-	}
-	if (file_exists($add_photo3['tmp_name'])) {
-		if (!($f->get_image_extension($add_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo3['tmp_name']) == ".png")) { $form_recipe_file_type_error = true; }
-	}
-	
 	// insert when file 1 is ok, name is longer than 1 char - preview file is ok - no specialchars in name or text
-	if (move_uploaded_file($add_photo0['tmp_name'], $bereso['recipe_images'] . "temp_0") && move_uploaded_file($add_photo1['tmp_name'], $bereso['recipe_images'] . "temp_1") && strlen($add_name) > 0 && $form_recipe_name_error == 0 && $form_recipe_text_error == 0 && $form_recipe_file_type_error == false) {
+	if (@file_exists($add_photo0['tmp_name']) && @file_exists($add_photo1['tmp_name']) && strlen($add_name) > 0 && $form_recipe_name_error == 0 && $form_recipe_text_error == 0 && $form_recipe_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
 		
 		// generate uniqueid that is used for the imagename
 		$add_uniqueid = uniqid();
@@ -49,24 +49,23 @@ if ($action == "add")
 		}		
 			
 
-		// change filename of photo1 from temp0 and temp1 to add_uniqueid_ID.jpg/png 
-		$thumbnail_path = $bereso['recipe_images'] . $add_uniqueid . "_0".$f->get_image_extension($bereso['recipe_images']."temp_0");		
-		rename($bereso['recipe_images']."temp_1",$bereso['recipe_images'] . $add_uniqueid . "_1".$f->get_image_extension($bereso['recipe_images']."temp_1"));
+		// change filename of photo0 and photo1 to add_uniqueid_ID.jpg/png 
+		$thumbnail_path = $bereso['recipe_images'] . $add_uniqueid . "_0".$f->get_image_extension($add_photo0['tmp_name']);		
+		rename($add_photo1['tmp_name'],$bereso['recipe_images'] . $add_uniqueid . "_1".$f->get_image_extension($add_photo0['tmp_name']));
 		//save file 2 and 3
 		if (file_exists($add_photo2['tmp_name'])) { move_uploaded_file($add_photo2['tmp_name'], $bereso['recipe_images'] . $add_uniqueid . "_2".$f->get_image_extension($add_photo2['tmp_name'])); }
 		if (file_exists($add_photo3['tmp_name'])) { move_uploaded_file($add_photo3['tmp_name'], $bereso['recipe_images'] . $add_uniqueid . "_3".$f->get_image_extension($add_photo3['tmp_name'])); }
 		
 		// Resize Thumbnail
-		$thumbnail_old_size=getimagesize($bereso['recipe_images']."temp_0"); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
+		$thumbnail_old_size=getimagesize($add_photo0['tmp_name']); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
 		$thumbnail_new_height=$bereso['recipe_images_thumbnail_height']; 
 		$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)
-		if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($bereso['recipe_images']."temp_0"); } // JPEG
-		elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($bereso['recipe_images']."temp_0"); } // PNG
+		if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($add_photo0['tmp_name']); } // JPEG
+		elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($add_photo0['tmp_name']); } // PNG
 		$new_image = ImageCreateTrueColor($thumbnail_new_width,$thumbnail_new_height);
 		imagecopyresized($new_image,$old_image,0,0,0,0,$thumbnail_new_width,$thumbnail_new_height,$thumbnail_old_size[0],$thumbnail_old_size[1]);
 		if ($thumbnail_old_size[2] == 2) { imagejpeg($new_image,$thumbnail_path,95); } // JPG
 		elseif ($thumbnail_old_size[2] == 3) { imagepng($new_image,$thumbnail_path);  }	// PNG
-		unlink($bereso['recipe_images']."temp_0");
 		imagedestroy($new_image);
 		imagedestroy($old_image);
 		
@@ -83,6 +82,7 @@ if ($action == "add")
 			if ($form_recipe_name_error == 1) { $recipe_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name enth&auml;lt nicht erlaubte Zeichen.</font>"; } // name wrong char
 			elseif ($form_recipe_text_error == 1) { $recipe_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Text enth&auml;lt nicht erlaubte Zeichen.</font>"; } // text wrong char
 			elseif ($form_recipe_file_type_error == true) { $recipe_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>"; } // Wrong filetype
+			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $recipe_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Maximale Datei Uploadgr&ouml;sse (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes) &uuml;berschritten!</font>"; } // max_upload_size exceeded
 			else { $recipe_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name fehlt oder Vorschaubild/Seitenbild(er) Upload fehlerhaft!</font>"; } // name, preview or image1 missing
 	}	
 	// load new_recipe-form again with message success or failure
