@@ -1,10 +1,16 @@
 <a class="none" href="?module=show_recipe&recipe=(bereso_recipe_id)">
-<div class="boxedfloating">
-	<table width="100%" cellpadding="5" cellspacing="0">
+<div class="boxedfloatingfixedsize">
+	<table width="100%" cellpadding="5" cellspacing="0" height="260">
 		<tr>
-			<td>
+			<td valign="top">
 				<center>
 				<img class="maxwidthlimit" src="(bereso_recipe_images)(bereso_recipe_imagename)_0(bereso_recipe_image_extension)"><br>
+				</center>
+			</td>		
+		</tr>
+		<tr>
+			<td valign="bottom">
+				<center>
 				(bereso_recipe_name)
 				</center>
 			</td>		

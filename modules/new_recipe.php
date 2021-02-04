@@ -51,7 +51,7 @@ if ($action == "add")
 
 		// change filename of photo0 and photo1 to add_uniqueid_ID.jpg/png 
 		$thumbnail_path = $bereso['recipe_images'] . $add_uniqueid . "_0".$f->get_image_extension($add_photo0['tmp_name']);		
-		rename($add_photo1['tmp_name'],$bereso['recipe_images'] . $add_uniqueid . "_1".$f->get_image_extension($add_photo0['tmp_name']));
+		move_uploaded_file($add_photo1['tmp_name'],$bereso['recipe_images'] . $add_uniqueid . "_1".$f->get_image_extension($add_photo0['tmp_name']));
 		//save file 2 and 3
 		if (file_exists($add_photo2['tmp_name'])) { move_uploaded_file($add_photo2['tmp_name'], $bereso['recipe_images'] . $add_uniqueid . "_2".$f->get_image_extension($add_photo2['tmp_name'])); }
 		if (file_exists($add_photo3['tmp_name'])) { move_uploaded_file($add_photo3['tmp_name'], $bereso['recipe_images'] . $add_uniqueid . "_3".$f->get_image_extension($add_photo3['tmp_name'])); }

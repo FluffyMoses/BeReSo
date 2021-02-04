@@ -14,12 +14,23 @@ div.boxed.a {
 }
 
 div.boxedfloating {
-  padding: 10px 10px 10px 10px;
-  border: 1px solid #BFBFBF;
-  background-color: white;
-  box-shadow: 10px 10px 5px #aaaaaa;  
-  margin: 15 15px;
-  float:left;
+	padding: 10px 10px 10px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	box-shadow: 10px 10px 5px #aaaaaa;
+	margin: 15 15px;
+	float: left;
+}
+
+div.boxedfloatingfixedsize {
+	padding: 10px 10px 10px 10px;
+	border: 1px solid #BFBFBF;
+	background-color: white;
+	box-shadow: 10px 10px 5px #aaaaaa;
+	margin: 15 15px;
+	float: left;
+	width: 220px;
+	height: 260px;
 }
 
 div.boxednopadding {
@@ -31,6 +42,7 @@ div.boxednopadding {
 
 img.maxwidthlimit {
 	max-width: 200;
+	max-height: 200;
 }
 
 p.headline1 { color: #333333; font-family: 'Bitter', serif; font-size: 24px; font-weight: bold;  }
