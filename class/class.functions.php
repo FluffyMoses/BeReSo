@@ -29,7 +29,7 @@ class functions
 	}	
 	
 	// check if logged in
-	function is_logged_in($li_user,$li_password)
+	function is_logged_in($li_user,$li_passwordhash)
 	{
 		global $sql;		
         if ($result = $sql->query("SELECT user_name, user_pwhash from bereso_user WHERE user_name='$li_user'"))
@@ -37,7 +37,7 @@ class functions
 			$row = $result -> fetch_assoc();
 			
 			// check if user exists and password matches hashed password
-			if (!empty($row) && password_verify ($li_password,$row['user_pwhash'])) // not empty and pw hash matches
+			if (!empty($row) && $row['user_pwhash'] == $li_passwordhash) // not empty and pw hash matches
 			{
 				return true;
 				
@@ -96,6 +96,7 @@ class functions
 		elseif ($il_pattern == "a-z0-9") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789"; } //  a-z 0-9
 		elseif ($il_pattern == "a-z0-9 ") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 "; } //  a-z 0-9 SPACE
 		elseif ($il_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()"; } //  a-z 0-9 SPECIALCHARS		
+		elseif ($il_pattern == "a-z0-9 SPECIALPASSWORDHASH") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()$"; } //  a-z 0-9 SPECIALCHARS		
 		else { die ("CHECK: \$il_pattern failed".$il_pattern); }
 		
 		for ($i=0;$i<strlen($il_string);$i++)

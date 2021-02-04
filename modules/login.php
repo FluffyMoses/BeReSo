@@ -24,21 +24,29 @@ if ($action == "logout")
 // Do login
 if ($action == "dologin")
 {
-	
-	// if login is successful
-	if ($f->is_logged_in($login_name,$login_password))
+	// read the right case sensitive user spelling and the pw hash from the database table 
+    if ($result = $sql->query("SELECT user_name, user_pwhash from bereso_user WHERE user_name='$login_name'"))
 	{
-		// read the right case sensitive user spelling from the database table
-        if ($result = $sql->query("SELECT user_name from bereso_user WHERE user_name='$login_name'"))
+		$row = $result -> fetch_assoc();
+
+		// if entry with this share id exists
+		if (mysqli_num_rows($result) == 1)
 		{
-			$row = $result -> fetch_assoc();
-			
-			// save cookies and login
-			$_SESSION['user'] = $row['user_name'];
-			$_SESSION['password'] = $login_password;
-			$user = $row['user_name'];
-			$password = $login_password;			
+			// Verify entered password but only store salted hash in session
+			if (password_verify ($login_password,$row['user_pwhash'])) 
+			{
+				$passwordhash = $row['user_pwhash']; // store pw hash
+				$user = $row['user_name']; // username from db - case sensitive
+			}
 		}
+	}
+
+	// if login is successful
+	if ($f->is_logged_in($user,$passwordhash))
+	{						
+			// save cookies and login
+			$_SESSION['user'] = $user;
+			$_SESSION['passwordhash'] = $passwordhash;		
 			
 		header('Location: '.$bereso['url'],true, 301 ); // Redirect to the startpage after successfull login!
 		exit();
@@ -48,9 +56,9 @@ if ($action == "dologin")
 		// Errormessage and destroy session
 		$login_message .= $f->read_file("templates/login-message_error.txt");
 		$_SESSION['user'] = null;
-		$_SESSION['password'] = null;
+		$_SESSION['passwordhash'] = null;
 		$user = null;
-		$password = null;			
+		$passwordhash = null;			
 		session_destroy();
 	}
 
@@ -62,7 +70,7 @@ if ($action == "generate_pw") {
 }
 
 // Login form
-if (!($f->is_logged_in($user,$password))) 
+if (!($f->is_logged_in($user,$passwordhash))) 
 {
 	$content .= $f->read_file("templates/login-form.txt");
 	$content = str_replace("(bereso_login_message)",$login_message,$content);

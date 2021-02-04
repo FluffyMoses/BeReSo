@@ -16,7 +16,7 @@ $timestamp = time();
 
 // Read POST and GET variables
 $user = @$_SESSION['user'];
-$password = @$_SESSION['password'];
+$passwordhash = @$_SESSION['passwordhash'];
 $module = @$_GET['module'];
 $action = @$_GET['action'];
 $tag = @$_GET['tag'];
@@ -73,7 +73,7 @@ $f = new functions();
 
 // check POST and GET variables to prevent SQL injections
 if (!$f->is_letter($user,"a-z")) { die ("CHECK: \$user failed"); }
-if (!$f->is_letter($password,"a-z0-9 SPECIAL")) { die ("CHECK: \$password failed"); }
+if (!$f->is_letter($passwordhash,"a-z0-9 SPECIALPASSWORDHASH")) { die ("CHECK: \$passwordhash failed"); }
 if (!$f->is_letter($module,"a-z_")) { die ("CHECK: \$module failed"); }
 if (!$f->is_letter($action,"a-z_")) { die ("CHECK: \$action failed"); }
 if (!$f->is_letter($tag,"a-z0-9")) { die ("CHECK: \$tag failed"); }
@@ -111,8 +111,6 @@ if ($module == "login")
 	if (!$f->is_letter($generate_password,"a-z0-9 SPECIAL")) { die ("CHECK: \$generate_password failed"); }
 }
 
-
-
 // set default page
 if ($module == "") { $module = "list_tags"; }
 
@@ -124,7 +122,7 @@ $sql = new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['
 $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 
 // Check if the user is logged in
-if ($f->is_logged_in($user,$password)) 
+if ($f->is_logged_in($user,$passwordhash)) 
 {
 	if ($module == "list_tags") { include ("modules/list_tags.php"); }
 	elseif ($module == "list_recipes") { include ("modules/list_recipes.php"); }

@@ -35,7 +35,7 @@ $bereso['recipe_images'] = "recipes/";
 $bereso['recipe_images_thumbnail_height'] = 200;
 
 // Version
-$bereso['version'] = "1.1";
+$bereso['version'] = "1.2";
 
 // Last update
 $bereso['last_change'] = "04.02.2021";
