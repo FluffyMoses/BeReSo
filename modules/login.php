@@ -66,7 +66,7 @@ if ($action == "dologin")
 
 // Generate and return password hash
 if ($action == "generate_pw") {
-	die($f->generate_password_hash($generate_password));
+	die($f->generate_password_hash($generate_password)); // regular die no ($f->logdie) logging of the hash value!
 }
 
 // Login form

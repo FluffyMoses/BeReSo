@@ -56,7 +56,7 @@ if ($f->is_recipe_owned_by_user($user,$recipe)) {
 }
 else
 {
-	die ("CHECK: delete owner failed");
+	$f->logdie ("CHECK: delete owner failed");
 }
 
 ?>

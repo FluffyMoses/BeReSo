@@ -26,7 +26,7 @@ if ($f->is_recipe_owned_by_user($user,$recipe)) {
 }
 else
 {
-	die ("CHECK: show recipe image owner failed");
+	$f->logdie ("CHECK: show recipe image owner failed");
 }
 
 ?>

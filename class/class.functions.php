@@ -9,9 +9,9 @@
 class functions 
 {
 	// read file and return its content
-	function read_file($fr_path)
+	function read_file($rf_path)
 	{
-		$file = file($fr_path);
+		$file = file($rf_path);
 		$file_content = null;
 
 		foreach($file AS $file_line)
@@ -19,6 +19,22 @@ class functions
 			   $file_content .= $file_line;
 		}
 		return $file_content;   
+	}
+
+	// append a line with text to a file
+	function append_file($af_path,$af_text)
+	{
+		$file = fopen($af_path, 'a');
+		fwrite($file, $af_text."\r\n");
+	}
+	 
+	// die logging - log if $bereso['log_die'] == true and die() 
+	function logdie($l_logtext)
+	{
+		global $bereso,$f,$timestamp;
+		$full_logtext = $f->timestamp_to_datetime($timestamp) . " - " . $_SERVER['REMOTE_ADDR'] . " - " . $_SERVER['REQUEST_URI'] . " - " . $l_logtext;
+		if ($bereso['log_die'] == true) { $f->append_file($bereso['log_die_path'],$full_logtext); } // log to textfile if enabled
+		die($full_logtext); // end script and output $l_logtext
 	}
 
 	// converts timestamp into human readable date and time
@@ -90,14 +106,15 @@ class functions
 	
 	// check if string contains just letters nothing else!
 	function is_letter($il_string,$il_pattern)
-	{				
+	{		
+		global $f;
 		if ($il_pattern == "a-z") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ"; } // default a-z
 		elseif ($il_pattern == "a-z_") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789_"; } //  a-z plus _
 		elseif ($il_pattern == "a-z0-9") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789"; } //  a-z 0-9
 		elseif ($il_pattern == "a-z0-9 ") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 "; } //  a-z 0-9 SPACE
-		elseif ($il_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()"; } //  a-z 0-9 SPECIALCHARS		
-		elseif ($il_pattern == "a-z0-9 SPECIALPASSWORDHASH") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()$"; } //  a-z 0-9 SPECIALCHARS		
-		else { die ("CHECK: \$il_pattern failed".$il_pattern); }
+		elseif ($il_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]"; } //  a-z 0-9 SPECIALCHARS		
+		elseif ($il_pattern == "a-z0-9 SPECIALPASSWORDHASH") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]$"; } //  a-z 0-9 SPECIALCHARS		
+		else { $f->logdie ("CHECK: \$il_pattern failed  ".'"'.$il_pattern.'"'); }
 		
 		for ($i=0;$i<strlen($il_string);$i++)
 		{
@@ -225,7 +242,7 @@ class functions
 		return $ht_text;
 	}
 	
-	// Highlight Text - newline, http(s) links, etc
+	// Highlight Text Share - newline, http(s) links, etc
 	function highlight_text_share($ht_text)
 	{
 		// # highlight # - known problems with öäüß_ in #
@@ -235,7 +252,7 @@ class functions
 			$ht_text = str_replace($matches[0][$i],"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>",$ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
-		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link
+		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}	
 }

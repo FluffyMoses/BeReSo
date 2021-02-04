@@ -89,7 +89,7 @@ if ($f->is_recipe_owned_by_user($user,$recipe)) {
 }
 else
 {
-	die ("CHECK: show recipe owner failed");
+	$f->logdie ("CHECK: show recipe owner failed");
 }
 
 

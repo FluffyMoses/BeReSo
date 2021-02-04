@@ -35,7 +35,7 @@ $bereso['recipe_images'] = "recipes/";
 $bereso['recipe_images_thumbnail_height'] = 200;
 
 // Version
-$bereso['version'] = "1.2";
+$bereso['version'] = "1.3";
 
 // Last update
 $bereso['last_change'] = "04.02.2021";
@@ -58,6 +58,10 @@ $bereso['datestring'] = "d.m.Y";
 	//post_max_size = 60M
 	//upload_max_filesize = 60M
 $bereso['max_upload_size'] = 60 * 1024 * 1024; // Size in Bytes
+
+// Logging
+$bereso['log_die'] = true; // enable logging of die messages in text file
+$bereso['log_die_path'] = "die.log"; // path to this textfile
 
 // Session and Cookie timeout
 ini_set('session.gc_maxlifetime', 30*24*60*60);

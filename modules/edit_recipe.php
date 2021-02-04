@@ -299,5 +299,5 @@ if ($f->is_recipe_owned_by_user($user,$recipe)) {
 }
 else
 {
-	die ("CHECK: edit owner failed");
+	$f->logdie ("CHECK: edit owner failed");
 }

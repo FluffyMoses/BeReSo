@@ -72,19 +72,19 @@ include "class/class.functions.php";
 $f = new functions();
 
 // check POST and GET variables to prevent SQL injections
-if (!$f->is_letter($user,"a-z")) { die ("CHECK: \$user failed"); }
-if (!$f->is_letter($passwordhash,"a-z0-9 SPECIALPASSWORDHASH")) { die ("CHECK: \$passwordhash failed"); }
-if (!$f->is_letter($module,"a-z_")) { die ("CHECK: \$module failed"); }
-if (!$f->is_letter($action,"a-z_")) { die ("CHECK: \$action failed"); }
-if (!$f->is_letter($tag,"a-z0-9")) { die ("CHECK: \$tag failed"); }
-if (strlen($recipe) > 0) { if (!is_numeric($recipe)) { die ("CHECK: \$recipe failed"); } }
-if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { die ("CHECK: \$recipe_image_id failed"); } }
-if (!$f->is_letter($shareid,"a-z0-9")) { die ("CHECK: \$shareid failed"); }
-if (strlen($share_image_id) > 0) { if (!is_numeric($share_image_id)) { die ("CHECK: \$share_image_id failed"); } }
+if (!$f->is_letter($user,"a-z")) { $f->logdie ("CHECK: \$user failed ".'"'.$user.'"'); }
+if (!$f->is_letter($passwordhash,"a-z0-9 SPECIALPASSWORDHASH")) { $f->logdie ("CHECK: \$passwordhash failed ".'"'.$passwordhash.'"'); }
+if (!$f->is_letter($module,"a-z_")) { $f->logdie ("CHECK: \$module failed ".'"'.$module.'"'); }
+if (!$f->is_letter($action,"a-z_")) { $f->logdie ("CHECK: \$action failed ".'"'.$action.'"'); }
+if (!$f->is_letter($tag,"a-z0-9")) { $f->logdie ("CHECK: \$tag failed ".'"'.$tag.'"'); }
+if (strlen($recipe) > 0) { if (!is_numeric($recipe)) { $f->logdie ("CHECK: \$recipe failed ".'"'.$recipe.'"'); } }
+if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { $f->logdie ("CHECK: \$recipe_image_id failed ".'"'.$recipe_image_id.'"'); } }
+if (!$f->is_letter($shareid,"a-z0-9")) { $f->logdie ("CHECK: \$shareid failed ".'"'.$shareid.'"'); }
+if (strlen($share_image_id) > 0) { if (!is_numeric($share_image_id)) { $f->logdie ("CHECK: \$share_image_id failed ".'"'.$share_image_id.'"'); } }
 // for list_recipes.php
 if ($module == "list_recipes")
 {
-	if (!$f->is_letter($search,"a-z0-9 SPECIAL")) { die ("CHECK: \$search failed"); }
+	if (!$f->is_letter($search,"a-z0-9 SPECIAL")) { $search_is_letter_failed = true; } else { $search_is_letter_failed = false; }
 }
 // for new_recipe.php
 if ($module == "new_recipe") //  for new_recipe.php - user form content will not stop the script but clear the variable!
@@ -101,14 +101,14 @@ if ($module == "edit_recipe") // for edit_recipe.php - user form content will no
 	$form_recipe_text_error = 0;
 	if(!$f->is_letter($edit_name,"a-z0-9 SPECIAL")) { $form_recipe_name_error = 1; }
 	if(!$f->is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_recipe_text_error = 1;}
-	if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { die ("CHECK: \$recipe_image_id failed"); } }
+	if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { $f->logdie ("CHECK: \$recipe_image_id failed ".'"'.$recipe_image_id.'"'); } }
 }
 // for login.php
 if ($module == "login")
 {
 	if (!$f->is_letter($login_name,"a-z")) { $login_name = null; } // wrong character - reset name - login will fail and return error message
 	if (!$f->is_letter($login_password,"a-z0-9 SPECIAL")) { $login_password = null; } // wrong character - reset password - login will fail and return error message
-	if (!$f->is_letter($generate_password,"a-z0-9 SPECIAL")) { die ("CHECK: \$generate_password failed"); }
+	if (!$f->is_letter($generate_password,"a-z0-9 SPECIAL")) { $f->logdie ("CHECK: \$generate_password failed ".'"'.$generate_password.'"'); }
 }
 
 // set default page

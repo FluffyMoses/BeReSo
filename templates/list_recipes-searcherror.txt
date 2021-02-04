@@ -1,0 +1,5 @@
+<div class="boxed">
+	<p class="headline1">
+			<font color="red">Suchanfrage enth&auml;lt nicht erlaubte Zeichen!</font>
+	</p>
+</div>
