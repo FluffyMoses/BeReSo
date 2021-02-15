@@ -2,13 +2,14 @@
 <br>
 <center>
 <table width="300" cellpadding="0" cellspacing="0" border="0"><tr><td>
-<a class="none" href="?module=delete_recipe&recipe=(bereso_delete_recipe_id)&action=confirm">
+<a class="none" href="?module=delete&item=(bereso_delete_item_id)&action=confirm">
 <div class="boxed">
 	<table width="100%" cellpadding="5" cellspacing="0">
 		<tr>
 			<td>
 				<center>
-						<b>(bereso_delete_recipe_name)</b>
+						<img class="maxwidthlimit" src="(bereso_images)(bereso_delete_item_imagename)_0(bereso_delete_item_image_extension)"><br>
+						<b>(bereso_delete_item_name)</b>
 						<br><br> 
 						L&Ouml;SCHEN best&auml;tigen!
 				</center>

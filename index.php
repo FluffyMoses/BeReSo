@@ -20,17 +20,17 @@ $passwordhash = @$_SESSION['passwordhash'];
 $module = @$_GET['module'];
 $action = @$_GET['action'];
 $tag = @$_GET['tag'];
-$recipe = @$_GET['recipe'];
-$recipe_image_id = @$_GET['recipe_image_id'];
+$item = @$_GET['item'];
+$item_image_id = @$_GET['item_image_id'];
 $shareid = @$_GET['shareid'];
 $share_image_id = @$_GET['share_image_id'];
-// for list_recipes.php
-if ($module == "list_recipes")
+// for list.php
+if ($module == "list")
 {
 	$search = @$_POST['search'];
 }
-// for new_recipe.php
-if ($module == "new_recipe") 
+// for new.php
+if ($module == "new") 
 {
 	$add_name = @$_POST['add_name'];
 	$add_text = @$_POST['add_text'];
@@ -39,8 +39,8 @@ if ($module == "new_recipe")
 	$add_photo2 = @$_FILES['add_photo2'];
 	$add_photo3 = @$_FILES['add_photo3'];
 }
-// for edit_recipe.php
-if ($module == "edit_recipe") 
+// for edit.php
+if ($module == "edit") 
 {
 	$edit_name = @$_POST['edit_name'];
 	$edit_text = @$_POST['edit_text'];
@@ -48,7 +48,7 @@ if ($module == "edit_recipe")
 	$edit_photo1 = @$_FILES['edit_photo1'];
 	$edit_photo2 = @$_FILES['edit_photo2'];
 	$edit_photo3 = @$_FILES['edit_photo3'];	
-	$recipe_image_id = @$_GET['recipe_image_id'];
+	$item_image_id = @$_GET['item_image_id'];
 }
 // for login.php
 if ($module == "login")
@@ -77,31 +77,30 @@ if (!$f->is_letter($passwordhash,"a-z0-9 SPECIALPASSWORDHASH")) { $f->logdie ("C
 if (!$f->is_letter($module,"a-z_")) { $f->logdie ("CHECK: \$module failed ".'"'.$module.'"'); }
 if (!$f->is_letter($action,"a-z_")) { $f->logdie ("CHECK: \$action failed ".'"'.$action.'"'); }
 if (!$f->is_letter($tag,"a-z0-9")) { $f->logdie ("CHECK: \$tag failed ".'"'.$tag.'"'); }
-if (strlen($recipe) > 0) { if (!is_numeric($recipe)) { $f->logdie ("CHECK: \$recipe failed ".'"'.$recipe.'"'); } }
-if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { $f->logdie ("CHECK: \$recipe_image_id failed ".'"'.$recipe_image_id.'"'); } }
+if (strlen($item) > 0) { if (!is_numeric($item)) { $f->logdie ("CHECK: \$item failed ".'"'.$item.'"'); } }
+if (strlen($item_image_id) > 0) { if (!is_numeric($item_image_id)) { $f->logdie ("CHECK: \$item_image_id failed ".'"'.$item_image_id.'"'); } }
 if (!$f->is_letter($shareid,"a-z0-9")) { $f->logdie ("CHECK: \$shareid failed ".'"'.$shareid.'"'); }
 if (strlen($share_image_id) > 0) { if (!is_numeric($share_image_id)) { $f->logdie ("CHECK: \$share_image_id failed ".'"'.$share_image_id.'"'); } }
-// for list_recipes.php
-if ($module == "list_recipes")
+// for list.php
+if ($module == "list")
 {
 	if (!$f->is_letter($search,"a-z0-9 SPECIAL")) { $search_is_letter_failed = true; } else { $search_is_letter_failed = false; }
 }
-// for new_recipe.php
-if ($module == "new_recipe") //  for new_recipe.php - user form content will not stop the script but clear the variable!
+// for new.php
+if ($module == "new") //  for new.php - user form content will not stop the script but clear the variable!
 {
-	$form_recipe_name_error = 0;
-	$form_recipe_text_error = 0;
-	if(!$f->is_letter($add_name,"a-z0-9 SPECIAL")) { $form_recipe_name_error = 1; }
-	if(!$f->is_letter($add_text,"a-z0-9 SPECIAL")) { $form_recipe_text_error = 1;}
+	$form_item_name_error = 0;
+	$form_item_text_error = 0;
+	if(!$f->is_letter($add_name,"a-z0-9 SPECIAL")) { $form_item_name_error = 1; }
+	if(!$f->is_letter($add_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1;}
 }
-// for edit_recipe.php
-if ($module == "edit_recipe") // for edit_recipe.php - user form content will not stop the script but clear the variable!
+// for edit.php
+if ($module == "edit") // for edit.php - user form content will not stop the script but clear the variable!
 {
-	$form_recipe_name_error = 0;
-	$form_recipe_text_error = 0;
-	if(!$f->is_letter($edit_name,"a-z0-9 SPECIAL")) { $form_recipe_name_error = 1; }
-	if(!$f->is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_recipe_text_error = 1;}
-	if (strlen($recipe_image_id) > 0) { if (!is_numeric($recipe_image_id)) { $f->logdie ("CHECK: \$recipe_image_id failed ".'"'.$recipe_image_id.'"'); } }
+	$form_item_name_error = 0;
+	$form_item_text_error = 0;
+	if(!$f->is_letter($edit_name,"a-z0-9 SPECIAL")) { $form_item_name_error = 1; }
+	if(!$f->is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1;}
 }
 // for login.php
 if ($module == "login")
@@ -125,12 +124,12 @@ $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 if ($f->is_logged_in($user,$passwordhash)) 
 {
 	if ($module == "list_tags") { include ("modules/list_tags.php"); }
-	elseif ($module == "list_recipes") { include ("modules/list_recipes.php"); }
-	elseif ($module == "show_recipe") { include ("modules/show_recipe.php"); }
-	elseif ($module == "show_recipe_image") { include ("modules/show_recipe_image.php"); }
-	elseif ($module == "new_recipe") { include ("modules/new_recipe.php"); }
-	elseif ($module == "edit_recipe") { include ("modules/edit_recipe.php"); }
-	elseif ($module == "delete_recipe") { include ("modules/delete_recipe.php"); }
+	elseif ($module == "list") { include ("modules/list.php"); }
+	elseif ($module == "show") { include ("modules/show.php"); }
+	elseif ($module == "show_image") { include ("modules/show_image.php"); }
+	elseif ($module == "new") { include ("modules/new.php"); }
+	elseif ($module == "edit") { include ("modules/edit.php"); }
+	elseif ($module == "delete") { include ("modules/delete.php"); }
 	elseif ($module == "import") { include ("modules/import.php"); }
 	elseif ($module == "login") { include ("modules/login.php"); }
 }
@@ -163,7 +162,7 @@ $output = str_replace("(bereso_content)",$content,$output);
 $output = str_replace("(bereso_title)",$title,$output);
 $output = str_replace("(bereso_user)",$user,$output);
 $output = str_replace("(bereso_url)",$bereso['url'],$output);
-$output = str_replace("(bereso_recipe_images)",$bereso['recipe_images'],$output);
+$output = str_replace("(bereso_images)",$bereso['images'],$output);
 
 // echo output
 header('Content-Type: text/html; charset=UTF-8'); // UTF 8 Output

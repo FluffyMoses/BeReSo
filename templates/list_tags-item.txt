@@ -1,16 +1,16 @@
-<a class="none" href="?module=list_recipes&tag=(bereso_list_tags_tag_name)">
+<a class="none" href="?module=list&tag=(bereso_list_tags_tag_name)">
 <div class="boxed">
 	<table width="100%" cellpadding="5" cellspacing="0">
 		<tr>
 			<td width="3%">
-				<img src="tags/recipes.png" width="50">
+				<img src="tags/tag.png" width="50">
 			</td>
 
 			<td with="94%">
 				(bereso_list_tags_tag_name)
 			</td>
 			<td width="3%">
-				<b>(bereso_list_tags_recipe_numbers)</b>
+				<b>(bereso_list_tags_item_numbers)</b>
 			</td>			
 		</tr>
 	</table>

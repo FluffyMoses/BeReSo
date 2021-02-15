@@ -1,19 +1,19 @@
 <p class="headline1">Kategorien</p>
 <br>
 
-<a class="none" href="?module=list_recipes&tag=ALL">
+<a class="none" href="?module=list&tag=ALL">
 <div class="boxed">
 	<table width="100%" cellpadding="5" cellspacing="0">
 		<tr>
 			<td width="3%">
-				<img src="tags/all_recipes.png" width="50">
+				<img src="tags/all.png" width="50">
 			</td>
 
 			<td with="94%">
 				Alle Rezepte
 			</td>
 			<td width="3%">
-				<b>(bereso_list_tags_allrecipe_numbers)</b>
+				<b>(bereso_list_tags_allitem_numbers)</b>
 			</td>			
 		</tr>
 	</table>
@@ -21,19 +21,19 @@
 </a>
 <br>
 
-<a class="none" href="?module=list_recipes&tag=SHARED">
+<a class="none" href="?module=list&tag=SHARED">
 <div class="boxed">
 	<table width="100%" cellpadding="5" cellspacing="0">
 		<tr>
 			<td width="3%">
-				<img src="tags/all_recipes_shared.png" width="50">
+				<img src="tags/all_shared.png" width="50">
 			</td>
 
 			<td with="94%">
 				Alle geteilten Rezepte
 			</td>
 			<td width="3%">
-				<b>(bereso_list_tags_sharedrecipe_numbers)</b>
+				<b>(bereso_list_tags_shareditem_numbers)</b>
 			</td>			
 		</tr>
 	</table>

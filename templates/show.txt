@@ -1,0 +1,17 @@
+<div class="boxed">
+<p class="headline1">(bereso_show_item_name)</p>
+<br>
+(bereso_show_item_text)
+</div>
+<br>
+<br>
+(bereso_show_item_sharing)
+(bereso_show_item_item)
+<br>
+
+<p align="right">
+	<small>
+		Erstellt am: (bereso_show_item_timestamp_creation) Uhr<br>
+		Ge&auml;ndert am: (bereso_show_item_timestamp_edit) Uhr
+	</small>
+</p>

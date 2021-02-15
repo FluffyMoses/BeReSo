@@ -1,1 +1,0 @@
-<li><a href="?module=show_recipe&recipe=(bereso_edit_recipe_id)">Rezept anzeigen</a></li>

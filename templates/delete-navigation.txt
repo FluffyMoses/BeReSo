@@ -1,0 +1,1 @@
+<li><a href="?module=show&item=(bereso_delete_item_id)">Rezept anzeigen</a></li>

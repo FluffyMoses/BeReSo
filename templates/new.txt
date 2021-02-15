@@ -2,14 +2,14 @@
 <br>
 
 <div class="boxed">
-<form enctype="multipart/form-data" action="?module=new_recipe&action=add" method="POST">
+<form enctype="multipart/form-data" action="?module=new&action=add" method="POST">
 	<p class="headline2">Name<p>
-	<input name="add_name" type="text" style="width:100%;" value="(bereso_new_recipe_add_name)" />				
+	<input name="add_name" type="text" style="width:100%;" value="(bereso_new_item_add_name)" />				
 	<p class="headline2">Beschreibung<p>
-	<textarea name="add_text" rows="10" cols="32" style="width:100%;">(bereso_new_recipe_add_text)</textarea>
+	<textarea name="add_text" rows="10" cols="32" style="width:100%;">(bereso_new_item_add_text)</textarea>
 
 	<br>
-	(bereso_new_recipe_message)
+	(bereso_new_item_message)
 	<br>
 	<input type="submit" value="Speichern" />
 </div>

@@ -1,6 +1,0 @@
-<html>
-	<title>(bereso_title)</title>
-	<body bgcolor="#FFFFFF">
-		<a href="?module=show_recipe&recipe=(bereso_show_image_recipe_id)" border="0"><img src="(bereso_recipe_images)(bereso_show_image_recipe_imagename)_(bereso_show_image_recipe_image_id)(bereso_show_image_recipe_image_extension)" /></a>
-	</body>
-</html>

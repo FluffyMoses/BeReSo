@@ -71,16 +71,16 @@ class functions
 		return password_hash($gph_password,PASSWORD_DEFAULT);
 	}
 	
-	// check if recipe is owned by user
-	function is_recipe_owned_by_user($irobu_user,$irobu_recipe_id)
+	// check if item is owned by user
+	function is_item_owned_by_user($iiobu_user,$iiobu_item_id)
 	{
 		global $sql,$f;
-		$userid = $f->get_user_id_by_user_name($irobu_user); 
-        if ($result = $sql->query("SELECT recipe_name from bereso_recipe WHERE recipe_user='$userid' and recipe_id='$irobu_recipe_id'"))
+		$userid = $f->get_user_id_by_user_name($iiobu_user); 
+        if ($result = $sql->query("SELECT item_name from bereso_item WHERE item_user='$userid' and item_id='$iiobu_item_id'"))
 		{
 			$row = $result -> fetch_assoc();
 			
-			// check if recipe is owned by user
+			// check if item is owned by user
 			if (!empty($row))
 			{
 				return true;
@@ -93,14 +93,14 @@ class functions
 		}                		
 	}	
 	
-	// get recipe share id
-	function get_recipe_share_id($grsi_recipe_id)
+	// get item share id
+	function get_item_share_id($gisi_item_id)
 	{
 		global $sql;		
-        if ($result = $sql->query("SELECT recipe_shareid from bereso_recipe WHERE recipe_id='$grsi_recipe_id'"))
+        if ($result = $sql->query("SELECT item_shareid from bereso_item WHERE item_id='$gisi_item_id'"))
 		{
 			$row = $result -> fetch_assoc();
-			return $row['recipe_shareid']; // return recipe_sharing (empty or not)
+			return $row['item_shareid']; // return item_shareid (empty or not)
 		}                		
 	}		
 	
@@ -174,38 +174,38 @@ class functions
 		}                		
 	}		
 	
-	// get name of recipe by id
-	function get_recipename($gr_id) 
+	// get name of item by id
+	function get_itemname($gi_id) 
 	{
 		global $sql;
-        if ($result = $sql->query("SELECT recipe_name from bereso_recipe WHERE recipe_id='".$gr_id."'"))
+        if ($result = $sql->query("SELECT item_name from bereso_item WHERE item_id='".$gi_id."'"))
 		$row = $result -> fetch_assoc();
-		return $row['recipe_name'];
+		return $row['item_name'];
 	}			
 		
 	
-	// get number of recipes of user
-	function get_recipenumber($gr_user) 
+	// get number of items of user
+	function get_itemnumber($gi_user) 
 	{
 		global $sql,$f;
-        if ($result = $sql->query("SELECT * from bereso_recipe WHERE recipe_user='".$f->get_user_id_by_user_name($gr_user)."'"))
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($gi_user)."'"))
 		return mysqli_num_rows($result);
 	}		
 	
-	// get number of shared recipes of user
-	function get_sharedrecipenumber($gr_user) 
+	// get number of shared items of user
+	function get_shareditemsnumber($gs_user) 
 	{
 		global $sql,$f;
-        if ($result = $sql->query("SELECT * from bereso_recipe WHERE recipe_user='".$f->get_user_id_by_user_name($gr_user)."' AND LENGTH(recipe_shareid) > 0"))
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($gs_user)."' AND LENGTH(item_shareid) > 0"))
 		return mysqli_num_rows($result);
 	}		
 	
 
-	// get number of recipes of user tag
-	function get_recipenumber_by_tag_id($grbti_tag_name,$grbti_user) 
+	// get number of items of user tag
+	function get_itemnumber_by_tag_id($gibti_tag_name,$gibti_user) 
 	{
 		global $sql,$f;
-        if ($result = $sql->query("SELECT * from bereso_tags  INNER JOIN bereso_recipe ON bereso_tags.tags_recipe = bereso_recipe.recipe_id WHERE bereso_tags.tags_name='$grbti_tag_name' AND bereso_recipe.recipe_user='".$f->get_user_id_by_user_name($grbti_user)."'"))
+        if ($result = $sql->query("SELECT * from bereso_tags  INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_tags.tags_name='$gibti_tag_name' AND bereso_item.item_user='".$f->get_user_id_by_user_name($gibti_user)."'"))
 		return mysqli_num_rows($result);
 	}		
 	
@@ -231,11 +231,11 @@ class functions
 	// Highlight Text - newline, hashtaglinks, http(s) links, etc
 	function highlight_text($ht_text)
 	{
-		// # link with tag recipe list - known problems with öäüß_ in #
+		// # link with tag list - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$ht_text = str_replace($matches[0][$i],"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list_recipes&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>",$ht_text);
+			$ht_text = str_replace($matches[0][$i],"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>",$ht_text);
 		}	
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link

@@ -29,16 +29,16 @@ $bereso['sql']['database'] = "DBName";
 $bereso['url'] = "http://bereso/";
 
 // Image filepath
-$bereso['recipe_images'] = "recipes/";
+$bereso['images'] = "images/";
 
-// Recipe images thumbnail height
-$bereso['recipe_images_thumbnail_height'] = 200;
+// Images thumbnail height
+$bereso['images_thumbnail_height'] = 200;
 
 // Version
-$bereso['version'] = "1.3";
+$bereso['version'] = "1.4";
 
 // Last update
-$bereso['last_change'] = "04.02.2021";
+$bereso['last_change'] = "15.02.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";

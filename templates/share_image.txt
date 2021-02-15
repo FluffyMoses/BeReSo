@@ -1,8 +1,8 @@
 <html>
 	<head>
-	<title>(bereso_title) - (bereso_share_image_recipe_name)</title>
+	<title>(bereso_title) - (bereso_share_image_item_name)</title>
 	</head>
 	<body bgcolor="#FFFFFF">
-		<a href="?module=share&shareid=(bereso_share_image_shareid)" border="0"><img src="(bereso_recipe_images)(bereso_share_image_imagename)_(bereso_share_image_image_id)(bereso_share_image_extension)" /></a>
+		<a href="?module=share&shareid=(bereso_share_image_shareid)" border="0"><img src="(bereso_images)(bereso_share_image_imagename)_(bereso_share_image_image_id)(bereso_share_image_extension)" /></a>
 	</body>
 </html>

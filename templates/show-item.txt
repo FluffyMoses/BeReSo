@@ -1,0 +1,5 @@
+<div class="boxednopadding">
+<a href="?module=show_image&item=(bereso_show_item_id)&item_image_id=(bereso_show_item_image_id)" border="0"><img width="100%" src="(bereso_images)(bereso_show_item_imagename)_(bereso_show_item_image_id)(bereso_show_item_image_extension)" /></a>
+</div>
+<br>
+<br>

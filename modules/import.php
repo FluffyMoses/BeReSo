@@ -2,12 +2,12 @@
 // Bereso
 // BEst REcipe SOftware
 // ###################################
-// Import recipe
+// Import
 // included by ../index.php
 // ###################################
 
-// Import shareid as new recipe for $user
-if ($result = $sql->query("SELECT recipe_name, recipe_text, recipe_imagename from bereso_recipe WHERE recipe_shareid='".$shareid."'"))
+// Import shareid as new item for $user
+if ($result = $sql->query("SELECT item_name, item_text, item_imagename from bereso_item WHERE item_shareid='".$shareid."'"))
 {	
 	$row = $result -> fetch_assoc();
 	
@@ -17,27 +17,27 @@ if ($result = $sql->query("SELECT recipe_name, recipe_text, recipe_imagename fro
 		// new unique ids for imagename 
 		$add_uniqueid = uniqid();
 
-		$sql->query("INSERT into bereso_recipe (recipe_name, recipe_text,recipe_user, recipe_imagename, recipe_timestamp_creation, recipe_timestamp_edit) VALUES ('".$row['recipe_name']."','".$row['recipe_text']."','".$f->get_user_id_by_user_name($user)."','".$add_uniqueid."','".$timestamp."','".$timestamp."')");
+		$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit) VALUES ('".$row['item_name']."','".$row['item_text']."','".$f->get_user_id_by_user_name($user)."','".$add_uniqueid."','".$timestamp."','".$timestamp."')");
 		$add_id = $sql->insert_id;
 			
 		// save tags
-		preg_match_all("/(#\w+)/", $row['recipe_text'], $matches);
+		preg_match_all("/(#\w+)/", $row['item_text'], $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
 			// Debug: echo $matches[0][$i]."<br>";
-			$sql->query("INSERT into bereso_tags (tags_name, tags_recipe) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
+			$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
 		}		
 		
 		// copy image files to new imagename
 		for ($i=0;$i<4;$i++)
 		{
 			// jpg or png
-			if (file_exists($bereso['recipe_images'].$row['recipe_imagename']."_".$i.".jpg")) { $extension = ".jpg"; } else { $extension = ".png"; }
-			$old_file = $bereso['recipe_images'].$row['recipe_imagename']."_".$i.$extension;
-			$new_file = $bereso['recipe_images'].$add_uniqueid."_".$i.$extension;
+			if (file_exists($bereso['images'].$row['item_imagename']."_".$i.".jpg")) { $extension = ".jpg"; } else { $extension = ".png"; }
+			$old_file = $bereso['images'].$row['item_imagename']."_".$i.$extension;
+			$new_file = $bereso['images'].$add_uniqueid."_".$i.$extension;
 			// DEBUG: echo $old_file . $new_file ."<br>";
 			@copy($old_file,$new_file); // copy image
-			header('Location: '.$bereso['url']."?module=show_recipe&recipe=".$add_id); // Redirect to the new created recipe
+			header('Location: '.$bereso['url']."?module=show&item=".$add_id); // Redirect to the new created item
 		}
 	}
 	// image does not exist or is not shared
