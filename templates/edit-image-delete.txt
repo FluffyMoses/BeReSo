@@ -1,4 +1,4 @@
-<p class="headline1">Bild l&ouml;schen</p>
+<p class="headline1">(bereso_template-edit_delete_image)</p>
 <br>
 <center>
 <table width="300" cellpadding="0" cellspacing="0" border="0"><tr><td>
@@ -10,7 +10,7 @@
 				<center>
 						<img height="200" src="(bereso_images)(bereso_edit_item_imagename)_(bereso_edit_item_image_id)(bereso_edit_item_image_extension)" /><br>
 						<br>
-						L&Ouml;SCHEN best&auml;tigen!
+						(bereso_template-edit_delete_confirm)
 				</center>
 			</td>		
 		</tr>

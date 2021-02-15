@@ -70,7 +70,7 @@ if ($action == "add")
 		imagedestroy($old_image);
 		
 		
-	    $item_new_addmessage = "<font color=\"green\">Eintrag <b>\"$add_name\"</b> gespeichert.</font>";
+	    $item_new_addmessage = "<font color=\"green\">(bereso_template-new_entry_saved): <b>\"$add_name\"</b></font>";
 		// clear $add_name and $add_text for the form
 		$add_name = null;
 		$add_text = null;
@@ -79,11 +79,11 @@ if ($action == "add")
 	// form not correct
 	else
 	{
-			if ($form_item_name_error == 1) { $item_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name enth&auml;lt nicht erlaubte Zeichen.</font>"; } // name wrong char
-			elseif ($form_item_text_error == 1) { $item_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Text enth&auml;lt nicht erlaubte Zeichen.</font>"; } // text wrong char
-			elseif ($form_item_file_type_error == true) { $item_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>"; } // Wrong filetype
-			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $item_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Maximale Datei Uploadgr&ouml;sse (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes) &uuml;berschritten!</font>"; } // max_upload_size exceeded
-			else { $item_new_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name fehlt oder Vorschaubild/Seitenbild(er) Upload fehlerhaft!</font>"; } // name, preview or image1 missing
+			if ($form_item_name_error == 1) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_name_characters)</font>"; } // name wrong char
+			elseif ($form_item_text_error == 1) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_text_characters)</font>"; } // text wrong char
+			elseif ($form_item_file_type_error == true) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_filetype)</font>"; } // Wrong filetype
+			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_filesize) (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font>"; } // max_upload_size exceeded
+			else { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_missing)</font>"; } // name, preview or image1 missing
 	}	
 	// load new_item-form again with message success or failure
 	$action = null;

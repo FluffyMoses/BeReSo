@@ -25,10 +25,10 @@ if ($action == "logout")
 if ($action == "dologin")
 {
 	// read the right case sensitive user spelling and the pw hash from the database table 
-    if ($result = $sql->query("SELECT user_name, user_pwhash from bereso_user WHERE user_name='$login_name'"))
+	$query = "SELECT user_name, user_pwhash from bereso_user WHERE user_name='".$login_name."'";
+    if ($result = $sql->query($query))
 	{
 		$row = $result -> fetch_assoc();
-
 		// if entry with this share id exists
 		if (mysqli_num_rows($result) == 1)
 		{

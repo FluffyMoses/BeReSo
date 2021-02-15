@@ -1,5 +1,5 @@
 <div class="boxed">
-	Benutzername oder Passwort falsch!
+	(bereso_template-login_error_username_or_password)!
 </div>
 <br>
 <br>

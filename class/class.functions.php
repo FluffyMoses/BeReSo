@@ -43,6 +43,38 @@ class functions
 		global $bereso;
 		return date($bereso['datetimestring'],$ttd_timestamp); 
 	}	
+
+	// get templatename by user_id
+	function get_template_name_by_user_id($gtnbui_user)
+	{
+		global $sql,$f;	
+        if ($result = $sql->query("SELECT template_name from bereso_template WHERE template_id='".$f->get_user_template_id($gtnbui_user)."'"))
+		{
+			$row = $result -> fetch_assoc();
+			// return the matching template name
+			if (!empty($row))
+			{
+				return $row['template_name'];
+			}
+		}
+		return null; 
+	}
+
+	// get template id of a user by user_id
+	function get_user_template_id($guti_user)
+	{
+		global $sql,$f;	
+        if ($result = $sql->query("SELECT user_template from bereso_user WHERE user_name='$guti_user'"))
+		{
+			$row = $result -> fetch_assoc();
+			// return the matching template id
+			if (!empty($row))
+			{
+				return $row['user_template'];
+			}
+		}
+		return "0"; // 0 for not logged in users - system default value
+	}
 	
 	// check if logged in
 	function is_logged_in($li_user,$li_passwordhash)
@@ -51,7 +83,6 @@ class functions
         if ($result = $sql->query("SELECT user_name, user_pwhash from bereso_user WHERE user_name='$li_user'"))
 		{
 			$row = $result -> fetch_assoc();
-			
 			// check if user exists and password matches hashed password
 			if (!empty($row) && $row['user_pwhash'] == $li_passwordhash) // not empty and pw hash matches
 			{

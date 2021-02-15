@@ -25,7 +25,7 @@ if (strlen($search) > 0)
 	else
 	{
 		$sql_list_items = "SELECT item_id, item_name, item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%') ORDER BY item_name ASC"; 
-		$list_items_headline = "Suchergebnisse f&uuml;r " . $search;	
+		$list_items_headline = "(bereso_template-list_search_results) " . $search;	
 	}
 }
 // list items via tag
@@ -35,19 +35,19 @@ elseif (strlen($tag) > 0)
 	if ($tag == "ALL") 
 	{
 		$sql_list_items = "SELECT item_id, item_name, item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' ORDER BY item_name ASC";
-		$list_items_headline = "Alle Rezepte";
+		$list_items_headline = "(bereso_template-list_tags_all_items)";
 	}
 	// list all shared items
 	elseif ($tag == "SHARED") 
 	{
 		$sql_list_items = "SELECT item_id, item_name, item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' AND LENGTH(item_shareid) > 0 ORDER BY item_name ASC";
-		$list_items_headline = "Alle geteilten Rezepte";
+		$list_items_headline = "(bereso_template-list_tags_all_shared_items)";
 	}	
 	// list items with $tag
 	else
 	{
 		$sql_list_items = "SELECT  bereso_tags.tags_name, bereso_item.item_name, bereso_item.item_id, bereso_item.item_imagename from bereso_item INNER JOIN bereso_tags ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".$f->get_user_id_by_user_name($user)."' AND bereso_tags.tags_name='".$tag."' ORDER BY bereso_item.item_name ASC";
-		$list_items_headline = "Rezepte mit #" . $tag;
+		$list_items_headline = "(bereso_template-list_tags_items_with) #" . $tag;
 	}	
 }	
 // no valid list request

@@ -1,5 +1,5 @@
-<div class="boxed">
-	Benutzer erfolgreich abgemeldet.
+<div class="boxed">	
+	(bereso_template-login_user_logged_out)
 </div>
 <br>
 <br>

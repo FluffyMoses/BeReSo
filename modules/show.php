@@ -62,7 +62,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 		$navigation = str_replace("(bereso_show_item_id)",$item,$navigation);
 		// Text shared or not shared
 		$item_sharing = $f->get_item_share_id($item);
-		if (strlen($item_sharing) > 0) { $navigation = str_replace("(bereso_show_item_share_status)","Freigabe beenden",$navigation); } else { $navigation = str_replace("(bereso_show_item_share_status)","Rezept freigeben",$navigation); }
+		if (strlen($item_sharing) > 0) { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-show_navigation_stop_sharing)",$navigation); } else { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-show_navigation_start_sharing)",$navigation); }
 		
 		// build output
 		$content = str_replace("(bereso_show_item_item)",$content_item,$content);

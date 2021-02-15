@@ -31,14 +31,14 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			// save name and text in item
 			$sql->query("UPDATE bereso_item SET item_name='".$edit_name."', item_text='".$edit_text."', item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");
 			
-			$item_edit_addmessage = "<font color=\"green\">Eintrag <b>\"$edit_name\"</b> gespeichert.</font>";		
+			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved): <b>\"$edit_name\"</b></font>";		
 		} 
 		// form not correct
 		else
 		{
-				if ($form_item_name_error == 1) { $item_edit_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name enth&auml;lt nicht erlaubte Zeichen.</font>"; } // name wrong char
-				elseif ($form_item_text_error == 1) { $item_edit_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Text enth&auml;lt nicht erlaubte Zeichen.</font>"; } // text wrong char
-				else { $item_edit_addmessage = "<font color=\"red\">Eintrag <b>NICHT</b> gespeichert. Name fehlt!</font>"; } // name missing
+				if ($form_item_name_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_characters)</font>"; } // name wrong char
+				elseif ($form_item_text_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_text_characters)</font>"; } // text wrong char
+				else { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_missing)</font>"; } // name missing
 				$edit_name_replace = $edit_name; // if set the form will replace the text with the variable content, not with the sql loaded content
 				$edit_text_replace = $edit_text; // if set the form will replace the text with the variable content, not with the sql loaded content
 		}	
@@ -101,7 +101,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 					// Check Fileextensions				
 					if (!($f->get_image_extension($edit_photo0['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo0['tmp_name']) == ".png")) 
 					{
-						$item_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>"; // fileextension
+						$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>"; // fileextension
 					}
 					else
 					{					
@@ -126,7 +126,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 						// change timestamp_edit
 						$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");					
 					
-						$item_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";	
+						$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";	
 					}
 				}
 				else // other item images upload
@@ -136,7 +136,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 						// Check Fileextensions
 						if (!($f->get_image_extension($edit_photo1['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo1['tmp_name']) == ".png"))
 						{
-							$item_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+							$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";  // fileextension					
 						}
 						else 
 						{
@@ -149,7 +149,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 							// change timestamp_edit
 							$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");			
 						
-							$item_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";							
+							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";							
 						}
 					}
 					elseif ($item_image_id == 2 && file_exists($edit_photo2['tmp_name']))
@@ -157,7 +157,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 						// Check Fileextensions
 						if (!($f->get_image_extension($edit_photo2['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo2['tmp_name']) == ".png")) 
 						{
-							$item_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+							$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";  // fileextension					
 						}
 						else
 						{
@@ -170,7 +170,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 							// change timestamp_edit
 							$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");		
 						
-							$item_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";	
+							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";	
 						}
 					}
 					elseif ($item_image_id == 3 && file_exists($edit_photo3['tmp_name']))
@@ -178,7 +178,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 						// Check Fileextensions
 						if (!($f->get_image_extension($edit_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo3['tmp_name']) == ".png"))
 						{
-							$item_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Falscher Dateityp! Nur JPG und PNG Dateien verwenden!</font>";  // fileextension					
+							$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";  // fileextension					
 						}
 						else
 						{
@@ -191,7 +191,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 							// change timestamp_edit
 							$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");		
 						
-							$item_edit_addmessage = "<font color=\"green\">Bild gespeichert.</font>";						
+							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";						
 							}
 					}										
 				}													
@@ -200,7 +200,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 		// max_file_upload size exceeded
 		else
 		{
-			$item_edit_addmessage = "<font color=\"red\">Bild <b>NICHT</b> gespeichert. Maximale Datei Uploadgr&ouml;sse (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes) &uuml;berschritten!</font>"; // max_file_upload size exceeded					
+			$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_file (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font>"; // max_file_upload size exceeded					
 		}
 		$action = null; // Load Edit Form again	
 	}		
@@ -244,7 +244,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","0",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."0"),$content);
-			$content = str_replace("(bereso_edit_item_image_description)","Vorschaubild",$content);
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_preview_image)",$content);
 			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);
 			// 1
 			$content = str_replace("(bereso_edit_item_image_1)",$f->read_file("templates/edit-image.txt"),$content);
@@ -252,7 +252,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","1",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."1"),$content);
-			$content = str_replace("(bereso_edit_item_image_description)","Rezeptseite 1",$content);
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 1",$content);
 			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);
 			// 2
 			$content = str_replace("(bereso_edit_item_image_2)",$f->read_file("templates/edit-image.txt"),$content);
@@ -269,7 +269,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","2",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."2"),$content);
-			$content = str_replace("(bereso_edit_item_image_description)","Rezeptseite 2",$content);			
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 2",$content);			
 			// 3
 			$content = str_replace("(bereso_edit_item_image_3)",$f->read_file("templates/edit-image.txt"),$content);
 			if (file_exists($bereso['images'].$row['item_imagename']."_"."3".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."3")))
@@ -285,7 +285,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","3",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."3"),$content);
-			$content = str_replace("(bereso_edit_item_image_description)","Rezeptseite 3",$content);			
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 3",$content);			
 
 		
 			

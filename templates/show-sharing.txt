@@ -1,5 +1,5 @@
 <div class="boxed">
-<p class="headline1">Externer Freigabelink:</p><br>
+<p class="headline1">(bereso_template-show_sharing_external_link):</p><br>
 	<table cellpadding="5" cellspacing="0" border="0">
 		<tr>
 			<td>

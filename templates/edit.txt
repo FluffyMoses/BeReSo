@@ -1,17 +1,17 @@
-<p class="headline1">Rezept bearbeiten</p>
+<p class="headline1">(bereso_template-edit_item)</p>
 <br>
 
 <div class="boxed">
 <form enctype="multipart/form-data" action="?module=edit&item=(bereso_edit_item_id)&action=edit" method="POST">
-	<p class="headline2">Name<p>
+	<p class="headline2">(bereso_template-edit_name)<p>
 	<input name="edit_name" type="text" style="width:100%;" value="(bereso_edit_item_name)" />				
-	<p class="headline2">Beschreibung<p>
+	<p class="headline2">(bereso_template-edit_description)<p>
 	<textarea name="edit_text" rows="10" cols="32" style="width:100%;">(bereso_edit_item_text)</textarea>
 
 	<br>
 	(bereso_edit_item_message)
 	<br>
-	<input type="submit" value="Speichern" />
+	<input type="submit" value="(bereso_template-edit_save)" />
 </div>
 </form>
 <br>

@@ -113,12 +113,17 @@ if ($module == "login")
 // set default page
 if ($module == "") { $module = "list_tags"; }
 
-// set default title
-$title = $bereso['title']; // Browser title
-
 // SQL connection
 $sql = new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['password'],$bereso['sql']['database']); 
+if (mysqli_connect_errno()) {
+    $f->logdie("Connect failed: " . mysqli_connect_error()); // log problems with SQL Connection
+}
 $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
+
+// set default title
+$title = $bereso['title']; // Browser title
+$title_addon = $f->get_template_name_by_user_id($user);
+if (!empty($title_addon)) { $title = $title . " - " . $f->get_template_name_by_user_id($user); }
 
 // Check if the user is logged in
 if ($f->is_logged_in($user,$passwordhash)) 
@@ -142,9 +147,6 @@ else // not logged in => login form without menu and navigation
 if ($module == "share") { include ("modules/share.php"); } // share module for logged in and anonymous users
 if ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
 
-// Close SQL connection
-$sql->close();
-
 // load default template if not allready loaded by module
 if ($output_default == true) { $output = $f->read_file("templates/main.txt"); }
 
@@ -163,6 +165,18 @@ $output = str_replace("(bereso_title)",$title,$output);
 $output = str_replace("(bereso_user)",$user,$output);
 $output = str_replace("(bereso_url)",$bereso['url'],$output);
 $output = str_replace("(bereso_images)",$bereso['images'],$output);
+
+// template replaces - based on user and the template that fits this user - plus always load system templates ID=0
+if ($result = $sql->query("SELECT template_text_name, template_text_text from bereso_template_text WHERE template_text_template_id='".$f->get_user_template_id($user)."' OR template_text_template_id='0'"))
+{
+	while($row = $result -> fetch_assoc())
+	{
+		$output = str_replace("(bereso_template-".$row['template_text_name'].")",$row['template_text_text'],$output);
+	}
+}
+
+// Close SQL connection
+$sql->close();
 
 // echo output
 header('Content-Type: text/html; charset=UTF-8'); // UTF 8 Output

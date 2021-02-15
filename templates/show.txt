@@ -11,7 +11,7 @@
 
 <p align="right">
 	<small>
-		Erstellt am: (bereso_show_item_timestamp_creation) Uhr<br>
-		Ge&auml;ndert am: (bereso_show_item_timestamp_edit) Uhr
+		(bereso_template-show_created): (bereso_show_item_timestamp_creation) Uhr<br>
+		(bereso_template-show_changed): (bereso_show_item_timestamp_edit) Uhr
 	</small>
 </p>

@@ -1,4 +1,4 @@
-<p class="headline1">Kategorien</p>
+<p class="headline1">(bereso_template-list_tags_categorie)</p>
 <br>
 
 <a class="none" href="?module=list&tag=ALL">
@@ -10,7 +10,7 @@
 			</td>
 
 			<td with="94%">
-				Alle Rezepte
+				(bereso_template-list_tags_all_items)
 			</td>
 			<td width="3%">
 				<b>(bereso_list_tags_allitem_numbers)</b>
@@ -30,7 +30,7 @@
 			</td>
 
 			<td with="94%">
-				Alle geteilten Rezepte
+				(bereso_template-list_tags_all_shared_items)
 			</td>
 			<td width="3%">
 				<b>(bereso_list_tags_shareditem_numbers)</b>

@@ -1,5 +1,5 @@
 <div class="boxed">
 	<p class="headline1">
-			<font color="red">Suchanfrage enth&auml;lt nicht erlaubte Zeichen!</font>
+			<font color="red">(bereso_template-list_searcherror)!</font>
 	</p>
 </div>

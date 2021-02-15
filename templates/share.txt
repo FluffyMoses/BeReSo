@@ -1,6 +1,6 @@
 <div class="boxed">
 <p class="headline1">(bereso_share_name)</p>
-Freigegeben von (bereso_share_username)<br>
+(bereso_template-share_shared_by) (bereso_share_username)<br>
 <br>
 (bereso_share_text)
 </div>

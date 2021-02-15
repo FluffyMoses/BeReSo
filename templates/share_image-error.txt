@@ -1,7 +1,7 @@
 <div class="boxed">
 	<p class="headline1">
 		<font color="#ff0000">
-			Rezept nicht mehr Freigegeben oder Share ID falsch!
+			(bereso_template-share_image_error)
 		</font>
 	</p>
 </div>

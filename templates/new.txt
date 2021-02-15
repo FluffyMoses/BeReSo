@@ -1,17 +1,17 @@
-<p class="headline1">Neues Rezept</p>
+<p class="headline1">(bereso_template-new_item)</p>
 <br>
 
 <div class="boxed">
 <form enctype="multipart/form-data" action="?module=new&action=add" method="POST">
-	<p class="headline2">Name<p>
+	<p class="headline2">(bereso_template-new_name)<p>
 	<input name="add_name" type="text" style="width:100%;" value="(bereso_new_item_add_name)" />				
-	<p class="headline2">Beschreibung<p>
+	<p class="headline2">(bereso_template-new_description)<p>
 	<textarea name="add_text" rows="10" cols="32" style="width:100%;">(bereso_new_item_add_text)</textarea>
 
 	<br>
 	(bereso_new_item_message)
 	<br>
-	<input type="submit" value="Speichern" />
+	<input type="submit" value="(bereso_template-new_save)" />
 </div>
 <br>
 
@@ -20,7 +20,7 @@
 		<tr>
 			<td>
 				<center>
-				<p class="headline2">Vorschaubild</p><br>
+				<p class="headline2">(bereso_template-new_preview_image)</p><br>
 				<input name="add_photo0" type="file" />
 				</center>
 			</td>		
@@ -33,7 +33,7 @@
 		<tr>
 			<td>
 				<center>
-				<p class="headline2">Rezeptseite 1</p><br>
+				<p class="headline2">(bereso_template-new_item_page) 1</p><br>
 				<input name="add_photo1" type="file" />
 				</center>
 			</td>		
@@ -46,7 +46,7 @@
 		<tr>
 			<td>
 				<center>
-				<p class="headline2">Rezeptseite 2 (optional)</p><br>
+				<p class="headline2">(bereso_template-new_item_page) 2 (optional)</p><br>
 				<input name="add_photo2" type="file" />
 				</center>
 			</td>		
@@ -59,7 +59,7 @@
 		<tr>
 			<td>
 				<center>
-				<p class="headline2">Rezeptseite 3 (optional)</p><br>
+				<p class="headline2">(bereso_template-new_item_page) 3 (optional)</p><br>
 				<input name="add_photo3" type="file" />
 				</center>
 			</td>		
