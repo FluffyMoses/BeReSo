@@ -24,7 +24,6 @@ if ($action == "logout")
 // Do login
 if ($action == "dologin")
 {
-echo $login_name;
 	// read the right case sensitive user spelling and the pw hash from the database table 
 	$query = "SELECT user_name, user_pwhash from bereso_user WHERE user_name='".$login_name."'";
     if ($result = $sql->query($query))
@@ -33,14 +32,12 @@ echo $login_name;
 		// if entry with this share id exists
 		if (mysqli_num_rows($result) == 1)
 		{
-		echo "JUP";
 			// Verify entered password but only store salted hash in session
 			if (password_verify ($login_password,$row['user_pwhash'])) 
 			{
 				$passwordhash = $row['user_pwhash']; // store pw hash
 				$user = $row['user_name']; // username from db - case sensitive
 			}
-			echo $row['user_name'];
 		}
 	}
 

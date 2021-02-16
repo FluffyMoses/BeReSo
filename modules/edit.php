@@ -363,6 +363,19 @@ if ($f->is_item_owned_by_user($user,$item)) {
 		
 			
 			$content = str_replace("(bereso_edit_item_id)",$item,$content);
+
+			// load alle hashtags and add all in the dropdown menu
+			if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".$f->get_user_id_by_user_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
+			{	
+				$insert_hashtag = null;
+				while ($row = $result -> fetch_assoc())
+				{
+					$insert_hashtag .= $f->read_file("templates/edit-hashtag.txt");
+					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
+					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
+				}
+			}
+			$content = str_replace("(bereso_edit_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
 			
 			// add to navigation
 			$navigation .= $f->read_file("templates/edit-navigation.txt");	

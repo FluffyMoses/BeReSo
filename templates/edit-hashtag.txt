@@ -1,0 +1,1 @@
+<option value="(bereso_edit_item_insert_hashtag_value)">(bereso_edit_item_insert_hashtag_name)</option>

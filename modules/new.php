@@ -103,5 +103,18 @@ if ($action == null){
 	$content = str_replace("(bereso_new_item_add_name)",$add_name,$content); // if entry is saved with errors - show name again
 	$content = str_replace("(bereso_new_item_add_text)",$add_text,$content); // if entry is saved with errors - show text again
 	$content = str_replace("(bereso_new_item_message)",$item_new_addmessage,$content); // insert or clear message field
+
+	// load alle hashtags and add all in the dropdown menu
+	if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".$f->get_user_id_by_user_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
+	{	
+		$insert_hashtag = null;
+		while ($row = $result -> fetch_assoc())
+		{
+			$insert_hashtag .= $f->read_file("templates/new-hashtag.txt");
+			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
+			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
+		}
+	}
+	$content = str_replace("(bereso_new_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
 }
 ?>
