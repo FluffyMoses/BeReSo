@@ -30,6 +30,12 @@ if ($action == "add")
 		if (file_exists($add_photo3['tmp_name'])) {
 			if (!($f->get_image_extension($add_photo3['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo3['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
 		}
+		if (file_exists($add_photo4['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo4['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo4['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
+		}
+		if (file_exists($add_photo5['tmp_name'])) {
+			if (!($f->get_image_extension($add_photo5['tmp_name']) == ".jpg" or $f->get_image_extension($add_photo5['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
+		}
 	}
 	// insert when file 1 is ok, name is longer than 1 char - preview file is ok - no specialchars in name or text
 	if (@file_exists($add_photo0['tmp_name']) && @file_exists($add_photo1['tmp_name']) && strlen($add_name) > 0 && $form_item_name_error == 0 && $form_item_text_error == 0 && $form_item_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
@@ -52,9 +58,11 @@ if ($action == "add")
 		// change filename of photo0 and photo1 to add_uniqueid_ID.jpg/png 
 		$thumbnail_path = $bereso['images'] . $add_uniqueid . "_0".$f->get_image_extension($add_photo0['tmp_name']);		
 		move_uploaded_file($add_photo1['tmp_name'],$bereso['images'] . $add_uniqueid . "_1".$f->get_image_extension($add_photo0['tmp_name']));
-		//save file 2 and 3
+		//save file 2,3,4 and 5
 		if (file_exists($add_photo2['tmp_name'])) { move_uploaded_file($add_photo2['tmp_name'], $bereso['images'] . $add_uniqueid . "_2".$f->get_image_extension($add_photo2['tmp_name'])); }
 		if (file_exists($add_photo3['tmp_name'])) { move_uploaded_file($add_photo3['tmp_name'], $bereso['images'] . $add_uniqueid . "_3".$f->get_image_extension($add_photo3['tmp_name'])); }
+		if (file_exists($add_photo4['tmp_name'])) { move_uploaded_file($add_photo4['tmp_name'], $bereso['images'] . $add_uniqueid . "_4".$f->get_image_extension($add_photo4['tmp_name'])); }
+		if (file_exists($add_photo5['tmp_name'])) { move_uploaded_file($add_photo5['tmp_name'], $bereso['images'] . $add_uniqueid . "_5".$f->get_image_extension($add_photo5['tmp_name'])); }
 		
 		// Resize Thumbnail
 		$thumbnail_old_size=getimagesize($add_photo0['tmp_name']); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)

@@ -67,4 +67,30 @@
 	</table>
 </div>
 
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">(bereso_template-new_item_page) 4 (optional)</p><br>
+				<input name="add_photo4" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+
+<div class="boxedfloating">
+	<table width="100%" cellpadding="5" cellspacing="0">
+		<tr>
+			<td>
+				<center>
+				<p class="headline2">(bereso_template-new_item_page) 5 (optional)</p><br>
+				<input name="add_photo5" type="file" />
+				</center>
+			</td>		
+		</tr>
+	</table>
+</div>
+
 </form>

@@ -13,7 +13,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 	$edit_name_replace = null; // if set the form will replace the text with the variable content, not with the sql loaded content
 	$edit_text_replace = null; // if set the form will replace the text with the variable content, not with the sql loaded content
 
-	// save new entry and uploaded file
+	// save edited entry
 	if ($action == "edit")
 	{
 		// name is longer than 1 char -  no specialchars in name or text
@@ -73,7 +73,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' AND item_id='".$item."'"))
 		{	
 			$row = $result -> fetch_assoc();			
-			if ($item_image_id == 2 or $item_image_id == 3) 
+			if ($item_image_id >= 2 and $item_image_id < 6) // only delete image 2-5
 			{
 				// change timestamp_edit
 				$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");
@@ -193,7 +193,49 @@ if ($f->is_item_owned_by_user($user,$item)) {
 						
 							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";						
 							}
-					}										
+					}
+					elseif ($item_image_id == 4 && file_exists($edit_photo4['tmp_name']))
+					{
+						// Check Fileextensions
+						if (!($f->get_image_extension($edit_photo4['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo4['tmp_name']) == ".png"))
+						{
+							$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";  // fileextension					
+						}
+						else
+						{
+							// delete "old" image file 
+							@unlink ($bereso['images'].$row['item_imagename']."_".$item_image_id.".jpg"); 
+							@unlink ($bereso['images'].$row['item_imagename']."_".$item_image_id.".png"); 							
+							// Copy File						
+							move_uploaded_file($edit_photo4['tmp_name'], $bereso['images'] . $row['item_imagename'] . "_4".$f->get_image_extension($edit_photo4['tmp_name']));	
+						
+							// change timestamp_edit
+							$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");		
+						
+							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";						
+							}
+					}
+					elseif ($item_image_id == 5 && file_exists($edit_photo5['tmp_name']))
+					{
+						// Check Fileextensions
+						if (!($f->get_image_extension($edit_photo5['tmp_name']) == ".jpg" or $f->get_image_extension($edit_photo5['tmp_name']) == ".png"))
+						{
+							$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";  // fileextension					
+						}
+						else
+						{
+							// delete "old" image file 
+							@unlink ($bereso['images'].$row['item_imagename']."_".$item_image_id.".jpg"); 
+							@unlink ($bereso['images'].$row['item_imagename']."_".$item_image_id.".png"); 							
+							// Copy File						
+							move_uploaded_file($edit_photo5['tmp_name'], $bereso['images'] . $row['item_imagename'] . "_5".$f->get_image_extension($edit_photo5['tmp_name']));	
+						
+							// change timestamp_edit
+							$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$timestamp."' WHERE item_id='".$item."'");		
+						
+							$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";						
+							}
+					}						
 				}													
 			}
 		} 
@@ -286,7 +328,38 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_image_id)","3",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."3"),$content);
 			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 3",$content);			
-
+			// 4
+			$content = str_replace("(bereso_edit_item_image_4)",$f->read_file("templates/edit-image.txt"),$content);
+			if (file_exists($bereso['images'].$row['item_imagename']."_"."4".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."4")))
+			{		
+				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
+				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);			
+			}
+			else 
+			{
+				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
+				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
+			}				
+			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
+			$content = str_replace("(bereso_edit_item_image_id)","4",$content);
+			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."4"),$content);
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 4",$content);	
+			// 5
+			$content = str_replace("(bereso_edit_item_image_5)",$f->read_file("templates/edit-image.txt"),$content);
+			if (file_exists($bereso['images'].$row['item_imagename']."_"."5".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."5")))
+			{		
+				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
+				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);			
+			}
+			else 
+			{
+				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
+				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
+			}				
+			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
+			$content = str_replace("(bereso_edit_item_image_id)","5",$content);
+			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."5"),$content);
+			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 5",$content);	
 		
 			
 			$content = str_replace("(bereso_edit_item_id)",$item,$content);

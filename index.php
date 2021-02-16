@@ -38,6 +38,8 @@ if ($module == "new")
 	$add_photo1 = @$_FILES['add_photo1'];
 	$add_photo2 = @$_FILES['add_photo2'];
 	$add_photo3 = @$_FILES['add_photo3'];
+	$add_photo4 = @$_FILES['add_photo4'];
+	$add_photo5 = @$_FILES['add_photo5'];
 }
 // for edit.php
 if ($module == "edit") 
@@ -48,6 +50,8 @@ if ($module == "edit")
 	$edit_photo1 = @$_FILES['edit_photo1'];
 	$edit_photo2 = @$_FILES['edit_photo2'];
 	$edit_photo3 = @$_FILES['edit_photo3'];	
+	$edit_photo4 = @$_FILES['edit_photo4'];
+	$edit_photo5 = @$_FILES['edit_photo5'];	
 	$item_image_id = @$_GET['item_image_id'];
 }
 // for login.php

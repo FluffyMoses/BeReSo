@@ -46,7 +46,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 		$sql->query("DELETE FROM bereso_item where item_id=".$item);
 		
 		// delete files	
-		for ($i=0;$i<=3;$i++)
+		for ($i=0;$i<=5;$i++)
 		{
 			if (file_exists($bereso['images'].$delete_imagename."_".$i.".jpg")) 
 			{

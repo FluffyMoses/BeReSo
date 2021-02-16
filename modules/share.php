@@ -27,7 +27,7 @@ if(strlen($shareid) > 0)
 				
 			// templates for images
 			$content_item = null;
-			for ($i=1;$i<=3;$i++)
+			for ($i=1;$i<=5;$i++)
 			{
 				if (file_exists($bereso['images'].$row['item_imagename']."_".$i.$f->search_image_extension($bereso['images'].$row['item_imagename']."_".$i))) 
 				{

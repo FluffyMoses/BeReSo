@@ -16,6 +16,6 @@
 </form>
 <br>
 
-	(bereso_edit_item_image_0) (bereso_edit_item_image_1) (bereso_edit_item_image_2) (bereso_edit_item_image_3)
+	(bereso_edit_item_image_0) (bereso_edit_item_image_1) (bereso_edit_item_image_2) (bereso_edit_item_image_3) (bereso_edit_item_image_4) (bereso_edit_item_image_5)
 
 
