@@ -76,7 +76,7 @@ include "class/class.functions.php";
 $f = new functions();
 
 // check POST and GET variables to prevent SQL injections
-if (!$f->is_letter($user,"a-z")) { $f->logdie ("CHECK: \$user failed ".'"'.$user.'"'); }
+if (!$f->is_letter($user,"a-z-")) { $f->logdie ("CHECK: \$user failed ".'"'.$user.'"'); }
 if (!$f->is_letter($passwordhash,"a-z0-9 SPECIALPASSWORDHASH")) { $f->logdie ("CHECK: \$passwordhash failed ".'"'.$passwordhash.'"'); }
 if (!$f->is_letter($module,"a-z_")) { $f->logdie ("CHECK: \$module failed ".'"'.$module.'"'); }
 if (!$f->is_letter($action,"a-z_")) { $f->logdie ("CHECK: \$action failed ".'"'.$action.'"'); }
@@ -109,7 +109,7 @@ if ($module == "edit") // for edit.php - user form content will not stop the scr
 // for login.php
 if ($module == "login")
 {
-	if (!$f->is_letter($login_name,"a-z")) { $login_name = null; } // wrong character - reset name - login will fail and return error message
+	if (!$f->is_letter($login_name,"a-z-")) { $login_name = null; } // wrong character - reset name - login will fail and return error message
 	if (!$f->is_letter($login_password,"a-z0-9 SPECIAL")) { $login_password = null; } // wrong character - reset password - login will fail and return error message
 	if (!$f->is_letter($generate_password,"a-z0-9 SPECIAL")) { $f->logdie ("CHECK: \$generate_password failed ".'"'.$generate_password.'"'); }
 }
