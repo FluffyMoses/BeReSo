@@ -32,7 +32,7 @@ class functions
 	function logdie($l_logtext)
 	{
 		global $bereso,$f,$timestamp;
-		$full_logtext = $f->timestamp_to_datetime($timestamp) . " - " . $_SERVER['REMOTE_ADDR'] . " - " . $_SERVER['REQUEST_URI'] . " - " . $l_logtext;
+		$full_logtext = $f->timestamp_to_datetime($timestamp) . " [".$bereso['title']." ".$bereso['version'] . "] - " . $_SERVER['REMOTE_ADDR'] . " - " . $_SERVER['REQUEST_URI'] . " - " . $l_logtext;
 		if ($bereso['log_die'] == true) { $f->append_file($bereso['log_die_path'],$full_logtext); } // log to textfile if enabled
 		die($full_logtext); // end script and output $l_logtext
 	}

@@ -1,7 +1,8 @@
 -- Create a new Template for Bereso
 -- replace NEW_TEMPLATE_ID with the next free ID
 INSERT INTO bereso_template (template_id, template_name) VALUES ('NEW_TEMPLATE_ID','Rezeptverwaltung');
-INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','list_tags_categorie','Kategorie');
+
+INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','list_tags_categorie','Kategorien');
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','main_navigation_categories','Kategorien');
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','main_navigation_random_item','Zufalls Rezept');
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','main_navigation_new_recipe','Neues Rezept');
@@ -52,4 +53,3 @@ INSERT INTO bereso_template_text (template_text_template_id,template_text_name,t
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','edit_preview_image','Vorschaubild');
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','new_add_hashtag','= Hashtag einf&uuml;gen =');
 INSERT INTO bereso_template_text (template_text_template_id,template_text_name,template_text_text) VALUES ('NEW_TEMPLATE_ID','edit_add_hashtag','= Hashtag einf&uuml;gen =');
-

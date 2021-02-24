@@ -83,6 +83,40 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			}
 		}
 	}	
+
+	// Turn Image
+	if ($action == "turn_image_right" or $action == "turn_image_left")
+	{
+		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' AND item_id='".$item."'"))
+		{	
+			$row = $result -> fetch_assoc();		
+			
+			if ($action == "turn_image_right") { $image_rotate_degrees = 270; } else { $image_rotate_degrees = 90; }
+			$image_path = $bereso['images'] . $row['item_imagename'] . "_".$item_image_id.$f->search_image_extension($bereso['images'] . $row['item_imagename'] . "_".$item_image_id);
+
+			// Load Jpg or Png
+			if ($f->get_image_extension($image_path) == ".jpg") {
+				$load_image = imagecreatefromjpeg($image_path);
+				// rotate
+				$rotate_image = imagerotate($load_image, $image_rotate_degrees, 0);
+				imagejpeg($rotate_image,$image_path);
+			}
+			elseif ($f->get_image_extension($image_path) == ".png")
+			{
+				$load_image = imagecreatefrompng($image_path);
+				// rotate
+				$rotate_image = imagerotate($load_image, $image_rotate_degrees, 0);
+				imagepng($rotate_image,$image_path);
+			} 
+			else {
+				$f->logdie ("CHECK: edit image rotate - no jpg or png $image_path");
+			}
+
+			imagedestroy($load_image);
+			imagedestroy($rotate_image);
+		}
+		$action = null; // Load Edit Form again
+	}	
 	
 	// Upload Image
 	if ($action == "upload_image")
@@ -283,30 +317,34 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			// 0
 			$content = str_replace("(bereso_edit_item_image_0)",$f->read_file("templates/edit-image.txt"),$content);
 			$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);			
+			$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","0",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."0"),$content);
 			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_preview_image)",$content);
-			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);
+			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
 			// 1
 			$content = str_replace("(bereso_edit_item_image_1)",$f->read_file("templates/edit-image.txt"),$content);
 			$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);			
+			$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","1",$content);
 			$content = str_replace("(bereso_edit_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."1"),$content);
 			$content = str_replace("(bereso_edit_item_image_description)","(bereso_template-edit_item_page) 1",$content);
-			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);
+			$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
 			// 2
 			$content = str_replace("(bereso_edit_item_image_2)",$f->read_file("templates/edit-image.txt"),$content);
 			if (file_exists($bereso['images'].$row['item_imagename']."_"."2".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."2")))
 			{
 				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
 				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);	
+				$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			}
 			else 
 			{
 				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
 				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);	
+				$content = str_replace("(bereso_edit_item_image_turn)",null,$content);	
 			}			
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","2",$content);
@@ -317,12 +355,14 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			if (file_exists($bereso['images'].$row['item_imagename']."_"."3".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."3")))
 			{		
 				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
-				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);			
+				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);	
+				$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			}
 			else 
 			{
 				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
-				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
+				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);	
+				$content = str_replace("(bereso_edit_item_image_turn)",null,$content);	
 			}				
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","3",$content);
@@ -333,12 +373,14 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			if (file_exists($bereso['images'].$row['item_imagename']."_"."4".$f->search_image_extension($bereso['images'].$row['item_imagename']."_"."4")))
 			{		
 				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
-				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);			
+				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);		
+				$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			}
 			else 
 			{
 				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
-				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
+				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);
+				$content = str_replace("(bereso_edit_item_image_turn)",null,$content);	
 			}				
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","4",$content);
@@ -350,11 +392,13 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			{		
 				$content = str_replace("(bereso_edit_item_image_image)",$f->read_file("templates/edit-image-image.txt"),$content);
 				$content = str_replace("(bereso_edit_item_image_delete)",$f->read_file("templates/edit-image-form-delete.txt"),$content);			
+				$content = str_replace("(bereso_edit_item_image_turn)",$f->read_file("templates/edit-image-form-turn.txt"),$content);	
 			}
 			else 
 			{
 				$content = str_replace("(bereso_edit_item_image_image)",null,$content);
-				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);			
+				$content = str_replace("(bereso_edit_item_image_delete)",null,$content);	
+				$content = str_replace("(bereso_edit_item_image_turn)",null,$content);	
 			}				
 			$content = str_replace("(bereso_edit_item_imagename)",$row['item_imagename'],$content);
 			$content = str_replace("(bereso_edit_item_image_id)","5",$content);
@@ -379,7 +423,8 @@ if ($f->is_item_owned_by_user($user,$item)) {
 			
 			// add to navigation
 			$navigation .= $f->read_file("templates/edit-navigation.txt");	
-			$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);		
+			$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);	
+			
 		}
 	}
 }

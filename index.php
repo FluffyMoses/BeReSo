@@ -184,5 +184,15 @@ $sql->close();
 
 // echo output
 header('Content-Type: text/html; charset=UTF-8'); // UTF 8 Output
+
+// Browser caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0"); // disable caching - problem with changing and turning images
+header("Cache-Control: post-check=0, pre-check=0", false); // disable caching - problem with changing and turning images
+header("Pragma: no-cache"); // disable caching - problem with changing and turning images
+// WORKAROUND to prevent browser from caching images (even if headers say that it should not be cached)
+$output = str_replace(".jpg",".jpg?".uniqid(),$output); // add ?uniqueid that does nothing but is always a "new" image link - WORKAROUND
+$output = str_replace(".png",".png?".uniqid(),$output); // add ?uniqueid that does nothing but is always a "new" image link - WORKAROUND
+
+// Send output
 echo $output;
 ?>
