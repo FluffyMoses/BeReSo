@@ -17,7 +17,7 @@ if ($result = $sql->query("SELECT item_name, item_text, item_imagename from bere
 		// new unique ids for imagename 
 		$add_uniqueid = uniqid();
 
-		$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit) VALUES ('".$row['item_name']."','".$row['item_text']."','".$f->get_user_id_by_user_name($user)."','".$add_uniqueid."','".$timestamp."','".$timestamp."')");
+		$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit) VALUES ('".$row['item_name']."','".$row['item_text']."','".User::get_id_by_name($user)."','".$add_uniqueid."','".$bereso['now']."','".$bereso['now']."')");
 		$add_id = $sql->insert_id;
 			
 		// save tags
@@ -43,7 +43,7 @@ if ($result = $sql->query("SELECT item_name, item_text, item_imagename from bere
 	// image does not exist or is not shared
 	else 
 	{
-		$content = $f->read_file("templates/share-error.txt");
+		$content = File::read_file("templates/share-error.txt");
 	}
 }	
 

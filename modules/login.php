@@ -11,7 +11,7 @@ $login_message = null;
 // logout user and show login form again
 if ($action == "logout")
 {
-	$login_message .= $f->read_file("templates/login-message_logout.txt");
+	$login_message .= File::read_file("templates/login-message_logout.txt");
 	// Delete Cookies and clear login
 	$_SESSION['user'] = null;
 	$_SESSION['password'] = null;
@@ -42,7 +42,7 @@ if ($action == "dologin")
 	}
 
 	// if login is successful
-	if ($f->is_logged_in($user,$passwordhash))
+	if (User::is_logged_in($user,$passwordhash))
 	{						
 			// save cookies and login
 			$_SESSION['user'] = $user;
@@ -54,7 +54,7 @@ if ($action == "dologin")
 	else // not successful login 
 	{	
 		// Errormessage and destroy session
-		$login_message .= $f->read_file("templates/login-message_error.txt");
+		$login_message .= File::read_file("templates/login-message_error.txt");
 		$_SESSION['user'] = null;
 		$_SESSION['passwordhash'] = null;
 		$user = null;
@@ -66,13 +66,13 @@ if ($action == "dologin")
 
 // Generate and return password hash
 if ($action == "generate_pw") {
-	die($f->generate_password_hash($generate_password)); // regular die no ($f->logdie) logging of the hash value!
+	die(User::generate_password_hash($generate_password)); // regular die no (Log::die) logging of the hash value!
 }
 
 // Login form
-if (!($f->is_logged_in($user,$passwordhash))) 
+if (!(User::is_logged_in($user,$passwordhash))) 
 {
-	$content .= $f->read_file("templates/login-form.txt");
+	$content .= File::read_file("templates/login-form.txt");
 	$content = str_replace("(bereso_login_message)",$login_message,$content);
 }
 ?>

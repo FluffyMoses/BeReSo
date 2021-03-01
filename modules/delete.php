@@ -8,26 +8,26 @@
 
 
 // check if user is owner of this item
-if ($f->is_item_owned_by_user($user,$item)) {
+if (Item::is_owned_by_user($user,$item)) {
 	// Delete item
 
 	// show double check
 	if ($action == null)
 	{
 		// load template
-		$content = $f->read_file("templates/delete.txt");
+		$content = File::read_file("templates/delete.txt");
 		$content = str_replace("(bereso_delete_item_id)",$item,$content);
-		$content = str_replace("(bereso_delete_item_name)",$f->get_itemname($item),$content);
+		$content = str_replace("(bereso_delete_item_name)",Item::get_name($item),$content);
 
-		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_user='".$f->get_user_id_by_user_name($user)."' AND item_id='".$item."'"))
+		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
 		{	
 			$row = $result -> fetch_assoc();		
 			$content = str_replace("(bereso_delete_item_imagename)",$row['item_imagename'],$content);
-			$content = str_replace("(bereso_delete_item_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_0"),$content);
+			$content = str_replace("(bereso_delete_item_image_extension)",Image::search_extension($bereso['images'].$row['item_imagename']."_0"),$content);
 		}
 		
 		// add to navigation
-		$navigation .= $f->read_file("templates/delete-navigation.txt");	
+		$navigation .= File::read_file("templates/delete-navigation.txt");	
 		$navigation = str_replace("(bereso_delete_item_id)",$item,$navigation);		
 	}
 
@@ -63,7 +63,7 @@ if ($f->is_item_owned_by_user($user,$item)) {
 }
 else
 {
-	$f->logdie ("CHECK: delete owner failed");
+	Log::die ("CHECK: delete owner failed");
 }
 
 ?>

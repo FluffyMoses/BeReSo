@@ -12,7 +12,7 @@
 if(strlen($shareid) > 0)
 {
 	// load template
-	$content = $f->read_file("templates/share.txt");
+	$content = File::read_file("templates/share.txt");
 
 	if ($result = $sql->query("SELECT item_name, item_text, item_imagename, item_user from bereso_item WHERE item_shareid='".$shareid."'"))
 	{	
@@ -23,27 +23,27 @@ if(strlen($shareid) > 0)
 		{
 			
 			// Highlight Tags with links
-			$item_text_higlighted = $f->highlight_text_share($row['item_text']);
+			$item_text_higlighted = Text::highlight_text_share($row['item_text']);
 				
 			// templates for images
 			$content_item = null;
 			for ($i=1;$i<=5;$i++)
 			{
-				if (file_exists($bereso['images'].$row['item_imagename']."_".$i.$f->search_image_extension($bereso['images'].$row['item_imagename']."_".$i))) 
+				if (file_exists($bereso['images'].$row['item_imagename']."_".$i.Image::search_extension($bereso['images'].$row['item_imagename']."_".$i))) 
 				{
-					$content_item .= $f->read_file("templates/share-item.txt");
+					$content_item .= File::read_file("templates/share-item.txt");
 					$content_item = str_replace("(bereso_share_image_id)",$i,$content_item);
-					$content_item = str_replace("(bereso_share_image_extension)",$f->search_image_extension($bereso['images'].$row['item_imagename']."_".$i),$content_item);
+					$content_item = str_replace("(bereso_share_image_extension)",Image::search_extension($bereso['images'].$row['item_imagename']."_".$i),$content_item);
 				}
 			}
 			
 			// add to navigation
-			$navigation .= $f->read_file("templates/share-navigation.txt");				
+			$navigation .= File::read_file("templates/share-navigation.txt");				
 			$navigation = str_replace("(bereso_share_id)",$shareid,$navigation);
 			
 			// build output			
 			$content = str_replace("(bereso_share_item)",$content_item,$content);
-			$content = str_replace("(bereso_share_username)",$f->get_user_name_by_user_id($row['item_user']),$content);
+			$content = str_replace("(bereso_share_username)",User::get_name_by_id($row['item_user']),$content);
 			$content = str_replace("(bereso_share_text)",$item_text_higlighted,$content);
 			$content = str_replace("(bereso_share_name)",$row['item_name'],$content);
 			$content = str_replace("(bereso_share_id)",$shareid,$content);
@@ -54,7 +54,7 @@ if(strlen($shareid) > 0)
 		// error message - item not shared or does not exist
 		else
 		{
-			$content = $f->read_file("templates/share-error.txt");
+			$content = File::read_file("templates/share-error.txt");
 		}
 	}	
 
