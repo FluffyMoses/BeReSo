@@ -8,7 +8,8 @@
 
 // IMPORTANT: THIS FILE MIST BE SAVED IN UTF-8 cause of the special characters! ÖÄÜß etc.
 
-class Text {
+class Text 
+{
 
 	// check if string contains just letters nothing else!
 	public static function is_letter($il_string,$il_pattern)

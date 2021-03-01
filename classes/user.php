@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class User {
+class User 
+{
 
 	// get templatename by user_id
 	public static function get_template_name($gtn_user)

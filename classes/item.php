@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class Item {
+class Item 
+{
 
 	// check if item is owned by user
 	public static function is_owned_by_user($iobu_user,$iobu_item_id)

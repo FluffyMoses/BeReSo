@@ -55,6 +55,15 @@ CREATE TABLE IF NOT EXISTS `bereso_user` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+-- Exportiere Struktur von Tabelle bereso.bereso_images
+CREATE TABLE IF NOT EXISTS `bereso_images` (
+  `images_id` int(10) NOT NULL AUTO_INCREMENT,
+  `images_item` int(10) DEFAULT NULL,
+  `images_image_id` int(10) DEFAULT 0,
+  `images_fileextension` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`images_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

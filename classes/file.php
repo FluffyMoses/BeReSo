@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class File {
+class File 
+{
 
     // read file and return its content
     public static function read_file($rf_path)

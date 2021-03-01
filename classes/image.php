@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class Image {
+class Image 
+{
 
 	// Return file extension based on MIME Type of the file (Images)
 	public static function get_extension($ge_path)

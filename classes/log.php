@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class Log {
+class Log 
+{
 
 	// die logging - log if $bereso['log_die'] == true and die() 
 	public static function die($d_logtext)

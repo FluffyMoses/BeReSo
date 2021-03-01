@@ -6,7 +6,8 @@
 // included by ../index.php
 // ###################################
 
-class Time {
+class Time 
+{
 
 	// converts timestamp into human readable date and time
 	public static function timestamp_to_datetime($ttd_timestamp) 
