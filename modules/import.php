@@ -7,7 +7,7 @@
 // ###################################
 
 // Import shareid as new item for $user
-if ($result = $sql->query("SELECT item_name, item_text, item_imagename from bereso_item WHERE item_shareid='".$shareid."'"))
+if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename from bereso_item WHERE item_shareid='".$shareid."'"))
 {	
 	$row = $result -> fetch_assoc();
 	
@@ -29,15 +29,16 @@ if ($result = $sql->query("SELECT item_name, item_text, item_imagename from bere
 		}		
 		
 		// copy image files to new imagename
-		for ($i=0;$i<4;$i++)
-		{
-			// jpg or png
-			if (file_exists($bereso['images'].$row['item_imagename']."_".$i.".jpg")) { $extension = ".jpg"; } else { $extension = ".png"; }
-			$old_file = $bereso['images'].$row['item_imagename']."_".$i.$extension;
-			$new_file = $bereso['images'].$add_uniqueid."_".$i.$extension;
-			// DEBUG: echo $old_file . $new_file ."<br>";
-			@copy($old_file,$new_file); // copy image
-			header('Location: '.$bereso['url']."?module=show&item=".$add_id); // Redirect to the new created item
+		if ($result2 = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$row['item_id']."'"))
+		{	
+			while ($row2 = $result2 -> fetch_assoc())
+			{
+				$old_file = $bereso['images'].Image::get_filenamecomplete($row['item_id'],$row2['images_image_id']);
+				$new_file = $bereso['images'].$add_uniqueid."_".$row2['images_image_id'].Image::get_fileextension($row['item_id'],$row2['images_image_id']);
+				copy($old_file,$new_file); // copy image
+				$sql->query("INSERT into bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$row2['images_image_id']."','".Image::get_fileextension($row['item_id'],$row2['images_image_id'],false)."')");
+				header('Location: '.$bereso['url']."?module=show&item=".$add_id); // Redirect to the new created item
+			}
 		}
 	}
 	// image does not exist or is not shared

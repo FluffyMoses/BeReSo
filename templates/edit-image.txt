@@ -4,9 +4,9 @@
 			<td>
 				<center>
 				(bereso_edit_item_image_image)
-				(bereso_edit_item_image_description)<br>
+				(bereso_edit_item_image_description) (bereso_edit_item_image_number)<br>
 				<form enctype="multipart/form-data" action="?module=edit&item=(bereso_edit_item_id)&item_image_id=(bereso_edit_item_image_id)&action=upload_image" method="POST">
-				<input name="edit_photo(bereso_edit_item_image_id)" type="file" />
+				<input name="edit_photo[(bereso_edit_item_image_id)]" type="file" />
 				<input type="submit" value="(bereso_template-edit_save)" />
 				</form>
 				(bereso_edit_item_image_delete)

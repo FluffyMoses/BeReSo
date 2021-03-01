@@ -34,8 +34,11 @@ $bereso['images'] = "images/";
 // Images thumbnail height
 $bereso['images_thumbnail_height'] = 200;
 
+// Amount new entry images - preview image not counting - must be at least 1 
+$bereso['new_amount_images'] = 5;
+
 // Version
-$bereso['version'] = "2.1";
+$bereso['version'] = "2.2";
 
 // Last update
 $bereso['last_change'] = "01.03.2021";

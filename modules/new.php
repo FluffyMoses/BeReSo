@@ -17,28 +17,18 @@ if ($action == "add")
 	// check max_file_upload size
 	if ($_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size'])
 	{
-		// Filetype only jpg or png		
-		if (file_exists($add_photo0['tmp_name'])) {
-			if (!(Image::get_extension($add_photo0['tmp_name']) == ".jpg" or Image::get_extension($add_photo0['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
-		}
-		if (file_exists($add_photo1['tmp_name'])) {
-			if (!(Image::get_extension($add_photo1['tmp_name']) == ".jpg" or Image::get_extension($add_photo1['tmp_name']) == ".png")) {  $form_item_file_type_error = true; }
-		}
-		if (file_exists($add_photo2['tmp_name'])) {
-			if (!(Image::get_extension($add_photo2['tmp_name']) == ".jpg" or Image::get_extension($add_photo2['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
-		}
-		if (file_exists($add_photo3['tmp_name'])) {
-			if (!(Image::get_extension($add_photo3['tmp_name']) == ".jpg" or Image::get_extension($add_photo3['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
-		}
-		if (file_exists($add_photo4['tmp_name'])) {
-			if (!(Image::get_extension($add_photo4['tmp_name']) == ".jpg" or Image::get_extension($add_photo4['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
-		}
-		if (file_exists($add_photo5['tmp_name'])) {
-			if (!(Image::get_extension($add_photo5['tmp_name']) == ".jpg" or Image::get_extension($add_photo5['tmp_name']) == ".png")) { $form_item_file_type_error = true; }
+		// run for every file input field
+		for ($i=0;$i<count($add_photo['tmp_name']);$i++) 
+		{
+			// Filetype only jpg or png		
+			if (file_exists($add_photo['tmp_name'][$i])) { // check every uploaded file for matching filetypes
+				if (!(Image::get_header_fileextension($add_photo['tmp_name'][$i]) == ".jpg" or Image::get_header_fileextension($add_photo['tmp_name'][$i]) == ".png")) { $form_item_file_type_error = true; }				
+			}
 		}
 	}
+
 	// insert when file 1 is ok, name is longer than 1 char - preview file is ok - no specialchars in name or text
-	if (@file_exists($add_photo0['tmp_name']) && @file_exists($add_photo1['tmp_name']) && strlen($add_name) > 0 && $form_item_name_error == 0 && $form_item_text_error == 0 && $form_item_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
+	if (@file_exists($add_photo['tmp_name'][0]) && @file_exists($add_photo['tmp_name'][1]) && strlen($add_name) > 0 && $form_item_name_error == 0 && $form_item_text_error == 0 && $form_item_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
 		
 		// generate uniqueid that is used for the imagename
 		$add_uniqueid = uniqid();
@@ -50,26 +40,39 @@ if ($action == "add")
 		preg_match_all("/(#\w+)/", $add_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			// Debug: echo $matches[0][$i]."<br>";
 			$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
 		}		
-			
 
-		// change filename of photo0 and photo1 to add_uniqueid_ID.jpg/png 
-		$thumbnail_path = $bereso['images'] . $add_uniqueid . "_0".Image::get_extension($add_photo0['tmp_name']);		
-		move_uploaded_file($add_photo1['tmp_name'],$bereso['images'] . $add_uniqueid . "_1".Image::get_extension($add_photo0['tmp_name']));
-		//save file 2,3,4 and 5
-		if (file_exists($add_photo2['tmp_name'])) { move_uploaded_file($add_photo2['tmp_name'], $bereso['images'] . $add_uniqueid . "_2".Image::get_extension($add_photo2['tmp_name'])); }
-		if (file_exists($add_photo3['tmp_name'])) { move_uploaded_file($add_photo3['tmp_name'], $bereso['images'] . $add_uniqueid . "_3".Image::get_extension($add_photo3['tmp_name'])); }
-		if (file_exists($add_photo4['tmp_name'])) { move_uploaded_file($add_photo4['tmp_name'], $bereso['images'] . $add_uniqueid . "_4".Image::get_extension($add_photo4['tmp_name'])); }
-		if (file_exists($add_photo5['tmp_name'])) { move_uploaded_file($add_photo5['tmp_name'], $bereso['images'] . $add_uniqueid . "_5".Image::get_extension($add_photo5['tmp_name'])); }
+		// save images
+		for ($i=0;$i<count($add_photo['tmp_name']);$i++) 
+		{
+			// Filetype only jpg or png		
+			if (file_exists($add_photo['tmp_name'][$i])) { // check every uploaded file
+				// check file header for image type
+				if (Image::get_header_fileextension($add_photo['tmp_name'][$i]) == ".jpg") 
+				{
+					$save_fileextension = "jpg";
+				}
+				else
+				{
+					$save_fileextension = "png";
+				}
+
+				// save to database
+				$sql->query("INSERT INTO bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$i."','".$save_fileextension."')");
+
+				// Move and rename images
+				move_uploaded_file($add_photo['tmp_name'][$i], $bereso['images'] . $add_uniqueid . "_".$i.".".$save_fileextension);
+			}
+		}
 		
 		// Resize Thumbnail
-		$thumbnail_old_size=getimagesize($add_photo0['tmp_name']); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
+		$thumbnail_path = $bereso['images'] . $add_uniqueid . "_0".Image::get_fileextension($add_id,0);		
+		$thumbnail_old_size=getimagesize($thumbnail_path); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
 		$thumbnail_new_height=$bereso['images_thumbnail_height']; 
 		$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)
-		if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($add_photo0['tmp_name']); } // JPEG
-		elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($add_photo0['tmp_name']); } // PNG
+		if ($thumbnail_old_size[2] == 2) { $old_image = imagecreatefromjpeg($thumbnail_path); } // JPEG
+		elseif ($thumbnail_old_size[2] == 3) { $old_image = imagecreatefrompng ($thumbnail_path); } // PNG
 		$new_image = ImageCreateTrueColor($thumbnail_new_width,$thumbnail_new_height);
 		imagecopyresized($new_image,$old_image,0,0,0,0,$thumbnail_new_width,$thumbnail_new_height,$thumbnail_old_size[0],$thumbnail_old_size[1]);
 		if ($thumbnail_old_size[2] == 2) { imagejpeg($new_image,$thumbnail_path,95); } // JPG
@@ -104,7 +107,7 @@ if ($action == null){
 	$content = str_replace("(bereso_new_item_add_text)",$add_text,$content); // if entry is saved with errors - show text again
 	$content = str_replace("(bereso_new_item_message)",$item_new_addmessage,$content); // insert or clear message field
 
-	// load alle hashtags and add all in the dropdown menu
+	// load all hashtags and add all in the dropdown menu
 	if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
 	{	
 		$insert_hashtag = null;
@@ -116,5 +119,14 @@ if ($action == null){
 		}
 	}
 	$content = str_replace("(bereso_new_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
+
+	// Load additional image uploads - preview 0 and image 1 are always hardcoded in the template
+	$content_optional_images = null;
+	for ($i=2;$i<=$bereso['new_amount_images'];$i++)
+	{
+		$content_optional_images .= File::read_file("templates/new-optional_images.txt");
+		$content_optional_images = str_replace("(bereso_new_item_image_optional_image_id)",$i,$content_optional_images);
+	}	
+	$content = str_replace("(bereso_new_item_optional_images)",$content_optional_images,$content); // Insert additional images into main template
 }
 ?>

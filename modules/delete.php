@@ -19,12 +19,9 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_delete_item_id)",$item,$content);
 		$content = str_replace("(bereso_delete_item_name)",Item::get_name($item),$content);
 
-		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
-		{	
-			$row = $result -> fetch_assoc();		
-			$content = str_replace("(bereso_delete_item_imagename)",$row['item_imagename'],$content);
-			$content = str_replace("(bereso_delete_item_image_extension)",Image::search_extension($bereso['images'].$row['item_imagename']."_0"),$content);
-		}
+	
+		$content = str_replace("(bereso_delete_item_imagename)",Image::get_filename($item),$content);
+		$content = str_replace("(bereso_delete_item_image_extension)",Image::get_fileextension($item,0),$content);		
 		
 		// add to navigation
 		$navigation .= File::read_file("templates/delete-navigation.txt");	
@@ -34,29 +31,22 @@ if (Item::is_owned_by_user($user,$item)) {
 	// double check successfull => really delete the entry
 	if ($action == "confirm")
 	{
-		// read imagename
-		if ($result = $sql->query("SELECT item_imagename from bereso_item WHERE item_id='".$item."'"))
-		{	
-			$row = $result -> fetch_assoc();		
-			$delete_imagename = $row['item_imagename'];
-		}
-		
-		// delete SQL entrys
-		$sql->query("DELETE FROM bereso_tags where tags_item=".$item);
-		$sql->query("DELETE FROM bereso_item where item_id=".$item);
-		
 		// delete files	
-		for ($i=0;$i<=5;$i++)
-		{
-			if (file_exists($bereso['images'].$delete_imagename."_".$i.".jpg")) 
+		if ($result = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."'"))
+		{	
+			while ($row = $result -> fetch_assoc())
 			{
-				unlink ($bereso['images'].$delete_imagename."_".$i.".jpg");
+				if (file_exists($bereso['images'].Image::get_filenamecomplete($item,$row['images_image_id'])))
+				{
+					unlink ($bereso['images'].Image::get_filenamecomplete($item,$row['images_image_id']));
+				}
 			}
-			if (file_exists($bereso['images'].$delete_imagename."_".$i.".png")) 
-			{
-				unlink ($bereso['images'].$delete_imagename."_".$i.".png");
-			}			
-		}	
+		}
+
+		// delete SQL entrys
+		$sql->query("DELETE FROM bereso_tags where tags_item='".$item."'");
+		$sql->query("DELETE FROM bereso_item where item_id='".$item."'");
+		$sql->query("DELETE FROM bereso_images where images_item='".$item."'");
 		
 		header('Location: '.$bereso['url']); // Redirect to the startpage
 	}

@@ -38,7 +38,7 @@ if (Item::is_owned_by_user($user,$item)) {
 	// load template
 	$content = File::read_file("templates/show.txt");
 
-	if ($result = $sql->query("SELECT item_name, item_text, item_imagename, item_timestamp_creation, item_timestamp_edit from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
+	if ($result = $sql->query("SELECT item_name, item_text, item_timestamp_creation, item_timestamp_edit from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
 	{	
 		$row = $result -> fetch_assoc();
 		
@@ -47,13 +47,14 @@ if (Item::is_owned_by_user($user,$item)) {
 		
 		// templates for images
 		$content_item = null;
-		for ($i=1;$i<=5;$i++)
-		{
-			if (file_exists($bereso['images'].$row['item_imagename']."_".$i.Image::search_extension($bereso['images'].$row['item_imagename']."_".$i))) 
+
+		if ($result2 = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."' AND images_image_id > 0 ORDER BY images_image_id ASC")) // All images of item except the first (preview) one
+		{	
+			while ($row2 = $result2 -> fetch_assoc())
 			{
 				$content_item .= File::read_file("templates/show-item.txt");
-				$content_item = str_replace("(bereso_show_item_image_id)",$i,$content_item);
-				$content_item = str_replace("(bereso_show_item_image_extension)",Image::search_extension($bereso['images'].$row['item_imagename']."_".$i),$content_item);
+				$content_item = str_replace("(bereso_show_item_image_id)",$row2['images_image_id'],$content_item);
+				$content_item = str_replace("(bereso_show_item_image_extension)",Image::get_fileextension($item,$row2['images_image_id']),$content_item);				
 			}
 		}
 
@@ -71,7 +72,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_show_item_id)",$item,$content);
 		$content = str_replace("(bereso_show_item_timestamp_creation)",Time::timestamp_to_datetime($row['item_timestamp_creation']),$content);
 		$content = str_replace("(bereso_show_item_timestamp_edit)",Time::timestamp_to_datetime($row['item_timestamp_edit']),$content);
-		$content = str_replace("(bereso_show_item_imagename)",$row['item_imagename'],$content);
+		$content = str_replace("(bereso_show_item_imagename)",Image::get_filename($item),$content);
 		
 		// item shared? show link
 		if (strlen($item_sharing) > 0) 
