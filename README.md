@@ -29,7 +29,7 @@ Installation<br>
 <br>
 <ul>
   <li>Copy everything except the sql folder in the webspace directory</li>
-  <li>Edit config.php.example and rename it to config.php</li>
+  <li>Edit config.example.php and rename it to config.php</li>
   <li>Execute the sql scripts to install the base db structure and the base templates:
     <ul>
       <li>sql/create_database.sql</li>
