@@ -52,8 +52,10 @@ CREATE TABLE IF NOT EXISTS `bereso_user` (
   `user_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
   `user_pwhash` varchar(250) DEFAULT NULL,
   `user_template` int(10) DEFAULT NULL,
+  `user_last_list` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 -- Exportiere Struktur von Tabelle bereso.bereso_images
 CREATE TABLE IF NOT EXISTS `bereso_images` (

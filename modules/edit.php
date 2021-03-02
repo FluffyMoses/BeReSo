@@ -233,7 +233,7 @@ if (Item::is_owned_by_user($user,$item)) {
 						$content_edit_images = str_replace("(bereso_edit_item_image_number)",$i,$content_edit_images);
 					}
 				}
-				else // no image load empty placeholder
+				else // no image, load empty placeholder
 				{
 					$content_edit_images .= File::read_file("templates/edit-image.txt");
 					$content_edit_images = str_replace("(bereso_edit_item_image_image)",null,$content_edit_images);

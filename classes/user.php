@@ -108,5 +108,22 @@ class User
 		}                		
 	}		
 
+	// get last listed tag for this user
+	public static function get_last_list($gllt_user)
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT user_last_list from bereso_user WHERE user_name='$gllt_user'"))
+		{
+			$row = $result -> fetch_assoc();
+			return $row['user_last_list'];
+		}
+	}
+
+	// set last listed tag for this user
+	public static function set_last_list($sllt_user,$sllt_tag)
+	{
+		global $sql;
+        $sql->query("UPDATE bereso_user SET user_last_list='".$sllt_tag."' WHERE user_name='$sllt_user'");
+	}
 }
 ?>

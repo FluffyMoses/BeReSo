@@ -20,6 +20,4 @@ if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tag
 		$content = str_replace("(bereso_list_tags_item_numbers)",Item::get_number_by_tag_id($row['tags_name'],$user),$content);
     }
 }
-
-
 ?>

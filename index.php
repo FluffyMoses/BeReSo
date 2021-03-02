@@ -172,6 +172,27 @@ if ($result = $sql->query("SELECT template_text_name, template_text_text from be
 	}
 }
 
+// Last list
+// delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or show.php?action=random
+if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "delete") or $action == "random")
+{
+	User::set_last_list($user,null); // delete the last list
+}
+// show last list icon and link when last list is set for this user
+if (strlen(User::get_last_list($user)) > 0 && $module != "list") // do not show icon if we are still in the list menu
+{
+	$output = str_replace("(main-navigation-last_list)",File::read_file("templates/main-navigation-last_list.txt"),$output);
+	$last_list_tag = User::get_last_list($user);
+	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
+	$output = str_replace("(main-navigation-last_list_value)",$last_list_tag,$output);
+}
+else 
+{
+	$output = str_replace("(main-navigation-last_list)",null,$output);
+}
+
+
+
 // Close SQL connection
 $sql->close();
 

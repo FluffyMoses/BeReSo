@@ -13,6 +13,13 @@ $content_item = null;
 // start search empty
 if (strlen($search) == 0 && strlen($tag) == 0) { $tag = "ALL"; } // set All items as default
 
+// if tag is set by last_list and was a search request we need to convert tag to search (when tag starts with SEARCH)
+if (substr($tag,0,6) == "SEARCH") 
+{
+	$search = substr(User::get_last_list($user),6,strlen(User::get_last_list($user))-6); // convert last_list to search without the prefix SEARCH
+	$tag = null;
+}
+
 // List items via search request
 if (strlen($search) > 0)
 {
@@ -20,12 +27,14 @@ if (strlen($search) > 0)
 	{
 		$sql_list_items = null;
 		$content = File::read_file("templates/list-searcherror.txt"); // load error template for content	
+		User::set_last_list($user,null); // delete the last list
 	}
 	// wrong character in $search
 	else
 	{
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%') ORDER BY item_name ASC"; 
 		$list_items_headline = "(bereso_template-list_search_results) " . $search;	
+		User::set_last_list($user,"SEARCH".$search);
 	}
 }
 // list items via tag
@@ -49,11 +58,13 @@ elseif (strlen($tag) > 0)
 		$sql_list_items = "SELECT  bereso_tags.tags_name, bereso_item.item_name, bereso_item.item_id from bereso_item INNER JOIN bereso_tags ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' AND bereso_tags.tags_name='".$tag."' ORDER BY bereso_item.item_name ASC";
 		$list_items_headline = "(bereso_template-list_tags_items_with) #" . $tag;
 	}	
+	User::set_last_list($user,$tag);
 }	
 // no valid list request
 else
 {
 	Log::die ("CHECK: no valid list_items request");
+	User::set_last_list($user,null); // delete the last list
 }
 
 // if there is no error - execute sql and show alle items

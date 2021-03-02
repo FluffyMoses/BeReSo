@@ -28,7 +28,6 @@ if ($action == "random")
 			header('Location: '.$bereso['url']); // Redirect to the startpage
 		}
 	}	
-	$action = null;
 }
 
 // check if user is owner of this item
