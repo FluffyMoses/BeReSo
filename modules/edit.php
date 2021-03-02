@@ -50,14 +50,14 @@ if (Item::is_owned_by_user($user,$item)) {
 	// Delete Image (confirm form)
 	if ($action == "delete_image")
 	{		
-		$content = File::read_file("templates/edit-image-delete.txt");
+		$content = File::read_file("templates/edit-image-delete.html");
 		$content = str_replace("(bereso_edit_item_imagename)",Image::get_filename($item),$content);
 		$content = str_replace("(bereso_edit_item_image_id)",$item_image_id,$content);
 		$content = str_replace("(bereso_edit_item_id)",$item,$content);
 		$content = str_replace("(bereso_edit_item_image_extension)",Image::get_fileextension($item,$item_image_id),$content);			
 			
 		// add to navigation
-		$navigation .= File::read_file("templates/edit-navigation-delete.txt");	
+		$navigation .= File::read_file("templates/edit-navigation-delete.html");	
 		$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);			
 	}
 	
@@ -191,7 +191,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		{	
 			$row = $result -> fetch_assoc();
 			
-			$content = File::read_file("templates/edit.txt");	
+			$content = File::read_file("templates/edit.html");	
 			if (strlen($edit_name_replace) > 0) { $content = str_replace("(bereso_edit_item_name)",$edit_name_replace,$content); } else { $content = str_replace("(bereso_edit_item_name)",$row['item_name'],$content); } // if set the form will replace the text with the variable content, not with the sql loaded content
 			if (strlen($edit_text_replace) > 0) { $content = str_replace("(bereso_edit_item_text)",$edit_text_replace,$content); } else { $content = str_replace("(bereso_edit_item_text)",$row['item_text'],$content); } // if set the form will replace the text with the variable content, not with the sql loaded content
 			$content = str_replace("(bereso_edit_item_message)",$item_edit_addmessage,$content); // insert or clear message field
@@ -208,17 +208,17 @@ if (Item::is_owned_by_user($user,$item)) {
 			{
 				if (strlen(Image::get_filenamecomplete($item,$i)) > 0 ) // image exists
 				{
-					$content_edit_images .= File::read_file("templates/edit-image.txt");
-					$content_edit_images = str_replace("(bereso_edit_item_image_image)",File::read_file("templates/edit-image-image.txt"),$content_edit_images);
+					$content_edit_images .= File::read_file("templates/edit-image.html");
+					$content_edit_images = str_replace("(bereso_edit_item_image_image)",File::read_file("templates/edit-image-image.html"),$content_edit_images);
 					if ($i > 1) // do not delete 0 and 1 (preview and first image)
 					{
-						$content_edit_images = str_replace("(bereso_edit_item_image_delete)",File::read_file("templates/edit-image-form-delete.txt"),$content_edit_images);	
+						$content_edit_images = str_replace("(bereso_edit_item_image_delete)",File::read_file("templates/edit-image-form-delete.html"),$content_edit_images);	
 					}
 					else
 					{
 						$content_edit_images = str_replace("(bereso_edit_item_image_delete)",null,$content_edit_images);	
 					}
-					$content_edit_images = str_replace("(bereso_edit_item_image_turn)",File::read_file("templates/edit-image-form-turn.txt"),$content_edit_images);			
+					$content_edit_images = str_replace("(bereso_edit_item_image_turn)",File::read_file("templates/edit-image-form-turn.html"),$content_edit_images);			
 					$content_edit_images = str_replace("(bereso_edit_item_imagename)",Image::get_filename($item),$content_edit_images);
 					$content_edit_images = str_replace("(bereso_edit_item_image_id)",$i,$content_edit_images);
 					$content_edit_images = str_replace("(bereso_edit_item_image_extension)",Image::get_fileextension($item,$i),$content_edit_images);
@@ -235,7 +235,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				}
 				else // no image, load empty placeholder
 				{
-					$content_edit_images .= File::read_file("templates/edit-image.txt");
+					$content_edit_images .= File::read_file("templates/edit-image.html");
 					$content_edit_images = str_replace("(bereso_edit_item_image_image)",null,$content_edit_images);
 					$content_edit_images = str_replace("(bereso_edit_item_image_delete)",null,$content_edit_images);	
 					$content_edit_images = str_replace("(bereso_edit_item_image_turn)",null,$content_edit_images);	
@@ -254,7 +254,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				$insert_hashtag = null;
 				while ($row = $result -> fetch_assoc())
 				{
-					$insert_hashtag .= File::read_file("templates/edit-hashtag.txt");
+					$insert_hashtag .= File::read_file("templates/edit-hashtag.html");
 					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
 					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
 				}
@@ -262,7 +262,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			$content = str_replace("(bereso_edit_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
 			
 			// add to navigation
-			$navigation .= File::read_file("templates/edit-navigation.txt");	
+			$navigation .= File::read_file("templates/edit-navigation.html");	
 			$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);	
 			
 		}

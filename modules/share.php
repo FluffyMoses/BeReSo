@@ -12,7 +12,7 @@
 if(strlen($shareid) > 0)
 {
 	// load template
-	$content = File::read_file("templates/share.txt");
+	$content = File::read_file("templates/share.html");
 
 	if ($result = $sql->query("SELECT item_id, item_name, item_text, item_user from bereso_item WHERE item_shareid='".$shareid."'"))
 	{	
@@ -31,7 +31,7 @@ if(strlen($shareid) > 0)
 			{	
 				while ($row2 = $result2 -> fetch_assoc())
 				{
-					$content_item .= File::read_file("templates/share-item.txt");
+					$content_item .= File::read_file("templates/share-item.html");
 					$content_item = str_replace("(bereso_share_image_id)",$row2['images_image_id'],$content_item);
 					$content_item = str_replace("(bereso_share_image_extension)",Image::get_fileextension($row['item_id'],$row2['images_image_id']),$content_item);				
 				}
@@ -39,7 +39,7 @@ if(strlen($shareid) > 0)
 
 			
 			// add to navigation
-			$navigation .= File::read_file("templates/share-navigation.txt");				
+			$navigation .= File::read_file("templates/share-navigation.html");				
 			$navigation = str_replace("(bereso_share_id)",$shareid,$navigation);
 			
 			// build output			
@@ -55,7 +55,7 @@ if(strlen($shareid) > 0)
 		// error message - item not shared or does not exist
 		else
 		{
-			$content = File::read_file("templates/share-error.txt");
+			$content = File::read_file("templates/share-error.html");
 		}
 	}	
 

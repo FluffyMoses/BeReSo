@@ -35,7 +35,7 @@ if (Item::is_owned_by_user($user,$item)) {
 	// Show item
 
 	// load template
-	$content = File::read_file("templates/show.txt");
+	$content = File::read_file("templates/show.html");
 
 	if ($result = $sql->query("SELECT item_name, item_text, item_timestamp_creation, item_timestamp_edit from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
 	{	
@@ -51,14 +51,14 @@ if (Item::is_owned_by_user($user,$item)) {
 		{	
 			while ($row2 = $result2 -> fetch_assoc())
 			{
-				$content_item .= File::read_file("templates/show-item.txt");
+				$content_item .= File::read_file("templates/show-item.html");
 				$content_item = str_replace("(bereso_show_item_image_id)",$row2['images_image_id'],$content_item);
 				$content_item = str_replace("(bereso_show_item_image_extension)",Image::get_fileextension($item,$row2['images_image_id']),$content_item);				
 			}
 		}
 
 		// add to navigation
-		$navigation .= File::read_file("templates/show-navigation.txt");	
+		$navigation .= File::read_file("templates/show-navigation.html");	
 		$navigation = str_replace("(bereso_show_item_id)",$item,$navigation);
 		// Text shared or not shared
 		$item_sharing = Item::get_share_id($item);
@@ -77,7 +77,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		if (strlen($item_sharing) > 0) 
 		{
 			// item shared show link
-			$content = str_replace("(bereso_show_item_sharing)",File::read_file("templates/show-sharing.txt"),$content);
+			$content = str_replace("(bereso_show_item_sharing)",File::read_file("templates/show-sharing.html"),$content);
 			$content = str_replace("(bereso_show_item_share_id)",$item_sharing,$content);
 		}
 		else // item not shared

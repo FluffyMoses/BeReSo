@@ -44,7 +44,7 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename 
 	// image does not exist or is not shared
 	else 
 	{
-		$content = File::read_file("templates/share-error.txt");
+		$content = File::read_file("templates/share-error.html");
 	}
 }	
 

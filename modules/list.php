@@ -26,7 +26,7 @@ if (strlen($search) > 0)
 	if ($search_is_letter_failed == true)
 	{
 		$sql_list_items = null;
-		$content = File::read_file("templates/list-searcherror.txt"); // load error template for content	
+		$content = File::read_file("templates/list-searcherror.html"); // load error template for content	
 		User::set_last_list($user,null); // delete the last list
 	}
 	// wrong character in $search
@@ -71,7 +71,7 @@ else
 if (strlen($sql_list_items) > 0)
 {
 	// load template
-	$content = File::read_file("templates/list.txt");
+	$content = File::read_file("templates/list.html");
 	// insert headline
 	$content = str_replace("(bereso_item_headline)",$list_items_headline,$content);
 
@@ -79,7 +79,7 @@ if (strlen($sql_list_items) > 0)
 	{	
 		while ($row = $result -> fetch_assoc())
 		{
-			$content_item .= File::read_file("templates/list-item.txt");
+			$content_item .= File::read_file("templates/list-item.html");
 			$content_item = str_replace("(bereso_item_id)",$row['item_id'],$content_item);
 			$content_item = str_replace("(bereso_item_imagename)",Image::get_filename($row['item_id']),$content_item);
 			$content_item = str_replace("(bereso_item_name)",$row['item_name'],$content_item);		

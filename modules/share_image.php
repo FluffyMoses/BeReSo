@@ -7,7 +7,7 @@
 // ###################################
 
 // load template
-$output = File::read_file("templates/share_image.txt");
+$output = File::read_file("templates/share_image.html");
 $output_default = false; // do not use default output template
 
 if ($result = $sql->query("SELECT item_id, item_name, item_text, item_user from bereso_item WHERE item_shareid='".$shareid."'"))
@@ -26,7 +26,7 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_user from 
 	}
 	else
 	{
-		$output = File::read_file("templates/share_image-error.txt");
+		$output = File::read_file("templates/share_image-error.html");
 	}	
 }
 

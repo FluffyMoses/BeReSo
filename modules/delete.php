@@ -15,7 +15,7 @@ if (Item::is_owned_by_user($user,$item)) {
 	if ($action == null)
 	{
 		// load template
-		$content = File::read_file("templates/delete.txt");
+		$content = File::read_file("templates/delete.html");
 		$content = str_replace("(bereso_delete_item_id)",$item,$content);
 		$content = str_replace("(bereso_delete_item_name)",Item::get_name($item),$content);
 
@@ -24,7 +24,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_delete_item_image_extension)",Image::get_fileextension($item,0),$content);		
 		
 		// add to navigation
-		$navigation .= File::read_file("templates/delete-navigation.txt");	
+		$navigation .= File::read_file("templates/delete-navigation.html");	
 		$navigation = str_replace("(bereso_delete_item_id)",$item,$navigation);		
 	}
 

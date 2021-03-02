@@ -63,7 +63,7 @@ if ($module == "login")
 
 // init variables
 $output = null; // THE output variable
-$navigation = null; // variable to easy add entrys to the navigation in the main.txt
+$navigation = null; // variable to easy add entrys to the navigation in the main.html
 $content = null; // content variable contains the content of the modules generated html
 $output_default = true; // use default template for output
 $output_navigation = true; // show navigation menu
@@ -145,11 +145,11 @@ if ($module == "share") { include ("modules/share.php"); } // share module for l
 if ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
 
 // load default template if not allready loaded by module
-if ($output_default == true) { $output = File::read_file("templates/main.txt"); }
+if ($output_default == true) { $output = File::read_file("templates/main.html"); }
 
 // content replace
 if ($output_navigation == true) {
-	$output = str_replace("(bereso_main_navigation)",File::read_file("templates/main-navigation.txt"),$output);
+	$output = str_replace("(bereso_main_navigation)",File::read_file("templates/main-navigation.html"),$output);
 	$output = str_replace("(bereso_navigation)",$navigation,$output);
 }
 else
@@ -181,7 +181,7 @@ if (($module != "show" && $module != "show_image" && $module != "list" && $modul
 // show last list icon and link when last list is set for this user
 if (strlen(User::get_last_list($user)) > 0 && $module != "list") // do not show icon if we are still in the list menu
 {
-	$output = str_replace("(main-navigation-last_list)",File::read_file("templates/main-navigation-last_list.txt"),$output);
+	$output = str_replace("(main-navigation-last_list)",File::read_file("templates/main-navigation-last_list.html"),$output);
 	$last_list_tag = User::get_last_list($user);
 	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
 	$output = str_replace("(main-navigation-last_list_value)",$last_list_tag,$output);

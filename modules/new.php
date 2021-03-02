@@ -102,7 +102,7 @@ if ($action == "add")
 
 // Show form for new item
 if ($action == null){
-	$content = File::read_file("templates/new.txt");
+	$content = File::read_file("templates/new.html");
 	$content = str_replace("(bereso_new_item_add_name)",$add_name,$content); // if entry is saved with errors - show name again
 	$content = str_replace("(bereso_new_item_add_text)",$add_text,$content); // if entry is saved with errors - show text again
 	$content = str_replace("(bereso_new_item_message)",$item_new_addmessage,$content); // insert or clear message field
@@ -113,7 +113,7 @@ if ($action == null){
 		$insert_hashtag = null;
 		while ($row = $result -> fetch_assoc())
 		{
-			$insert_hashtag .= File::read_file("templates/new-hashtag.txt");
+			$insert_hashtag .= File::read_file("templates/new-hashtag.html");
 			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
 			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
 		}
@@ -124,7 +124,7 @@ if ($action == null){
 	$content_optional_images = null;
 	for ($i=2;$i<=$bereso['new_amount_images'];$i++)
 	{
-		$content_optional_images .= File::read_file("templates/new-optional_images.txt");
+		$content_optional_images .= File::read_file("templates/new-optional_images.html");
 		$content_optional_images = str_replace("(bereso_new_item_image_optional_image_id)",$i,$content_optional_images);
 	}	
 	$content = str_replace("(bereso_new_item_optional_images)",$content_optional_images,$content); // Insert additional images into main template
