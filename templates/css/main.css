@@ -45,6 +45,11 @@ img.maxwidthlimit {
 	max-height: 200;
 }
 
+img.maxwidthlimit2 {
+	max-width: 40;
+	max-height: 30;
+}
+
 p.headline1 { color: #333333; font-family: 'Bitter', serif; font-size: 24px; font-weight: bold;  }
 p.headline2 { color: #333333; font-family: 'Bitter', serif; font-size: 20px; font-weight: bold;  }
 

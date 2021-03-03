@@ -39,7 +39,7 @@ if(strlen($shareid) > 0)
 
 			
 			// add to navigation
-			$navigation .= File::read_file("templates/share-navigation.html");				
+			$navigation .= File::read_file("templates/main-navigation-share.html");				
 			$navigation = str_replace("(bereso_share_id)",$shareid,$navigation);
 			
 			// build output			

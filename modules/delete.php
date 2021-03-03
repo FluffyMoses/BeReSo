@@ -23,9 +23,10 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_delete_item_imagename)",Image::get_filename($item),$content);
 		$content = str_replace("(bereso_delete_item_image_extension)",Image::get_fileextension($item,0),$content);		
 		
-		// add to navigation
-		$navigation .= File::read_file("templates/delete-navigation.html");	
-		$navigation = str_replace("(bereso_delete_item_id)",$item,$navigation);		
+		// add to navigation -> Last item
+		$navigation2 .= File::read_file("templates/main-navigation2-last_item.html");
+		$navigation2 = str_replace("(main-navigation-last_item)",Image::get_filenamecomplete($item,0),$navigation2);
+		$navigation2 = str_replace("(main-navigation-last_item_value)",$item,$navigation2);	
 	}
 
 	// double check successfull => really delete the entry

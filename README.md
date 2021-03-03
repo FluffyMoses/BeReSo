@@ -63,7 +63,6 @@ Open this url and change the following settings:<br>
     <li>PASSWORD = the password of the new user that will be hashed</li>
     <li>TEMPLATEID = the template id of the template the user should use, see the "Installation" step above for the id</li>
 </ul>
-<br>
 Run the SQL command you get as an result and the user is created and ready to log in!<br>
 For example, the SQL INSERT for the user USERNAME with the hashed password PASSWORD and the template 1:<br>
 

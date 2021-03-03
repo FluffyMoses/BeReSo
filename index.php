@@ -65,7 +65,8 @@ if ($module == "login")
 
 // init variables
 $output = null; // THE output variable
-$navigation = null; // variable to easy add entrys to the navigation in the main.html
+$navigation = null; // variable to easy add entrys to the menu navigation in the main.html
+$navigation2 = null; // variable to easy add entrys to the bar navigation in the main.html
 $content = null; // content variable contains the content of the modules generated html
 $output_default = true; // use default template for output
 $output_navigation = true; // show navigation menu
@@ -151,15 +152,34 @@ if ($module == "share_image") { include ("modules/share_image.php"); } // share 
 // load default template if not allready loaded by module
 if ($output_default == true) { $output = File::read_file("templates/main.html"); }
 
+// Navigation changes for many modules:
+// -> Last list 
+// delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or show.php?action=random
+if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "delete") or $action == "random")
+{
+	User::set_last_list($user,null); // delete the last list
+}
+// show last list icon and link when last list is set for this user
+if (strlen(User::get_last_list($user)) > 0 && $module != "list") // do not show icon if we are still in the list menu
+{
+	$navigation2 = File::read_file("templates/main-navigation2-last_list.html") . $navigation2; // set last tag always first
+	$last_list_tag = User::get_last_list($user);
+	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
+	$navigation2 = str_replace("(main-navigation-last_list_value)",$last_list_tag,$navigation2);
+}
+
+
 // content replace
 if ($output_navigation == true) {
 	$output = str_replace("(bereso_main_navigation)",File::read_file("templates/main-navigation.html"),$output);
 	$output = str_replace("(bereso_navigation)",$navigation,$output);
+	$output = str_replace("(bereso_navigation2)",$navigation2,$output);
 }
 else
 {
 	$output = str_replace("(bereso_main_navigation)",null,$output);
 	$output = str_replace("(bereso_navigation)",null,$output);
+	$output = str_replace("(bereso_navigation2)",null,$output);
 }
 $output = str_replace("(bereso_content)",$content,$output);
 $output = str_replace("(bereso_title)",$title,$output);
@@ -175,27 +195,6 @@ if ($result = $sql->query("SELECT template_text_name, template_text_text from be
 		$output = str_replace("(bereso_template-".$row['template_text_name'].")",$row['template_text_text'],$output);
 	}
 }
-
-// Last list
-// delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or show.php?action=random
-if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "delete") or $action == "random")
-{
-	User::set_last_list($user,null); // delete the last list
-}
-// show last list icon and link when last list is set for this user
-if (strlen(User::get_last_list($user)) > 0 && $module != "list") // do not show icon if we are still in the list menu
-{
-	$output = str_replace("(main-navigation-last_list)",File::read_file("templates/main-navigation-last_list.html"),$output);
-	$last_list_tag = User::get_last_list($user);
-	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
-	$output = str_replace("(main-navigation-last_list_value)",$last_list_tag,$output);
-}
-else 
-{
-	$output = str_replace("(main-navigation-last_list)",null,$output);
-}
-
-
 
 // Close SQL connection
 $sql->close();

@@ -57,8 +57,13 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_edit_item_image_extension)",Image::get_fileextension($item,$item_image_id),$content);			
 			
 		// add to navigation
-		$navigation .= File::read_file("templates/edit-navigation-delete.html");	
-		$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);			
+		$navigation .= File::read_file("templates/main-navigation-edit-delete.html");	
+		$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);		
+		
+		// add to navigation -> Last item
+		$navigation2 .= File::read_file("templates/main-navigation2-last_item.html");
+		$navigation2 = str_replace("(main-navigation-last_item)",Image::get_filenamecomplete($item,0),$navigation2);
+		$navigation2 = str_replace("(main-navigation-last_item_value)",$item,$navigation2);		
 	}
 	
 	
@@ -261,10 +266,11 @@ if (Item::is_owned_by_user($user,$item)) {
 			}
 			$content = str_replace("(bereso_edit_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
 			
-			// add to navigation
-			$navigation .= File::read_file("templates/edit-navigation.html");	
-			$navigation = str_replace("(bereso_edit_item_id)",$item,$navigation);	
-			
+			// add to navigation -> Last item
+			$navigation2 .= File::read_file("templates/main-navigation2-last_item.html");
+			$navigation2 = str_replace("(main-navigation-last_item)",Image::get_filenamecomplete($item,0),$navigation2);
+			$navigation2 = str_replace("(main-navigation-last_item_value)",$item,$navigation2);
+		
 		}
 	}
 }
