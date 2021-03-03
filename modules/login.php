@@ -64,9 +64,37 @@ if ($action == "dologin")
 
 }
 
-// Generate and return password hash
-if ($action == "generate_pw") {
-	die(User::generate_password_hash($generate_password)); // regular die no (Log::die) logging of the hash value!
+// Generate SQL INSERT with password hash -- execute it to add new user
+if ($action == "generate_user_sqlinsert") {
+	if (strlen($generate_user) > 0) 
+	{
+		if (strlen($generate_user) > 0) {
+			if (is_numeric($generate_template) && $generate_template > 0)
+			{
+				if (User::get_id_by_name($generate_user) == 0) // User does not exist
+				{
+					$content = "-- (bereso_template-login_execute_sql_query) ".$generate_user."<br>\nINSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('".$generate_user."','".User::generate_password_hash($generate_password)."','".$generate_template."');"; // regular die no (Log::die) logging of the hash value!
+				}
+				else // User exists
+				{
+					$content = "(bereso_template-login_execute_sql_query_user_exists)".$generate_user;
+				}
+			}
+			else
+			{
+				Log::die("generate_user_sqlinsert: generate_template mut be greater than 0");
+			}
+		}
+		else
+		{
+			Log::die("generate_user_sqlinsert: generate_password not set");
+		}
+	} 
+	else 
+	{
+		Log::die("generate_user_sqlinsert: generate_user not set");
+	}
+
 }
 
 // Login form

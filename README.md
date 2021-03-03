@@ -26,7 +26,7 @@ Requirements<br>
 ###################################<br>
 Installation<br>
 ###################################<br>
-<br>
+
 <ul>
   <li>Copy everything except the sql folder in the webspace directory</li>
   <li>Edit config.example.php and rename it to config.php</li>
@@ -50,3 +50,20 @@ Installation<br>
   </li>
   <li>Create the folder "images" (or rename it and change the name in the config.php)</li>
   <li>Enable write access for the webserver to this folder</li>
+
+###################################<br>
+New User<br>
+###################################<br>
+Open this url and change the following settings:<br>
+<br>
+/index.php?module=login&action=generate_user_sqlinsert&generate_user=USERNAME&generate_password=PASSWORD&generate_template=TEMPLATEID<br>
+<br>
+<ul>
+    <li>USERNAME = username of the new user, Letters a-z, A-Z and - allowed</li>
+    <li>PASSWORD = the password of the new user that will be hashed</li>
+    <li>TEMPLATEID = the template id of the template the user should use, see the "Installation" step above for the id</li>
+</ul>
+<br>
+Run the SQL command you get as an result and the user is created and ready to log in!<br>
+For example, the SQL INSERT for the user USERNAME with the hashed password PASSWORD and the template 1:<br>
+<i>INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('USERNAME','$2y$10$R46bmwUUxbnmiBE0S3JR4uKuQJA3sbP8aMz7Dgzovyp.f1g91nZuO','1');</i>

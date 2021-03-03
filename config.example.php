@@ -10,9 +10,6 @@
 // extension=mysqli // mysql and mariadb connections
 // extension=mbstring // mb_substr => multibyte safe substring (for example ü,ö,ä are two chars in regular substr or $string[ID] char
 
-// Generate Password for new user
-// /?module=login&action=generate_pw&generate_password=PASSWORD
-
 // PHP Error Level
 // Simple Errors Fehler: E_ERROR | E_WARNING | E_PARSE
 // All Errors: E_ALL
@@ -38,10 +35,10 @@ $bereso['images_thumbnail_height'] = 200;
 $bereso['new_amount_images'] = 5;
 
 // Version
-$bereso['version'] = "2.3";
+$bereso['version'] = "2.4";
 
 // Last update
-$bereso['last_change'] = "02.03.2021";
+$bereso['last_change'] = "03.03.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";

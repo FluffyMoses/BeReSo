@@ -8,3 +8,5 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_error_username_or_password', 'Benutzername oder Passwort falsch');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_user_logged_out', 'Benutzer erfolgreich abgemeldet.');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'share_error', 'Eintrag nicht mehr Freigegeben oder Share ID falsch!');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_execute_sql_query', 'SQL Query ausf&uuml;hren um diesen Benutzer anzulegen: ');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_execute_sql_query_user_exists', 'Benutzer existiert bereits: ');
