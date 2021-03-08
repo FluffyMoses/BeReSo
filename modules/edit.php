@@ -174,13 +174,42 @@ if (Item::is_owned_by_user($user,$item)) {
 	{
 		$item_sharing = Item::get_share_id($item);
 		
-		// item shared? 
+		// item shared? => disable sharing
 		if (strlen($item_sharing) > 0) 
 		{
-			// item shared - disable share - delete link
-			$sql->query("UPDATE bereso_item SET item_shareid='' WHERE item_id='".$item."'");		
+			// get old and new filename
+			$old_filename = Image::get_filename($item);
+			$new_filename = uniqid();
+			
+			// check if alle files are renamed correctly
+			$error_rename = false;
+			$error_rename_log = null;
+			
+			// rename all image files
+			if ($result = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."'"))
+			{	
+				while ($row = $result -> fetch_assoc())
+				{
+					$old_complete_filename = Image::get_filenamecomplete($item,$row['images_image_id']);
+					$new_complete_filename = $new_filename . "_" . $row['images_image_id'] . Image::get_fileextension($item,$row['images_image_id']);					
+					rename($bereso['images'].$old_complete_filename,$bereso['images'].$new_complete_filename); // rename the file
+					// check if rename failed
+					if (!file_exists($bereso['images'].$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
+				}
+			}
+			// only change db if no rename error occured
+			if ($error_rename == false)
+			{
+				// item shared - disable share - delete link + update new_filename in database
+				$sql->query("UPDATE bereso_item SET item_shareid='', item_imagename='".$new_filename."' WHERE item_id='".$item."'");
+			}
+			else
+			{
+				// Log rename error and end script
+				Log::die ("CHECK: rename item ".$item." (old imageid: ".$old_filename." - new imageid: ".$new_filename.") after end share: ".$error_rename_log);
+			}
 		}
-		else // item not shared - enable share - create link
+		else // item not shared - enable sharing - create link
 		{
 			$sql->query("UPDATE bereso_item SET item_shareid='".uniqid()."' WHERE item_id='".$item."'");		
 		}		
