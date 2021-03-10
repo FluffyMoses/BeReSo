@@ -79,5 +79,24 @@ class Image
 		return null; // no entry found
 	}	
 
+	// return image foldername by user id
+	public static function get_foldername_by_user_id($gfbui_user_id)
+	{
+		global $bereso;
+		return $bereso['images'] . $gfbui_user_id . "/";
+	}
+
+	// return image foldername by share id
+	public static function get_foldername_by_shareid($gfbs_shareid)
+	{
+		global $bereso, $sql;
+		
+		if ($result = $sql->query("SELECT item_user from bereso_item WHERE item_shareid='".$gfbs_shareid."'"))
+		{	
+			$row = $result -> fetch_assoc();
+			return $bereso['images'] . $row['item_user'] . "/";
+		}
+	}
+
 }
 ?>

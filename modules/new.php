@@ -62,12 +62,12 @@ if ($action == "add")
 				$sql->query("INSERT INTO bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$i."','".$save_fileextension."')");
 
 				// Move and rename images
-				move_uploaded_file($add_photo['tmp_name'][$i], $bereso['images'] . $add_uniqueid . "_".$i.".".$save_fileextension);
+				move_uploaded_file($add_photo['tmp_name'][$i], Image::get_foldername_by_user_id(User::get_id_by_name($user)) . $add_uniqueid . "_".$i.".".$save_fileextension);
 			}
 		}
 		
 		// Resize Thumbnail
-		$thumbnail_path = $bereso['images'] . $add_uniqueid . "_0".Image::get_fileextension($add_id,0);		
+		$thumbnail_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . $add_uniqueid . "_0".Image::get_fileextension($add_id,0);		
 		$thumbnail_old_size=getimagesize($thumbnail_path); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
 		$thumbnail_new_height=$bereso['images_thumbnail_height']; 
 		$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)

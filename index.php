@@ -185,7 +185,26 @@ $output = str_replace("(bereso_content)",$content,$output);
 $output = str_replace("(bereso_title)",$title,$output);
 $output = str_replace("(bereso_user)",$user,$output);
 $output = str_replace("(bereso_url)",$bereso['url'],$output);
-$output = str_replace("(bereso_images)",$bereso['images'],$output);
+
+// User Image folder based on user id or shareid
+$user_id = User::get_id_by_name($user);
+if (is_numeric($user_id) && $user_id > 0) // User ID is set
+{
+	$output = str_replace("(bereso_images)",Image::get_foldername_by_user_id($user_id),$output);
+}
+else 
+{
+	if (strlen($shareid) > 0) // no user id but share id set
+	{
+		$output = str_replace("(bereso_images)",Image::get_foldername_by_shareid($shareid),$output);
+	}
+	else // nothing set - unable to load images
+	{
+		$output = str_replace("(bereso_images)","ERROR/",$output);
+	}
+}
+
+
 
 // template replaces - based on user and the template that fits this user - plus always load system templates ID=0
 if ($result = $sql->query("SELECT template_text_name, template_text_text from bereso_template_text WHERE template_text_template_id='".User::get_template_id($user)."' OR template_text_template_id='0'"))

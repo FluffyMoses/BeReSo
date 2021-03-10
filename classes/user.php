@@ -115,7 +115,10 @@ class User
         if ($result = $sql->query("SELECT user_last_list from bereso_user WHERE user_name='$gllt_user'"))
 		{
 			$row = $result -> fetch_assoc();
-			return $row['user_last_list'];
+			if (!empty($row))
+			{
+				return $row['user_last_list'];
+			}
 		}
 	}
 

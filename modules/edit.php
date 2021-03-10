@@ -75,7 +75,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			// change timestamp_edit
 			$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
 				
-			unlink ($bereso['images'].Image::get_filenamecomplete($item,$item_image_id)); // delete file 
+			unlink (Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$item_image_id)); // delete file 
 			$sql->query("DELETE FROM bereso_images WHERE images_item='".$item."' AND images_image_id='".$item_image_id."'"); // delete db record for that file
 			$action = null; // Load Edit Form again	
 		}
@@ -85,7 +85,7 @@ if (Item::is_owned_by_user($user,$item)) {
 	if ($action == "turn_image_right" or $action == "turn_image_left")
 	{
 		if ($action == "turn_image_right") { $image_rotate_degrees = 270; } else { $image_rotate_degrees = 90; }
-		$image_path = $bereso['images'] . Image::get_filenamecomplete($item,$item_image_id);
+		$image_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filenamecomplete($item,$item_image_id);
 
 		// Load Jpg or Png
 		if (Image::get_header_fileextension($image_path) == ".jpg") {
@@ -125,13 +125,13 @@ if (Item::is_owned_by_user($user,$item)) {
 				if (Image::get_header_fileextension($edit_photo['tmp_name'][$item_image_id]) == ".jpg" or Image::get_header_fileextension($edit_photo['tmp_name'][$item_image_id]) == ".png") // Fileextension ok
 				{
 						// delete "old" image file 
-						@unlink ($bereso['images'].Image::get_filenamecomplete($item,$item_image_id)); 
+						@unlink (Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$item_image_id)); 
 						// delete image from database
 						$sql->query("DELETE FROM bereso_images where images_item='".$item."' AND images_image_id='".$item_image_id."'");
 						// insert new datase entry
 						$sql->query("INSERT INTO bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$item."','".$item_image_id."','".Image::get_header_fileextension($edit_photo['tmp_name'][$item_image_id],false)."')");
 						// Move and rename images
-						move_uploaded_file($edit_photo['tmp_name'][$item_image_id], $bereso['images'] . Image::get_filename($item) . "_".$item_image_id.Image::get_header_fileextension($edit_photo['tmp_name'][$item_image_id]));
+						move_uploaded_file($edit_photo['tmp_name'][$item_image_id], Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filename($item) . "_".$item_image_id.Image::get_header_fileextension($edit_photo['tmp_name'][$item_image_id]));
 						// change timestamp_edit
 						$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");					
 						// status message					
@@ -140,7 +140,7 @@ if (Item::is_owned_by_user($user,$item)) {
 						if($item_image_id == 0) // preview
 						{
 						// Resize Thumbnail
-							$thumbnail_path = $bereso['images'] . Image::get_filenamecomplete($item,0);		
+							$thumbnail_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filenamecomplete($item,0);		
 							$thumbnail_old_size=getimagesize($thumbnail_path); //[0] == width; [1] == height; [2] == type; (2 == JPEG; 3 == PNG)
 							$thumbnail_new_height=$bereso['images_thumbnail_height']; 
 							$thumbnail_new_width = round($thumbnail_old_size[0] / ($thumbnail_old_size[1] / $thumbnail_new_height),0); // oldsize_width / (oldsize_height / newsize height)
@@ -192,9 +192,9 @@ if (Item::is_owned_by_user($user,$item)) {
 				{
 					$old_complete_filename = Image::get_filenamecomplete($item,$row['images_image_id']);
 					$new_complete_filename = $new_filename . "_" . $row['images_image_id'] . Image::get_fileextension($item,$row['images_image_id']);					
-					rename($bereso['images'].$old_complete_filename,$bereso['images'].$new_complete_filename); // rename the file
+					rename(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$old_complete_filename,Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename); // rename the file
 					// check if rename failed
-					if (!file_exists($bereso['images'].$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
+					if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
 				}
 			}
 			// only change db if no rename error occured

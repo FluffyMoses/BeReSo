@@ -33,8 +33,8 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename 
 		{	
 			while ($row2 = $result2 -> fetch_assoc())
 			{
-				$old_file = $bereso['images'].Image::get_filenamecomplete($row['item_id'],$row2['images_image_id']);
-				$new_file = $bereso['images'].$add_uniqueid."_".$row2['images_image_id'].Image::get_fileextension($row['item_id'],$row2['images_image_id']);
+				$old_file = Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($row['item_id'],$row2['images_image_id']);
+				$new_file = Image::get_foldername_by_user_id(User::get_id_by_name($user)).$add_uniqueid."_".$row2['images_image_id'].Image::get_fileextension($row['item_id'],$row2['images_image_id']);
 				copy($old_file,$new_file); // copy image
 				$sql->query("INSERT into bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$row2['images_image_id']."','".Image::get_fileextension($row['item_id'],$row2['images_image_id'],false)."')");
 				header('Location: '.$bereso['url']."?module=show&item=".$add_id); // Redirect to the new created item

@@ -69,3 +69,6 @@ For example, the SQL INSERT for the user USERNAME with the hashed password PASSW
 ```sql
 INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('USERNAME','$2y$10$R46bmwUUxbnmiBE0S3JR4uKuQJA3sbP8aMz7Dgzovyp.f1g91nZuO','1');
 ```
+
+Make a folder with the name of the new created user id under the path $bereso['images'].<br>
+For example: images/3/ for the new user with the user id 3

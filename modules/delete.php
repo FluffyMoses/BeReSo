@@ -37,9 +37,9 @@ if (Item::is_owned_by_user($user,$item)) {
 		{	
 			while ($row = $result -> fetch_assoc())
 			{
-				if (file_exists($bereso['images'].Image::get_filenamecomplete($item,$row['images_image_id'])))
+				if (file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$row['images_image_id'])))
 				{
-					unlink ($bereso['images'].Image::get_filenamecomplete($item,$row['images_image_id']));
+					unlink (Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$row['images_image_id']));
 				}
 			}
 		}
