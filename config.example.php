@@ -58,8 +58,16 @@ $bereso['log_die'] = true; // enable logging of die messages in text file
 $bereso['log_die_path'] = "die.log"; // path to this textfile
 
 // Session and Cookie timeout
-ini_set('session.gc_maxlifetime', 30*24*60*60);
-ini_set('session.cookie_lifetime', 30*24*60*60);
+$bereso['session_lifetime'] = 2592000; // 30 days => 30 * 24 * 60 * 60
+
+// ###########################################
+// NO CONFIG CHANGE NEEDED BELOW THIS LINE
+// ###########################################
+
+// Set Session and Cookie timeout
+ini_set('session.gc_maxlifetime',$bereso['session_lifetime']);
+ini_set('session.cookie_lifetime', $bereso['session_lifetime']);
+session_set_cookie_params($bereso['session_lifetime']);
 
 // Read config from php.ini
 // Max allowed upload size in Bytes
