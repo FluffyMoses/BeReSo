@@ -29,5 +29,24 @@ class File
         fwrite($file, $af_text."\r\n");
     }
 
+    // returns size of all files in this directory - not recursive!
+    public static function get_directorysize($gd_path,$gd_format = "B")
+    {
+        $directorysize = 0;
+        $files = scandir($gd_path);
+        foreach ($files as $file => $value)
+        {           
+            // only files inside this directory
+            if (!is_dir($gd_path.$value))
+            {    
+                $directorysize = $directorysize + filesize($gd_path.$value);
+            }
+        }
+        // convert it to $gd_format B = Byte DEFAULT | KB = Kilobyte (1024 Byte) | MB = Megabyte (1024 Kilobyte) | GB = Gigabyte (1024 Megabyte)
+        if ($gd_format == "KB") { $directorysize = $directorysize / 1024; }
+        elseif ($gd_format == "MB") { $directorysize = $directorysize / 1024 / 1024; }
+        elseif ($gd_format == "GB") { $directorysize = $directorysize / 1024 / 1024 / 1024; }
+        return round($directorysize,2); // round directorysize
+    }
 }
 ?>
