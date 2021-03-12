@@ -1,65 +1,24 @@
 <html>
-	<head>
-		<title>(bereso_title)</title>
-		
-		<link rel="stylesheet" href="templates/css/main.css">	
-		<link rel="stylesheet" href="templates/css/menu.css">
-		
-		<link rel="shortcut icon" type="image/x-icon" href="templates/favicon.ico">			
+<head>
+	<title>(bereso_title)</title>
 
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <!-- Ios Config - webapp / no bars / viewport (smaller) -->
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;" />
-		<link rel="apple-touch-icon" href="templates/icon.png" />
+	<link rel="stylesheet" href="templates/css/main.css">
+	<link rel="stylesheet" href="templates/css/menu.css">
 
-		<script type="text/javascript">
-		// ++ Mobile Safari in standalone mode
-		if(("standalone" in window.navigator) && window.navigator.standalone){
+	<link rel="shortcut icon" type="image/x-icon" href="templates/favicon.ico">
 
-				// If you want to prevent remote links in standalone web apps opening Mobile Safari, change 'remotes' to true
-				var noddy, remotes = false;
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- Ios Config - webapp / no bars / viewport (smaller) -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;" />
+	<link rel="apple-touch-icon" href="templates/icon.png" />
 
-				document.addEventListener('click', function(event) {
+	<script src="templates/js/apple_ios.js"></script>
+	<script src="templates/js/copy_to_clipboard.js"></script>
+	<script src="templates/js/textarea_insert.js"></script>
 
-						noddy = event.target;
-
-						// Bubble up until we hit link or top HTML element. Warning: BODY element is not compulsory so better to stop on HTML
-						while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
-						noddy = noddy.parentNode;
-					}
-
-						if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes))
-						{
-								event.preventDefault();
-								document.location.href = noddy.href;
-						}
-
-				},false);
-		}
-		// -- Mobile Safari in standalone mode
-		
-		// ++ Copy to clipboard
-		function copyToClipboard(text) {
-			var dummy = document.createElement("textarea");
-			document.body.appendChild(dummy);			
-			dummy.textContent = text;
-			dummy.select();
-			document.execCommand("copy");
-			document.body.removeChild(dummy);
-		}
-		// -- Copy to clipboard
-
-		// ++ Add text to textarea at cursor position
-		function insertAtCursor (valuetarget, valuesource) {
-		  document.getElementById(valuetarget).focus();
-		  document.execCommand('insertText', false,  document.getElementById(valuesource).value);
-		}
-		// -- Add text to textarea at cursor position
-		</script>		
-
-	</head>
+</head>
 	<body bgcolor="#FFFFFF">
 		(bereso_main_navigation)
 		<center>		
