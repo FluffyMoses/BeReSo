@@ -1,4 +1,5 @@
 -- Add template 0 - DE Basetemplate - used in all other templates
+INSERT INTO `bereso_template` (`template_id`, `template_name`) VALUES (0, 'Basetemplate german');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_bereso_login', 'BeReSo Anmeldung');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_name', 'Name');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_password', 'Passwort');

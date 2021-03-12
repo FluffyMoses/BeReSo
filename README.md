@@ -1,15 +1,11 @@
 # BeReSo
-BEst REcipe SOftware<br><br>
-###################################<br>
-README.md<br>
-###################################<br>
+BEst REcipe SOftware
 
+### README.md
 The purpose of this software is to organize and categorise photos of articles or recipes, etc.<br>
 The addittional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
-<br>
-###################################<br>
-Requirements<br>
-###################################<br>
+
+### Requirements
 <ul>
   <li>Webserver with PHP installed (tested with PHP 7.4 and 8.0)</li>
   <li>The following PHP extensions (enabled in php.ini):
@@ -23,10 +19,7 @@ Requirements<br>
   <li>MySQL or MariaDB Database</li>
 </ul>
 
-###################################<br>
-Installation<br>
-###################################<br>
-
+### Installation
 <ul>
   <li>Copy everything except the sql folder in the webspace directory</li>
   <li>Edit config.example.php and rename it to config.php</li>
@@ -51,9 +44,8 @@ Installation<br>
   <li>Create the folder "images" (or rename it and change the name in the config.php)</li>
   <li>Enable write access for the webserver to this folder</li>
  </ul>
-###################################<br>
-New User<br>
-###################################<br>
+ 
+### New User
 Open this url and change the following settings:<br>
 <br>
 <a href="index.php?module=login&action=generate_user_sqlinsert&generate_user=USERNAME&generate_password=PASSWORD&generate_template=TEMPLATEID" target="_BLANK">index.php?module=login&action=generate_user_sqlinsert&generate_user=USERNAME&generate_password=PASSWORD&generate_template=TEMPLATEID</a><br>

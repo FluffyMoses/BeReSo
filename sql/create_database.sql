@@ -5,66 +5,78 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Exportiere Datenbank Struktur für bereso
+-- Dumping database structure for bereso
 CREATE DATABASE IF NOT EXISTS `bereso` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_german1_ci */;
 USE `bereso`;
 
--- Exportiere Struktur von Tabelle bereso.bereso_item
-CREATE TABLE IF NOT EXISTS `bereso_item` (
-  `item_id` int(10) NOT NULL AUTO_INCREMENT,
-  `item_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `item_text` text CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `item_user` int(10) DEFAULT NULL,
-  `item_imagename` varchar(50) DEFAULT NULL,
-  `item_timestamp_creation` int(15) DEFAULT NULL,
-  `item_timestamp_edit` int(15) DEFAULT NULL,
-  `item_shareid` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`item_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
--- Exportiere Struktur von Tabelle bereso.bereso_tags
-CREATE TABLE IF NOT EXISTS `bereso_tags` (
-  `tags_id` int(10) NOT NULL AUTO_INCREMENT,
-  `tags_name` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL DEFAULT '',
-  `tags_item` int(10) DEFAULT NULL,
-  PRIMARY KEY (`tags_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
--- Exportiere Struktur von Tabelle bereso.bereso_template
-CREATE TABLE IF NOT EXISTS `bereso_template` (
-  `template_id` int(10) NOT NULL AUTO_INCREMENT,
-  `template_name` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`template_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
--- Exportiere Struktur von Tabelle bereso.bereso_template_text
-CREATE TABLE IF NOT EXISTS `bereso_template_text` (
-  `template_text_id` int(10) NOT NULL AUTO_INCREMENT,
-  `template_text_template_id` int(10) DEFAULT NULL,
-  `template_text_name` varchar(250) NOT NULL,
-  `template_text_text` text NOT NULL DEFAULT '',
-  PRIMARY KEY (`template_text_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
--- Exportiere Struktur von Tabelle bereso.bereso_user
-CREATE TABLE IF NOT EXISTS `bereso_user` (
-  `user_id` int(10) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL,
-  `user_pwhash` varchar(250) DEFAULT NULL,
-  `user_template` int(10) DEFAULT NULL,
-  `user_last_list` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
--- Exportiere Struktur von Tabelle bereso.bereso_images
+-- Dumping structure for table bereso.bereso_images
 CREATE TABLE IF NOT EXISTS `bereso_images` (
-  `images_id` int(10) NOT NULL AUTO_INCREMENT,
-  `images_item` int(10) DEFAULT NULL,
-  `images_image_id` int(10) DEFAULT 0,
-  `images_fileextension` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL DEFAULT '',
+  `images_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of an image',
+  `images_item` int(10) DEFAULT NULL COMMENT 'item the image belongs to',
+  `images_image_id` int(10) DEFAULT 0 COMMENT 'image id 0 to (last image of the item)',
+  `images_fileextension` varchar(50) DEFAULT NULL COMMENT 'fileextension of the image',
   PRIMARY KEY (`images_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information for every single image';
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table bereso.bereso_item
+CREATE TABLE IF NOT EXISTS `bereso_item` (
+  `item_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of an item',
+  `item_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL COMMENT 'the name',
+  `item_text` text CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL COMMENT 'the description text - includes the hashtags for listing',
+  `item_user` int(10) DEFAULT NULL COMMENT 'user id of the item owner',
+  `item_imagename` varchar(50) DEFAULT NULL COMMENT 'unique name prefix of the image files',
+  `item_timestamp_creation` int(15) DEFAULT NULL COMMENT 'creation timestamp',
+  `item_timestamp_edit` int(15) DEFAULT NULL COMMENT 'last edit timestamp',
+  `item_shareid` varchar(50) DEFAULT NULL COMMENT 'unique id for the sharing link when enabled (null if disabled)',
+  `item_favorite` tinyint(1) DEFAULT NULL COMMENT 'is favorite true/false',
+  PRIMARY KEY (`item_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information for each item entry';
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table bereso.bereso_tags
+CREATE TABLE IF NOT EXISTS `bereso_tags` (
+  `tags_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a tag',
+  `tags_name` varchar(50) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL DEFAULT '' COMMENT 'tag name without the #',
+  `tags_item` int(10) DEFAULT NULL COMMENT 'item id the tag belongs to',
+  PRIMARY KEY (`tags_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores every tag used by the items in "bereso_item.item_text" and links it to the item id';
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table bereso.bereso_template
+CREATE TABLE IF NOT EXISTS `bereso_template` (
+  `template_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a template id',
+  `template_name` varchar(250) DEFAULT NULL COMMENT 'name of the template',
+  PRIMARY KEY (`template_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the name of the templates';
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table bereso.bereso_template_text
+CREATE TABLE IF NOT EXISTS `bereso_template_text` (
+  `template_text_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a template text',
+  `template_text_template_id` int(10) DEFAULT NULL COMMENT 'template id the text belongs to',
+  `template_text_name` varchar(250) NOT NULL COMMENT 'template name (called by bereso template replaces)',
+  `template_text_text` text NOT NULL DEFAULT '' COMMENT 'value that is inserted by the replace function',
+  PRIMARY KEY (`template_text_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the texts for all templates that are used by the replaces';
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table bereso.bereso_user
+CREATE TABLE IF NOT EXISTS `bereso_user` (
+  `user_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of an user',
+  `user_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL COMMENT 'login name of the user',
+  `user_pwhash` varchar(250) DEFAULT NULL COMMENT 'hashed password',
+  `user_template` int(10) DEFAULT NULL COMMENT 'template that is loaded for this user on login',
+  `user_last_list` varchar(250) DEFAULT NULL COMMENT 'last item that the user listed (needed for the back-to-list button)',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores all user informations';
+
+-- Data exporting was unselected.
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
