@@ -53,12 +53,6 @@ date_default_timezone_set('Europe/Berlin');
 $bereso['datetimestring'] = "d.m.Y H:i:s";
 $bereso['datestring'] = "d.m.Y";
 
-// Max allowed upload size
-	// example config in php.ini:
-	//post_max_size = 60M
-	//upload_max_filesize = 60M
-$bereso['max_upload_size'] = 60 * 1024 * 1024; // Size in Bytes
-
 // Logging
 $bereso['log_die'] = true; // enable logging of die messages in text file
 $bereso['log_die_path'] = "die.log"; // path to this textfile
@@ -67,4 +61,7 @@ $bereso['log_die_path'] = "die.log"; // path to this textfile
 ini_set('session.gc_maxlifetime', 30*24*60*60);
 ini_set('session.cookie_lifetime', 30*24*60*60);
 
+// Read config from php.ini
+// Max allowed upload size in Bytes
+if (Config::get_phpini_convertedsize('post_max_size') <= Config::get_phpini_convertedsize('upload_max_filesize')) { $bereso['max_upload_size'] = Config::get_phpini_convertedsize('post_max_size'); } else { $bereso['max_upload_size'] = Config::get_phpini_convertedsize('upload_max_filesize'); }
 ?>

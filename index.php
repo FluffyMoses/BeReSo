@@ -5,10 +5,8 @@
 // Main - Index
 // ###################################
 
-// Config
-include "config.php";
-
 // Classes
+include "classes/config.php"; // Static file Functions
 include "classes/file.php"; // Static file Functions
 include "classes/log.php"; // Static log Functions
 include "classes/time.php"; // Static time Functions
@@ -16,6 +14,9 @@ include "classes/user.php"; // Static user Functions
 include "classes/text.php"; // Static text Functions
 include "classes/image.php"; // Static image Functions
 include "classes/item.php"; // Static item Functions
+
+// Config
+include "config.php";
 
 // Start PHP Session
 session_start();

@@ -15,9 +15,14 @@ The addittional templates make it easy to rename the software and use it for som
       <li>extension=mbstring // mb_substr => multibyte safe substring (for example ü,ö,ä are two chars in regular substr or $string[ID] char<br></li>
     </ul>
   </li>
- 
+  <li>Set the upload parameters high engough in the php.ini. For example 60 Mb:
+    <ul>
+      <li>post_max_size = 60M</li>
+      <li>upload_max_filesize = 60M</li>
+    </ul>
+  </li>
   <li>MySQL or MariaDB Database</li>
-</ul>
+ </ul>
 
 ### Installation
 <ul>
