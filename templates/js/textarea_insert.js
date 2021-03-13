@@ -1,3 +1,10 @@
+// Bereso
+// BEst REcipe SOftware
+// ###################################
+// textarea insert
+// included by ../main.html
+// ###################################
+
 // Add text to textarea at cursor position
 function insertAtCursor(valuetarget, valuesource) {
 	document.getElementById(valuetarget).focus();

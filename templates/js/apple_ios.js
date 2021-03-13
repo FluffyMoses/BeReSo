@@ -1,3 +1,10 @@
+// Bereso
+// BEst REcipe SOftware
+// ###################################
+// apple ios
+// included by ../main.html
+// ###################################
+
 // Mobile Safari in standalone mode
 if (("standalone" in window.navigator) && window.navigator.standalone) {
 

@@ -5,18 +5,34 @@
 	<link rel="stylesheet" href="templates/css/main.css">
 	<link rel="stylesheet" href="templates/css/menu.css">
 
+	<!-- favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="templates/img/favicon.ico">
 
+	<!-- utf 8 charset -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<!-- Ios Config - webapp / no bars / viewport (smaller) -->
+
+	<!-- webapp manifest -->
+	<link rel="manifest" href="templates/json/webapp.manifest">
+
+	<!-- webapp apple specific config - webapp / no bars / icons -->
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;" />
-	<link rel="apple-touch-icon" href="templates/img/icon.png" />
+	<link rel="apple-touch-icon" href="templates/img/icon_57x57.png" type="image/png" sizes="57x57" />
+	<meta name="apple-mobile-web-app-title" content="(bereso_appname)">
+
+	<!-- webapp other devices -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="(bereso_appname)">
+	<meta name="msapplication-starturl" content="(bereso_url)index.php">
+	<link rel="icon" type="image/png" sizes="144x144" href="templates/img/icon_144x144.png">
+
+	<!-- webapp viewport config -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1" />
 
 	<script src="templates/js/apple_ios.js"></script>
 	<script src="templates/js/copy_to_clipboard.js"></script>
 	<script src="templates/js/textarea_insert.js"></script>
+	<script src="templates/js/service_worker_register.js"></script>
 
 </head>
 	<body bgcolor="#FFFFFF">

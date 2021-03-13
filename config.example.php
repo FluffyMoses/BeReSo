@@ -35,16 +35,19 @@ $bereso['images_thumbnail_height'] = 200;
 $bereso['new_amount_images'] = 5;
 
 // Version
-$bereso['version'] = "2.7";
+$bereso['version'] = "2.8";
 
 // Last update
-$bereso['last_change'] = "12.03.2021";
+$bereso['last_change'] = "13.03.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";
 
 // Title
 $bereso['title'] = "BeReSo";
+
+// Appname
+$bereso['appname'] = "BeReSo";
 
 // Timezone
 date_default_timezone_set('Europe/Berlin'); 

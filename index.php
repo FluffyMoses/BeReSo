@@ -126,7 +126,7 @@ $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 // set default title
 $title = $bereso['title']; // Browser title
 $title_addon = User::get_template_name($user);
-if (!empty($title_addon)) { $title = $title . " - " . User::get_template_name($user); }
+if (!empty($title_addon) && User::get_template_id($user) > 0) { $title = $title . " - " . $title_addon; }
 
 // Check if the user is logged in
 if (User::is_logged_in($user,$passwordhash)) 
@@ -149,6 +149,7 @@ else // not logged in => login form without menu and navigation
 // always load these modules - logged in or not
 if ($module == "share") { include ("modules/share.php"); } // share module for logged in and anonymous users
 if ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
+if ($module == "offline") { include ("modules/offline.php"); } // offline module for serviceWorker offline message
 
 // load default template if not allready loaded by module
 if ($output_default == true) { $output = File::read_file("templates/main.html"); }
@@ -184,6 +185,7 @@ else
 }
 $output = str_replace("(bereso_content)",$content,$output);
 $output = str_replace("(bereso_title)",$title,$output);
+$output = str_replace("(bereso_appname)",$bereso['appname'],$output);
 $output = str_replace("(bereso_user)",$user,$output);
 $output = str_replace("(bereso_url)",$bereso['url'],$output);
 

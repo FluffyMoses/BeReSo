@@ -1,3 +1,10 @@
+// Bereso
+// BEst REcipe SOftware
+// ###################################
+// copy to clipboard
+// included by ../main.html
+// ###################################
+
 // Copy to clipboard
 function copyToClipboard(text) {
 	var dummy = document.createElement("textarea");
