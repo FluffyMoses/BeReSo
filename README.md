@@ -2,8 +2,8 @@
 BEst REcipe SOftware
 
 ### README.md
-The purpose of this software is to organize and categorise photos of articles or recipes, etc.<br>
-The addittional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
+The purpose of this software is to organize, photos of articles, recipes, or others.<br>
+The additional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
 
 ### Requirements
 <ul>
@@ -51,17 +51,17 @@ The addittional templates make it easy to rename the software and use it for som
  </ul>
  
 ### New User
-Open this url and change the following settings:<br>
+Open the following url and change the settings as listed below:<br>
 <br>
 <a href="index.php?module=login&action=generate_user_sqlinsert&generate_user=USERNAME&generate_password=PASSWORD&generate_template=TEMPLATEID" target="_BLANK">index.php?module=login&action=generate_user_sqlinsert&generate_user=USERNAME&generate_password=PASSWORD&generate_template=TEMPLATEID</a><br>
 <br>
 <ul>
-    <li>USERNAME = username of the new user, Letters a-z, A-Z and - allowed</li>
+    <li>USERNAME = username of the new user, letters a-z, A-Z and - allowed</li>
     <li>PASSWORD = the password of the new user that will be hashed</li>
     <li>TEMPLATEID = the template id of the template the user should use, see the "Installation" step above for the id</li>
 </ul>
-Run the SQL command you get as an result and the user is created and ready to log in!<br>
-For example, the SQL INSERT for the user USERNAME with the hashed password PASSWORD and the template 1:<br>
+Run the SQL command you get as a result and the user is created and ready to log in!<br>
+As an example, the sql INSERT for the user USERNAME with the hashed password PASSWORD and the template 1:<br>
 
 ```sql
 INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('USERNAME','$2y$10$R46bmwUUxbnmiBE0S3JR4uKuQJA3sbP8aMz7Dgzovyp.f1g91nZuO','1');
