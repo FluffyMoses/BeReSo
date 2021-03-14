@@ -1,0 +1,37 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    font: 12pt "Tahoma";
+}
+
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 10mm auto;
+    background: white;
+}
+
+a.printpreview:link {
+    color: #000000;
+    text-decoration: none;
+}
+a.printpreview:visited {
+    color: #000000;
+    text-decoration: none;
+}
+a.printpreview:focus {
+    color: #000000;
+    text-decoration: none;
+}
+a.printpreview:hover {
+    color: #000000;
+    text-decoration: none;
+}
+a.printpreview:active {
+    color: #000000;
+    text-decoration: none;
+}

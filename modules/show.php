@@ -65,7 +65,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		if (strlen($item_sharing) > 0) { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_stop_sharing)",$navigation); } else { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_start_sharing)",$navigation); }
 		
 		// build output
-		$content = str_replace("(bereso_show_item_item)",$content_item,$content);
+		$content = str_replace("(bereso_show_item_images)",$content_item,$content);
 		$content = str_replace("(bereso_show_item_text)",$item_text_higlighted,$content);
 		$content = str_replace("(bereso_show_item_name)",$row['item_name'],$content);
 		$content = str_replace("(bereso_show_item_id)",$item,$content);

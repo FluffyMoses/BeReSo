@@ -135,6 +135,7 @@ if (User::is_logged_in($user,$passwordhash))
 	elseif ($module == "list") { include ("modules/list.php"); }
 	elseif ($module == "show") { include ("modules/show.php"); }
 	elseif ($module == "show_image") { include ("modules/show_image.php"); }
+	elseif ($module == "show_printpreview") { include ("modules/show_printpreview.php"); }
 	elseif ($module == "new") { include ("modules/new.php"); }
 	elseif ($module == "edit") { include ("modules/edit.php"); }
 	elseif ($module == "delete") { include ("modules/delete.php"); }
@@ -188,6 +189,7 @@ $output = str_replace("(bereso_title)",$title,$output);
 $output = str_replace("(bereso_appname)",$bereso['appname'],$output);
 $output = str_replace("(bereso_user)",$user,$output);
 $output = str_replace("(bereso_url)",$bereso['url'],$output);
+$output = str_replace("(bereso_version)",$bereso['version'],$output);
 
 // User Image folder based on user id or shareid
 $user_id = User::get_id_by_name($user);

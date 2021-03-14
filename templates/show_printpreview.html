@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>(bereso_title)</title>
+    <link rel="stylesheet" href="templates/css/main.css">
+    <link rel="stylesheet" href="templates/css/printpreview.css">
+</head>
+<body bgcolor="#FFFFFF" onload="window.print()">
+    <a href="index.php?module=show&item=(bereso_show_printpreview_item_id)" class="printpreview">
+        <div class="page">
+            <div class="boxed">
+                <p class="headline1">(bereso_show_printpreview_item_name)</p>
+                <br>
+                (bereso_show_printpreview_item_text)
+            </div>
+            <br>
+            <br>
+            <div class="boxed">
+                <center>
+                    <img src="(bereso_images)(bereso_show_printpreview_item_previewimage)" />
+                </center>
+            </div>
+            <br>
+            <br>
+            <div class="boxed">
+                <p align="right">
+                    <small>
+                        (bereso_template-show_created): (bereso_show_printpreview_item_timestamp_creation) Uhr<br>
+                        (bereso_template-show_changed): (bereso_show_printpreview_item_timestamp_edit) Uhr
+                    </small>
+                </p>
+                <br>
+                <center>
+                    <small>
+                        (bereso_template-printpreview_poweredby) (bereso_appname) (bereso_version)
+                    </small>
+                </center>
+            </div>
+        </div>
+    </a>
+
+    (bereso_show_printpreview_item_images)
+</body>
+</html>

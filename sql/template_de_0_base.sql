@@ -13,3 +13,6 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES ( 0, 'login_execute_sql_query_user_exists', 'Benutzer existiert bereits: ');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (0,'offline_header','BeReSo Offline');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (0,'offline_text','Es konnte keine Verbindung zum Server hergestellt werden. Hier klicken um es erneut zu versuchen.');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (0,'main_printpreview','Druckvorschau');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (0,'printpreview_poweredby','Powered by');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (0,'share_poweredby','Powered by');
