@@ -63,9 +63,13 @@ if (Item::is_owned_by_user($user,$item)) {
 		// Text shared or not shared
 		$item_sharing = Item::get_share_id($item);
 		if (strlen($item_sharing) > 0) { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_stop_sharing)",$navigation); } else { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_start_sharing)",$navigation); }
+		// Text favorite or not favorite
+		$item_favorite = Item::get_favorite($item);
+		if ($item_favorite == true) { $navigation = str_replace("(bereso_show_item_favorite_status)","(bereso_template-main_navigation_show_stop_favorite)",$navigation); } else { $navigation = str_replace("(bereso_show_item_favorite_status)","(bereso_template-main_navigation_show_start_favorite)",$navigation); }
 		
 		// build output
 		$content = str_replace("(bereso_show_item_images)",$content_item,$content);
+		if ($item_favorite == true) { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-favorite.html"),$content); } else { $content = str_replace("(berso_show_item_favorite)",null,$content); }
 		$content = str_replace("(bereso_show_item_text)",$item_text_higlighted,$content);
 		$content = str_replace("(bereso_show_item_name)",$row['item_name'],$content);
 		$content = str_replace("(bereso_show_item_id)",$item,$content);

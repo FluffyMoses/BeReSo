@@ -10,6 +10,7 @@
 $content = File::read_file("templates/list_tags.html");
 $content = str_replace("(bereso_list_tags_allitem_numbers)",Item::get_number($user),$content); // item count for all items of $user
 $content = str_replace("(bereso_list_tags_shareditem_numbers)",Item::get_sharednumber($user),$content); // item count for all shared items of $user
+$content = str_replace("(bereso_list_tags_favoriteitem_numbers)",Item::get_favoritenumber($user),$content); // item count for all favorite items of $user
 
 if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
 {	

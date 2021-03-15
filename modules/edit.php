@@ -218,6 +218,24 @@ if (Item::is_owned_by_user($user,$item)) {
 		exit();		
 	}
 	
+	// favorite toggle on/off
+	if ($action == "favorite")
+	{
+		$item_favorite = Item::get_favorite($item);
+		
+		// item favorite? => disable favorite
+		if ($item_favorite == true) 
+		{
+			Item::set_favorite($item,false);
+		}
+		else
+		{
+			Item::set_favorite($item,true);
+		}	
+		// redirect back to show.php
+		header('Location: ?module=show&item='.$item,true, 301 ); 
+		exit();		
+	}
 
 	// Show form for item
 	if ($action == null){

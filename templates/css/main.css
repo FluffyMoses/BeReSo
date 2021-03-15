@@ -40,14 +40,19 @@ div.boxednopadding {
   box-shadow: 10px 10px 5px #aaaaaa;
 }
 
-img.maxwidthlimit {
+img.maxwidthheightlimit {
 	max-width: 200;
 	max-height: 200;
 }
 
-img.maxwidthlimit2 {
+img.maxwidthheightlimit2 {
 	max-width: 40;
 	max-height: 30;
+}
+
+img.favorite {
+	max-width: 15;
+	max-height: 15;
 }
 
 p.headline1 { color: #333333; font-family: 'Bitter', serif; font-size: 24px; font-weight: bold;  }

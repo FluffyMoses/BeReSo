@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bereso_item` (
   `item_timestamp_creation` int(15) DEFAULT NULL COMMENT 'creation timestamp',
   `item_timestamp_edit` int(15) DEFAULT NULL COMMENT 'last edit timestamp',
   `item_shareid` varchar(50) DEFAULT NULL COMMENT 'unique id for the sharing link when enabled (null if disabled)',
-  `item_favorite` tinyint(1) DEFAULT NULL COMMENT 'is favorite true/false',
+  `item_favorite` tinyint(1) DEFAULT 0 COMMENT 'is favorite true/false',
   PRIMARY KEY (`item_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information for each item entry';
 

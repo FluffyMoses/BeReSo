@@ -51,3 +51,6 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'edit_preview_image', 'Vorschaubild');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'new_add_hashtag', '= Hashtag einf&uuml;gen =');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'edit_add_hashtag', '= Hashtag einf&uuml;gen =');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'list_tags_all_favorite_items', 'Favoriten');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'main_navigation_show_stop_favorite', 'Favorit entfernen');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`) VALUES (3, 'main_navigation_show_start_favorite', 'Favorit hinzuf&uuml;gen');

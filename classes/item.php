@@ -31,6 +31,33 @@ class Item
 		}                		
 	}	
 
+	// set item favorite status true/false
+	public static function set_favorite($sf_item_id,$sf_status)
+	{
+		global $sql;		
+		if ($sf_status == true) { $set_status = 1; } else { $set_status = 0; } // status variable for db entry		
+        $sql->query("UPDATE bereso_item SET item_favorite='".$set_status."' WHERE item_id='$sf_item_id'");
+	}
+
+	// get favorite status true/false
+	public static function get_favorite($gf_item_id)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT item_favorite from bereso_item WHERE item_id='$gf_item_id'"))
+		{
+			$row = $result -> fetch_assoc();
+			if ($row['item_favorite'] == 1) 
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}                		
+	}	
+
+
 	// get item share id
 	public static function get_share_id($gsi_item_id)
 	{
@@ -73,6 +100,14 @@ class Item
 	{
 		global $sql;
         if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND LENGTH(item_shareid) > 0"))
+		return mysqli_num_rows($result);
+	}	
+	
+	// get number of favorite items of user
+	public static function get_favoritenumber($gs_user) 
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_favorite = '1'"))
 		return mysqli_num_rows($result);
 	}		
 }

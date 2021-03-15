@@ -52,6 +52,12 @@ elseif (strlen($tag) > 0)
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND LENGTH(item_shareid) > 0 ORDER BY item_name ASC";
 		$list_items_headline = "(bereso_template-list_tags_all_shared_items)";
 	}	
+	// list all favorite items
+	elseif ($tag == "FAVORITE") 
+	{
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_favorite='1' ORDER BY item_name ASC";
+		$list_items_headline = "(bereso_template-list_tags_all_favorite_items)";
+	}	
 	// list items with $tag
 	else
 	{
@@ -80,6 +86,7 @@ if (strlen($sql_list_items) > 0)
 		while ($row = $result -> fetch_assoc())
 		{
 			$content_item .= File::read_file("templates/list-item.html");
+			if (Item::get_favorite($row['item_id']) == true) { $content_item = str_replace("(berso_list_item_favorite)",File::read_file("templates/list-item-favorite.html"),$content_item); } else { $content_item = str_replace("(berso_list_item_favorite)",null,$content_item); }
 			$content_item = str_replace("(bereso_item_id)",$row['item_id'],$content_item);
 			$content_item = str_replace("(bereso_item_imagename)",Image::get_filename($row['item_id']),$content_item);
 			$content_item = str_replace("(bereso_item_name)",$row['item_name'],$content_item);		

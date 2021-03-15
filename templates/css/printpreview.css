@@ -14,7 +14,7 @@ body {
     background: white;
 }
 
-img.printpreviewmaxwidthlimit {
+img.printpreviewmaxwidthheightlimit {
     max-width: 100%;
     max-height: 290mm; /* not sure about this value - seems too high (complete page hight is 297mm, minus padding and boxed div should be less...) but is kind of working */
 }
