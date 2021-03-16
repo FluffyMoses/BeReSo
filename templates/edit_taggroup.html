@@ -1,0 +1,25 @@
+<p class="headline1">(bereso_template-edit_taggroup)</p>
+<br>
+
+<div class="boxed">
+	<form enctype="multipart/form-data" action="?module=edit_taggroup&action=edit&taggroupid=(bereso_edit_taggroupid)" method="POST">
+		<p class="headline2">(bereso_template-edit_taggroup_name)<p>
+		<input name="edit_name" type="text" style="width:100%;" value="(bereso_edit_taggroup_edit_name)" />
+		<p class="headline2">(bereso_template-edit_taggroup_description)<p>
+
+		<textarea name="edit_text" rows="10" cols="32" style="width:100%;" id="add_text">(bereso_edit_taggroup_edit_text)</textarea>
+
+		<br>
+		(bereso_edit_taggroup_message)
+		<br>
+
+		<select name="addtagtotextarea" id="addtagtotextarea" <select onchange="insertAtCursor('add_text','addtagtotextarea')">
+		<option value="">(bereso_template-edit_taggroup_add_hashtag)</option>
+		(bereso_edit_taggroup_insert_hashtag)
+		</select>
+
+		<input type="submit" value="(bereso_template-edit_taggroup_save)" />
+	</form>
+</div>
+<br>
+

@@ -115,7 +115,7 @@ if ($action == null){
 		{
 			$insert_hashtag .= File::read_file("templates/new-hashtag.html");
 			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
-			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
+			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name']." ",$insert_hashtag);
 		}
 	}
 	$content = str_replace("(bereso_new_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 

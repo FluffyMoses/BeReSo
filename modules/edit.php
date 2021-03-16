@@ -308,7 +308,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				{
 					$insert_hashtag .= File::read_file("templates/edit-hashtag.html");
 					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
-					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_value)","#".$row['tags_name'],$insert_hashtag);
+					$insert_hashtag = str_replace("(bereso_edit_item_insert_hashtag_value)","#".$row['tags_name']." ",$insert_hashtag);
 				}
 			}
 			$content = str_replace("(bereso_edit_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 

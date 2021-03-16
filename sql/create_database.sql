@@ -1,13 +1,25 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- Dumping database structure for bereso
 CREATE DATABASE IF NOT EXISTS `bereso` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_german1_ci */;
 USE `bereso`;
+
+-- Dumping structure for table bereso.bereso_group
+CREATE TABLE IF NOT EXISTS `bereso_group` (
+  `group_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a tag group',
+  `group_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'name of a tag group',
+  `group_user` int(10) DEFAULT NULL COMMENT 'user id of the tag group owner',
+  `group_text` text DEFAULT NULL COMMENT 'text with all hashtages that are included by the tag group',
+  PRIMARY KEY (`group_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information about tag groups';
+
+-- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_images
 CREATE TABLE IF NOT EXISTS `bereso_images` (
@@ -69,15 +81,17 @@ CREATE TABLE IF NOT EXISTS `bereso_template_text` (
 -- Dumping structure for table bereso.bereso_user
 CREATE TABLE IF NOT EXISTS `bereso_user` (
   `user_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of an user',
-  `user_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german2_ci NOT NULL COMMENT 'login name of the user',
-  `user_pwhash` varchar(250) DEFAULT NULL COMMENT 'hashed password',
+  `user_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL COMMENT 'login name of the user',
+  `user_pwhash` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'hashed password',
   `user_template` int(10) DEFAULT NULL COMMENT 'template that is loaded for this user on login',
-  `user_last_list` varchar(250) DEFAULT NULL COMMENT 'last item that the user listed (needed for the back-to-list button)',
+  `user_last_list` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'last tag that the user listed (needed for the back-to-list button)',
+  `user_last_taggroup` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'last taggroup that the user listed (needed for the back-to-list_tags button)',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores all user informations';
 
 -- Data exporting was unselected.
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

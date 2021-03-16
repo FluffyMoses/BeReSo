@@ -109,10 +109,10 @@ class User
 	}		
 
 	// get last listed tag for this user
-	public static function get_last_list($gllt_user)
+	public static function get_last_list($gll_user)
 	{
 		global $sql;
-        if ($result = $sql->query("SELECT user_last_list from bereso_user WHERE user_name='$gllt_user'"))
+        if ($result = $sql->query("SELECT user_last_list from bereso_user WHERE user_name='$gll_user'"))
 		{
 			$row = $result -> fetch_assoc();
 			if (!empty($row))
@@ -123,10 +123,31 @@ class User
 	}
 
 	// set last listed tag for this user
-	public static function set_last_list($sllt_user,$sllt_tag)
+	public static function set_last_list($sll_user,$sll_tag)
 	{
 		global $sql;
-        $sql->query("UPDATE bereso_user SET user_last_list='".$sllt_tag."' WHERE user_name='$sllt_user'");
+        $sql->query("UPDATE bereso_user SET user_last_list='".$sll_tag."' WHERE user_name='$sll_user'");
+	}
+
+	// get last listed taggroup for this user
+	public static function get_last_taggroup($glt_user)
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT user_last_taggroup from bereso_user WHERE user_name='$glt_user'"))
+		{
+			$row = $result -> fetch_assoc();
+			if (!empty($row))
+			{
+				return $row['user_last_taggroup'];
+			}
+		}
+	}
+
+	// set last listed taggroup for this user
+	public static function set_last_taggroup($slt_user,$slt_tag)
+	{
+		global $sql;
+        $sql->query("UPDATE bereso_user SET user_last_taggroup='".$slt_tag."' WHERE user_name='$slt_user'");
 	}
 }
 ?>

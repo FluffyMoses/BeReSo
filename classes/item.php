@@ -88,10 +88,10 @@ class Item
 	}		
 
 	// get number of items of user tag
-	public static function get_number_by_tag_id($gnbti_tag_name,$gnbti_user) 
+	public static function get_number_by_tag($gnbt_tag_name,$gnbti_user) 
 	{
 		global $sql;
-        if ($result = $sql->query("SELECT * from bereso_tags  INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_tags.tags_name='$gnbti_tag_name' AND bereso_item.item_user='".User::get_id_by_name($gnbti_user)."'"))
+        if ($result = $sql->query("SELECT * from bereso_tags  INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_tags.tags_name='$gnbt_tag_name' AND bereso_item.item_user='".User::get_id_by_name($gnbti_user)."'"))
 		return mysqli_num_rows($result);
 	}		
 
