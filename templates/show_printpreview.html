@@ -5,22 +5,27 @@
     <link rel="stylesheet" href="templates/css/printpreview.css">
 </head>
 <body bgcolor="#FFFFFF" onload="window.print()">
-    <a href="index.php?module=show&item=(bereso_show_printpreview_item_id)" class="printpreview">
-        <div class="page">
+    
+    <div class="page">
+        <a href="index.php?module=show&item=(bereso_show_printpreview_item_id)" class="printpreview">
             <div class="boxed">
                 <p class="headline1">(bereso_show_printpreview_item_name)</p>
                 <br>
                 (bereso_show_printpreview_item_text)
             </div>
-            <br>
-            <br>
+        </a>
+        <br>
+        <br>
+        <a href="index.php?module=show&item=(bereso_show_printpreview_item_id)" class="printpreview">
             <div class="boxed">
                 <center>
                     <img src="(bereso_images)(bereso_show_printpreview_item_previewimage)" />
                 </center>
             </div>
-            <br>
-            <br>
+        </a>
+        <br>
+        <br>
+        <a href="index.php?module=show&item=(bereso_show_printpreview_item_id)" class="printpreview">
             <div class="boxed">
                 <p align="right">
                     <small>
@@ -35,8 +40,8 @@
                     </small>
                 </center>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>    
 
     (bereso_show_printpreview_item_images)
 </body>

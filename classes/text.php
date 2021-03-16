@@ -38,7 +38,7 @@ class Text
 		return true; // no wrong char found
 	}
 		
-	// Highlight Text - newline, hashtaglinks, http(s) links, etc
+	// Highlight text - newline, hashtaglinks, http(s) links, etc
 	public static function highlight_text($ht_text)
 	{
 		// # link with tag list - known problems with öäüß_ in #
@@ -52,7 +52,7 @@ class Text
 		return $ht_text;
 	}
 	
-	// Highlight Text Share - newline, http(s) links, etc
+	// Highlight text share - newline, http(s) links, etc
 	public static function highlight_text_share($ht_text)
 	{
 		// # highlight # - known problems with öäüß_ in #
@@ -65,6 +65,20 @@ class Text
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}	
+
+	// Highlight text printpreview - newline, http(s) links, etc
+	public static function highlight_text_printpreview($ht_text)
+	{
+		// # highlight # - known problems with öäüß_ in #
+		preg_match_all("/(#\w+)/", $ht_text, $matches);
+		for ($i=0;$i<count($matches[0]);$i++)
+		{
+			$ht_text = str_replace($matches[0][$i],"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>",$ht_text);
+		}			
+		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
+		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<font color="blue"><u>$2</u></font>', $ht_text); // https http insert real link		
+		return $ht_text;
+	}
 
 }
 ?>
