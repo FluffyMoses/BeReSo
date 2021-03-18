@@ -5,6 +5,7 @@
 // Install
 // ###################################
 
+// ###################################
 // Howto install:
 // Edit config.php first!
 
@@ -16,17 +17,13 @@
 // 5) delete install.php file
 
 // Login with your new created user
-
-
-// ###########################################
-// NO CONFIG CHANGE NEEDED BELOW THIS LINE
-// ###########################################
-
+// ###################################
 
 // Classes
 include("classes/config.php");
 include("classes/file.php");
 include("classes/user.php");
+include("classes/text.php");
 
 
 // Config
@@ -35,7 +32,7 @@ include("config.php");
 
 // Installer language - use bereso default language if available
 if ($bereso['default_language'] == "de" ) { $installer['language'] = "de"; }
-else { $installer['language'] = "en"; } // english is always fallback
+else { $installer['language'] = "en"; } // english is always the fallback language
 
 // check tables
 $installer['tables'] = array(
@@ -57,6 +54,22 @@ $installer['phpextensions'] = array(
 );
 
 
+// SQL scripts that will be executed
+$installer['sql'] = array(
+	"sql/create_tables.sql",						// create bereso tables in database
+
+	// german template
+	"sql/de/template_de_0_base.sql",				// german base template
+	"sql/de/template_de_1_rezeptverwaltung.sql",	// german template recipe management
+	"sql/de/template_de_2_kreativ.sql",				// german template creative articles
+	"sql/de/template_de_3_projektverwaltung.sql",	// german template project management
+
+	// english template
+	"sql/en/template_en_0_base.sql",				// english base template
+	"sql/en/template_en_4_recipemanagement.sql",	// english template recipe management
+);
+
+
 // Installer languages text
 
 // german
@@ -72,11 +85,14 @@ $installer['text']['de']['table_not_exists'] = "Tabellen existieren nicht:";
 $installer['text']['de']['create_tables'] = "Erstelle Tabellen und f&uuml;ge Templates ein";
 $installer['text']['de']['create_user'] = "Erstelle Benutzer";
 $installer['text']['de']['query_sql_error'] = "SQL Query Fehler:";
-$installer['text']['de']['installation_successfull'] = "Installation erfolgreich!<br><br>L&ouml;sche die install.php vom Webserver und starte BeReSo!";
-$installer['text']['de']['user_name'] = "Name";
+$installer['text']['de']['installation_successfull'] = "Installation erfolgreich!<br><br>L&ouml;sche die install.php und den sql Ordner vom Webserver und starte BeReSo!";
+$installer['text']['de']['user_name'] = "Name (nur a-z, A-Z und - erlaubt)";
 $installer['text']['de']['user_password'] = "Passwort";
+$installer['text']['de']['user_name_error'] = "Name enh&auml;lt ung&uuml;ltige Zeichen.<br>";
+$installer['text']['de']['user_password_error'] = "Passwort enh&auml;lt ung&uuml;ltige Zeichen.<br>";
 $installer['text']['de']['user_template'] = "Template";
 $installer['text']['de']['phpextensions'] = "PHP Extensions geladen";
+$installer['text']['de']['user_createfolder_error'] = "Fehler beim erstellen des Benutzer Bilderordners: ";
 
 // english
 $installer['text']['en']['bereso_installer'] = "BeReSo Installer";
@@ -91,11 +107,14 @@ $installer['text']['en']['table_not_exists'] = "Tables not exists:";
 $installer['text']['en']['create_tables'] = "Create tables and install templates";
 $installer['text']['en']['create_user'] = "Create user";
 $installer['text']['en']['query_sql_error'] = "SQL query error:";
-$installer['text']['en']['installation_successfull'] = "Installation successfull!<br><br>Delete the install.php file from your webserver and run BeReSo!";
-$installer['text']['en']['user_name'] = "Name";
+$installer['text']['en']['installation_successfull'] = "Installation successfull!<br><br>Delete the install.php file and the sql folder from your webserver and run BeReSo!";
+$installer['text']['en']['user_name'] = "Name (nur a-z, A-Z and - allowed)";
 $installer['text']['en']['user_password'] = "Password";
+$installer['text']['en']['user_name_error'] = "Name contains forbidden characters.<br>";
+$installer['text']['en']['user_password_error'] = "Password contains forbidden characters.<br>";
 $installer['text']['en']['user_template'] = "Template";
 $installer['text']['en']['phpextensions'] = "PHP extensions loaded";
+$installer['text']['en']['user_createfolder_error'] = "Error while creating the user image folder: ";
 
 
 // Installer HTML templates
@@ -109,7 +128,7 @@ $installer['template']['main'] = '
 		<br>
 		<center>
 			<table width="600" cellpadding="0" cellspacing="0" border="0"><tr><td>
-				<p class="headline1">'.$installer['text'][$installer['language']]['bereso_installer']." ".$bereso['version'].'</p>
+				<p class="headline1">(installer_bereso_installer) (bereso_version)</p>
 				<br>
 				(installer_content)
 		</center>
@@ -132,7 +151,7 @@ $installer['template']['requirements_user_not_exists'] = '
 		<select name="user_templateid">
 			(installer_template_options)
 		</select>
-		<br><br>	
+		<br><font color="red">(installer_user_error)</font><br>	
 		<input type="submit" value="(installer_requirements_create_user)" />
 	</form>
 </div>
@@ -156,21 +175,12 @@ $installer['template']['template_options'] = '
 ';
 
 
-
-// SQL scripts that will be executed
-$installer['sql'] = array(
-	"sql/create_tables.sql",						// create bereso tables in database
-
-	// german template
-	"sql/de/template_de_0_base.sql",				// german base template
-	"sql/de/template_de_1_rezeptverwaltung.sql",	// german template recipe management
-	"sql/de/template_de_2_kreativ.sql",				// german template creative articles
-	"sql/de/template_de_3_projektverwaltung.sql",	// german template project management
-
-	// english template
-	"sql/en/template_en_0_base.sql",				// english base template
-	"sql/en/template_en_4_recipemanagement.sql",	// english template recipe management
-);
+// init variables
+$output = $installer['template']['main']; // THE output variable - init with main html code
+$content = null; // content variable
+$content_tables = null;
+$content_extension = null;
+$content_usererror = null;
 
 
 // GET and POST variables
@@ -180,11 +190,28 @@ $user_password = @$_POST['user_password'];
 $user_templateid = @$_POST['user_templateid'];
 
 
-// init variables
-$output = $installer['template']['main']; // THE output variable - init with main html code
-$content = null; // content variable
-$content_tables = null;
-$content_extension = null;
+// check the post variables
+if ($action == "create_user") // only check variables if posted
+{ 
+	if (!Text::is_letter($user_name,"a-z-") or strlen($user_name) == 0) { // check if name is ok
+		$check_post['user'] = false;
+		echo $installer['language'];
+		$content_usererror .= $installer['text'][$installer['language']]['user_name_error'];
+	}
+	else
+	{
+		$check_post['user'] = true;
+		if (!Text::is_letter($user_password,"a-z0-9 SPECIAL") or strlen($user_password) == 0) // check if password is ok
+		{
+			$check_post['user'] = false;
+			$content_usererror .= $installer['text'][$installer['language']]['user_password_error'];
+		}
+		else
+		{
+			$check_post['user'] = true; 
+		}
+	}
+}
 
 
 // Requirements
@@ -288,12 +315,18 @@ if ($action == "create_tables")
 }
 
 // create user
-if ($action == "create_user")
+if ($action == "create_user" && $check_post['user'] == true)
 {
 	// check if name, password and templateid are not empty
 	if(strlen($user_name) > 0 && strlen($user_password) > 0 && is_numeric($user_templateid))
 	{
-		$sql->query("INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('".$user_name."','".User::generate_password_hash($user_password)."','".$user_templateid."')");
+		$sql->query("INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('".$user_name."','".User::generate_password_hash($user_password)."','".$user_templateid."')"); // save new user to the database
+		$add_id = $sql->insert_id;
+		// create image folder for this user
+		if (!@mkdir($bereso['images'].$add_id)) 
+		{
+			die($installer['text'][$installer['language']]['user_createfolder_error'] . $bereso['images'].$add_id);
+		}
 	}
 
 	header('Location: install.php'); // Redirect to the startpage
@@ -367,6 +400,8 @@ if ($check_requirement['phpextensions'] == true)
 					$content = str_replace("(installer_user_password)",$installer['text'][$installer['language']]['user_password'],$content);
 					$content = str_replace("(installer_user_template)",$installer['text'][$installer['language']]['user_template'],$content);
 					$content = str_replace("(installer_template_options)",$installer['template']['template_options'],$content);
+					// insert error message for username or password
+					if (strlen($content_usererror) > 0) { $content = str_replace("(installer_user_error)",$content_usererror,$content); } else { $content = str_replace("(installer_user_error)",null,$content); }
 				}
 				else
 				{
@@ -387,6 +422,8 @@ if ($check_requirement['tables_exist'] == true && $check_requirement['user_exist
 // replaces
 $output = str_replace("(installer_content)",$content,$output); // insert content in output template
 $output = str_replace("(bereso_title)",$installer['text'][$installer['language']]['bereso_installer']." ".$bereso['version'],$output); // insert title
+$output = str_replace("(bereso_version)",$bereso['version'],$output); // insert bereso version
+$output = str_replace("(installer_bereso_installer)",$installer['text'][$installer['language']]['bereso_installer'],$output); // insert installer text in main template
 
 
 // Close SQL connection

@@ -176,6 +176,10 @@ if (mysqli_connect_errno()) {
 $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 
 
+// if install.php is still on the webserver while user trys to run bereso
+if (file_exists("install.php")) { Log::die ("Delete install.php after setup to run BeReSo!"); }
+
+
 // set default title
 $title = $bereso['title']; // Browser title
 $title_addon = User::get_template_name($user);
