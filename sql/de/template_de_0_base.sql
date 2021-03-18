@@ -1,0 +1,17 @@
+-- Add template 0 (basetemplate is always 0 for alle languages) - DE Basetemplate - used in all other templates when language is german
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_bereso_login', 'BeReSo Anmeldung', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_name', 'Name', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_password', 'Passwort', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_login', 'Anmelden', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'share_image_error', 'Eintrag nicht mehr Freigegeben oder Share ID falsch!', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'share_shared_by', 'Freigegeben von', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_error_username_or_password', 'Benutzername oder Passwort falsch', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_user_logged_out', 'Benutzer erfolgreich abgemeldet.', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'share_error', 'Eintrag nicht mehr Freigegeben oder Share ID falsch!', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_execute_sql_query', 'SQL Query ausf&uuml;hren um diesen Benutzer anzulegen: ', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_execute_sql_query_user_exists', 'Benutzer existiert bereits: ', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'offline_header', 'BeReSo Offline', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'offline_text', 'Es konnte keine Verbindung zum Server hergestellt werden. Hier klicken um es erneut zu versuchen.', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'main_printpreview', 'Druckvorschau', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'printpreview_poweredby', 'Powered by', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'share_poweredby', 'Powered by', 'de');

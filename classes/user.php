@@ -9,7 +9,7 @@
 class User 
 {
 
-	// get templatename by user_id
+	// get templatename by user name
 	public static function get_template_name($gtn_user)
 	{
 		global $sql;	
@@ -25,7 +25,24 @@ class User
 		return null; 
 	}
 
-	// get template id of a user by user_id
+
+	// get language by user name
+	public static function get_language($gl_user)
+	{
+		global $sql;	
+        if ($result = $sql->query("SELECT template_language FROM bereso_template WHERE template_id='".User::get_template_id($gl_user)."'"))
+		{
+			$row = $result -> fetch_assoc();
+			// return the matching language
+			if (!empty($row))
+			{
+				return $row['template_language'];
+			}
+		}
+		return null; 
+	}
+
+	// get template id of a user by user name
 	public static function get_template_id($gti_user)
 	{
 		global $sql;	

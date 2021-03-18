@@ -22,6 +22,10 @@ $bereso['sql']['user'] = "DBUser";
 $bereso['sql']['password'] = "DBPassword";
 $bereso['sql']['database'] = "DBName";
 
+// Default language template
+// en or de
+$bereso['default_language'] = "en";
+
 // Main URL
 $bereso['url'] = "http://bereso/";
 
@@ -35,7 +39,7 @@ $bereso['images_thumbnail_height'] = 200;
 $bereso['new_amount_images'] = 5;
 
 // Version
-$bereso['version'] = "3.1";
+$bereso['version'] = "3.2";
 
 // Last update
 $bereso['last_change'] = "18.03.2021";

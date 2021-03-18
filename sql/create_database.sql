@@ -1,4 +1,4 @@
-*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
@@ -61,7 +61,8 @@ CREATE TABLE IF NOT EXISTS `bereso_tags` (
 -- Dumping structure for table bereso.bereso_template
 CREATE TABLE IF NOT EXISTS `bereso_template` (
   `template_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a template id',
-  `template_name` varchar(250) DEFAULT NULL COMMENT 'name of the template',
+  `template_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'name of the template',
+  `template_language` varchar(50) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'language of the template',
   PRIMARY KEY (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the name of the templates';
 
@@ -71,8 +72,9 @@ CREATE TABLE IF NOT EXISTS `bereso_template` (
 CREATE TABLE IF NOT EXISTS `bereso_template_text` (
   `template_text_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a template text',
   `template_text_template_id` int(10) DEFAULT NULL COMMENT 'template id the text belongs to',
-  `template_text_name` varchar(250) NOT NULL COMMENT 'template name (called by bereso template replaces)',
-  `template_text_text` text NOT NULL DEFAULT '' COMMENT 'value that is inserted by the replace function',
+  `template_text_name` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL COMMENT 'template name (called by bereso template replaces)',
+  `template_text_text` text CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '' COMMENT 'value that is inserted by the replace function',
+  `template_text_language` varchar(50) DEFAULT NULL COMMENT 'language of the template text',
   PRIMARY KEY (`template_text_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the texts for all templates that are used by the replaces';
 

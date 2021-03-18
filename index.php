@@ -182,6 +182,14 @@ $title_addon = User::get_template_name($user);
 if (!empty($title_addon) && User::get_template_id($user) > 0) { $title = $title . " - " . $title_addon; }
 
 
+// set language
+$language = User::get_language($user);
+if ($language == null) // User is not logged in -> set system default language
+{
+	$language = $bereso['default_language'];
+}
+
+
 // Load Modules
 
 // Check if the user is logged in and load the following modules
@@ -300,7 +308,7 @@ else
 
 
 // template replaces - based on user and the template that fits this user - plus always load system templates ID=0
-if ($result = $sql->query("SELECT template_text_name, template_text_text from bereso_template_text WHERE template_text_template_id='".User::get_template_id($user)."' OR template_text_template_id='0'"))
+if ($result = $sql->query("SELECT template_text_name, template_text_text from bereso_template_text WHERE (template_text_template_id='".User::get_template_id($user)."' OR template_text_template_id='0') AND template_text_language='".$language."'"))
 {
 	while($row = $result -> fetch_assoc())
 	{
