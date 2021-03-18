@@ -49,7 +49,7 @@ if ($action == "dologin")
 			$_SESSION['passwordhash'] = $passwordhash;		
 			
 		header('Location: '.$bereso['url'],true, 301 ); // Redirect to the startpage after successfull login!
-		exit();
+		exit(); // stops the rest of the script from running 
 	}
 	else // not successful login 
 	{	

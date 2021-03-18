@@ -50,6 +50,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		$sql->query("DELETE FROM bereso_images where images_item='".$item."'");
 		
 		header('Location: '.$bereso['url']); // Redirect to the startpage
+		exit(); // stops the rest of the script from running 
 	}
 }
 else

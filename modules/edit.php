@@ -215,7 +215,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		}		
 		// redirect back to show.php
 		header('Location: ?module=show&item='.$item,true, 301 ); 
-		exit();		
+		exit(); // stops the rest of the script from running 
 	}
 	
 	// favorite toggle on/off
@@ -234,7 +234,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		}	
 		// redirect back to show.php
 		header('Location: ?module=show&item='.$item,true, 301 ); 
-		exit();		
+		exit(); // stops the rest of the script from running 
 	}
 
 	// Show form for item

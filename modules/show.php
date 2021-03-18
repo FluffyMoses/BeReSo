@@ -26,6 +26,7 @@ if ($action == "random")
 		else
 		{
 			header('Location: '.$bereso['url']); // Redirect to the startpage
+			exit(); // stops the rest of the script from running 
 		}
 	}	
 }

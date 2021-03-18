@@ -28,6 +28,7 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 		$sql->query("DELETE FROM bereso_group where group_id='".$taggroupid."' AND group_user='".$userid."'");
 		
 		header('Location: '.$bereso['url']); // Redirect to the startpage
+		exit(); // stops the rest of the script from running 
 	}
 }
 else
