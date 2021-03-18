@@ -169,9 +169,9 @@ if ($module == "") { $module = "list_tags"; }
 
 
 // SQL connection
-$sql = new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['password'],$bereso['sql']['database']); 
+$sql = @new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['password'],$bereso['sql']['database']); 
 if (mysqli_connect_errno()) {
-    Log::die("Connect failed: " . mysqli_connect_error()); // log problems with SQL Connection
+    Log::die("Connect failed: " . mysqli_connect_error(), false); // log problems with SQL Connection
 }
 $sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 
@@ -321,7 +321,7 @@ if ($result = $sql->query("SELECT template_text_name, template_text_text from be
 $sql->close();
 
 
-// echo output
+// output header
 header('Content-Type: text/html; charset=UTF-8'); // UTF 8 Output
 
 

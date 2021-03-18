@@ -6,10 +6,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for bereso
-CREATE DATABASE IF NOT EXISTS `bereso` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_german1_ci */;
-USE `bereso`;
-
 -- Dumping structure for table bereso.bereso_group
 CREATE TABLE IF NOT EXISTS `bereso_group` (
   `group_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of a tag group',
