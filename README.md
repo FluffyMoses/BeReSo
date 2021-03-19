@@ -4,6 +4,7 @@ BEst REcipe SOftware
 ### README.md
 The purpose of this software is to organize photos of articles, recipes, or others.<br>
 The additional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
+BeReSo is still under developement, so a few nice-to-have features, like a webinterface for usermanagement, are still missing, but are planned for the future.<br>
 
 ### Requirements
 <ul>
