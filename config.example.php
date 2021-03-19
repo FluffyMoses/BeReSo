@@ -42,7 +42,7 @@ $bereso['new_amount_images'] = 5;
 $bereso['version'] = "3.2";
 
 // Last update
-$bereso['last_change'] = "18.03.2021";
+$bereso['last_change'] = "19.03.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";
