@@ -292,23 +292,8 @@ $output = str_replace("(bereso_url)",$bereso['url'],$output); // insert bereso u
 $output = str_replace("(bereso_version)",$bereso['version'],$output); // insert bereso version
 
 
-// User Image folder based on user id or shareid
-$user_id = User::get_id_by_name($user);
-if (is_numeric($user_id) && $user_id > 0) // User ID is set
-{
-	$output = str_replace("(bereso_images)",Image::get_foldername_by_user_id($user_id),$output);
-}
-else 
-{
-	if (strlen($shareid) > 0) // no user id but share id set
-	{
-		$output = str_replace("(bereso_images)",Image::get_foldername_by_shareid($shareid),$output);
-	}
-	else // nothing set - unable to load images
-	{
-		$output = str_replace("(bereso_images)","ERROR/",$output);
-	}
-}
+// if user is logged in - insert user specific image folder
+if (User::is_logged_in($user,$passwordhash)) { $output = str_replace("(bereso_images)",Image::get_foldername_by_user_id(User::get_id_by_name($user)),$output); }
 
 
 // template replaces - based on user and the template that fits this user - plus always load system templates ID=0

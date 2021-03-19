@@ -22,7 +22,8 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_user from 
 			$output = str_replace("(bereso_share_image_item_name)",$row['item_name'],$output);
 			$output = str_replace("(bereso_share_image_imagename)",Image::get_filename($row['item_id']),$output);	
 			$output = str_replace("(bereso_share_image_image_id)",$share_image_id,$output);
-			$output = str_replace("(bereso_share_image_extension)",Image::get_fileextension($row['item_id'],$share_image_id),$output);			
+			$output = str_replace("(bereso_share_image_extension)",Image::get_fileextension($row['item_id'],$share_image_id),$output);	
+			$output = str_replace("(bereso_images_share)",Image::get_foldername_by_shareid($shareid),$output);
 	}
 	else
 	{

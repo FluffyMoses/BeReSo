@@ -48,7 +48,8 @@ if(strlen($shareid) > 0)
 			$content = str_replace("(bereso_share_text)",$item_text_higlighted,$content);
 			$content = str_replace("(bereso_share_name)",$row['item_name'],$content);
 			$content = str_replace("(bereso_share_id)",$shareid,$content);
-			$content = str_replace("(bereso_share_imagename)",Image::get_filename($row['item_id']),$content);		
+			$content = str_replace("(bereso_share_imagename)",Image::get_filename($row['item_id']),$content);
+			$content = str_replace("(bereso_images_share)",Image::get_foldername_by_shareid($shareid),$content);
 			$title .= " - " . $row['item_name'];
 						
 		}
