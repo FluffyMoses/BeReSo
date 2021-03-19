@@ -2,7 +2,7 @@
 BEst REcipe SOftware
 
 ### README.md
-The purpose of this software is to organize, photos of articles, recipes, or others.<br>
+The purpose of this software is to organize photos of articles, recipes, or others.<br>
 The additional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
 
 ### Requirements
@@ -38,7 +38,7 @@ The additional templates make it easy to rename the software and use it for some
         <li>Delete install.php and the sql folder after the script ran successfully</li>
     </ul>
   </li>    
-  <li>Login BeReSo with your new created user!</li>
+  <li>Log into BeReSo with your new created account!</li>
  </ul>
  
 ### Add another user
@@ -49,7 +49,14 @@ Open the following url and change the settings as listed below:<br>
 <ul>
     <li>USERNAME = username of the new user, letters a-z, A-Z and - allowed</li>
     <li>PASSWORD = the password of the new user that will be hashed</li>
-    <li>TEMPLATEID = the template id of the template the user should use, see the "Installation" step above for the id</li>
+    <li>TEMPLATEID = the template id of the template the user should use
+      <ul>
+        <li>1 = German - DE Rezeptmanagement</li>
+        <li>2 = German - DE Kreativ</li>
+        <li>3 = German - DE Projektverwaltung</li>
+        <li>4 = English - EN Recipe management</li>
+      </ul>
+    </li>
 </ul>
 Run the SQL command you get as a result and the user is created and ready to log in!<br>
 As an example, the sql INSERT for the user USERNAME with the hashed password PASSWORD and the template id 4 (recipe management english):<br>
@@ -58,7 +65,7 @@ As an example, the sql INSERT for the user USERNAME with the hashed password PAS
 INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('USERNAME','$2y$10$R46bmwUUxbnmiBE0S3JR4uKuQJA3sbP8aMz7Dgzovyp.f1g91nZuO','4');
 ```
 
-Make a folder with the name of the new created user id under the path $bereso['images'].<br>
+Create a folder with the name of the new created user id under the path $bereso['images'].<br>
 For example: images/3/ for the new user with the user id 3
 
 ### Clients
