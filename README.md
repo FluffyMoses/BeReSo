@@ -60,3 +60,30 @@ INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('USERNAME'
 
 Make a folder with the name of the new created user id under the path $bereso['images'].<br>
 For example: images/3/ for the new user with the user id 3
+
+### Clients
+
+<ul>
+  <li>Webbrowser: BeReSo should work with all modern webbrowsers, just open the url the index.php.</li>
+  
+  <li>IOS webapp "installation":
+    <ul>
+      <li>Open Safari on IOS (iPhone or iPad), open the share menu and add to homescreen. An icon is created on your homescreen and the app launches in fullscreen mode.</li>          
+    </ul>
+  </li>
+</ul>
+
+![bereso_ios_addtohomescreen](https://user-images.githubusercontent.com/79584516/111751058-4fc85b00-8894-11eb-8879-3b9fd3b40faf.png) ![bereso_ios_homescreen](https://user-images.githubusercontent.com/79584516/111750869-109a0a00-8894-11eb-94ba-f86784980e02.jpg) ![bereso_ios_webapp](https://user-images.githubusercontent.com/79584516/111751163-6ff81a00-8894-11eb-9aef-e40ebc2f7ee5.jpg)
+
+<ul>
+  <li>Chrome webapp "installation":
+    <ul>
+      <li>Open Chrome, open the settings "..." menu and "Install BeReSo...".</li>        
+    </ul>
+  </li>
+</ul>
+
+
+![bereso_chrome_install](https://user-images.githubusercontent.com/79584516/111752240-bbf78e80-8895-11eb-9c1f-95854acb0001.PNG)
+![bereso_chrome_webapp](https://user-images.githubusercontent.com/79584516/111752421-f95c1c00-8895-11eb-9e74-6f878d4a171f.PNG)
+
