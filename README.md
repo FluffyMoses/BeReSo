@@ -23,6 +23,7 @@ BeReSo is still under developement, so a few nice-to-have features, like a webin
     </ul>
   </li>
   <li>MySQL or MariaDB Database</li>
+  <li>A ssl certificate for secure HTTPS connections is recomended in general and also needed by the service worker. The installation as an app, by Chrome or on Android, only works when a secure connection is established. The IOS "add to homescreen" webapp installation works with or without certificate.</li>
  </ul>
 
 ### Installation
