@@ -48,7 +48,10 @@ class Text
 		{
 			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $ht_text);
 		}
-		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
+		$ht_text = str_replace("\n","<br>",$ht_text); // new line					
+		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
+		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
+		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link
 		return $ht_text;
 	}
@@ -65,6 +68,9 @@ class Text
 			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b> ", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
+		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
+		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
+		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}	
@@ -81,6 +87,9 @@ class Text
 			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
+		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
+		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
+		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<font color="blue"><u>$2</u></font>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}
