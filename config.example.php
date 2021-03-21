@@ -26,8 +26,11 @@ $bereso['sql']['database'] = "DBName";
 // en or de
 $bereso['default_language'] = "en";
 
-// Main URL
-$bereso['url'] = "http://bereso/";
+// Main URL - must end with "/"
+$bereso['url'] = "https://bereso/";
+
+// Redirect to HTTPS when HTTP is requested - $bereso['url'] musst be https:// 
+$bereso['https_redirect'] = true;
 
 // Image filepath
 $bereso['images'] = "images/";

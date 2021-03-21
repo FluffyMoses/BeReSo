@@ -22,6 +22,21 @@ include "classes/tags.php"; // Static tags Functions
 include "config.php";
 
 
+// Redirect to HTTPS when HTTP is requested - $bereso['https_redirect'] == true and $bereso['url'] musst be https:// 
+if ($bereso['https_redirect'] == true && strtolower(substr($bereso['url'],0,5)) == "https")
+{
+	// check if connection is not secured
+	if (empty($_SERVER['HTTPS']) or $_SERVER['HTTPS'] == "off") 
+	{
+		// redirect to https url
+		$https_url_script = explode('/',$_SERVER['REQUEST_URI']); // we need everything on the right side of the last /
+		$https_url = $bereso['url'].$https_url_script[count($https_url_script)-1]; // Bereso URL and user HTTP request
+		header('Location: '.$https_url,true, 301 ); 
+		exit(); // stops the rest of the script from running 
+	}
+}
+
+
 // start PHP session
 session_start();
 
