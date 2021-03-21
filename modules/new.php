@@ -37,9 +37,12 @@ if ($action == "add")
 		$add_id = $sql->insert_id;
 		
 		// save tags
-		preg_match_all("/(#\w+)/", $add_text, $matches);
+		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+		$add_text = $add_text . " ";
+		preg_match_all("/(#\w+)\s/", $add_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
+			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
 			$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
 		}		
 

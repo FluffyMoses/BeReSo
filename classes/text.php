@@ -10,7 +10,6 @@
 
 class Text 
 {
-
 	// check if string contains just letters nothing else!
 	public static function is_letter($il_string,$il_pattern)
 	{		
@@ -41,12 +40,14 @@ class Text
 	// Highlight text - newline, hashtaglinks, http(s) links, etc
 	public static function highlight_text($ht_text)
 	{
+		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+		$ht_text = $ht_text . " ";
 		// # link with tag list - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$ht_text = str_replace($matches[0][$i],"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>",$ht_text);
-		}	
+			$ht_text = preg_replace('/('.$matches[0][$i].')\s/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $ht_text);
+		}
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link
 		return $ht_text;
@@ -55,11 +56,13 @@ class Text
 	// Highlight text share - newline, http(s) links, etc
 	public static function highlight_text_share($ht_text)
 	{
+		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+		$ht_text = $ht_text . " ";
 		// # highlight # - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$ht_text = str_replace($matches[0][$i],"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>",$ht_text);
+			$ht_text = preg_replace('/('.$matches[0][$i].')\s/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
@@ -69,15 +72,35 @@ class Text
 	// Highlight text printpreview - newline, http(s) links, etc
 	public static function highlight_text_printpreview($ht_text)
 	{
+		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+		$ht_text = $ht_text . " ";
 		// # highlight # - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$ht_text = str_replace($matches[0][$i],"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>",$ht_text);
+			$ht_text = preg_replace('/('.$matches[0][$i].')\s/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<font color="blue"><u>$2</u></font>', $ht_text); // https http insert real link		
 		return $ht_text;
+	}
+
+
+	// remove all whitespaces from string
+	public static function remove_whitespace($rw_string)
+	{
+		$rw_string = str_replace("\r",null,$rw_string);
+		$rw_string = str_replace("\n",null,$rw_string);
+		$rw_string = str_replace("\t",null,$rw_string);
+		$rw_string = str_replace(" ",null,$rw_string);
+		return $rw_string;
+	}
+
+
+	// usort callback function to sort an array of strings per lenght (returns < 0 || == 0 || > 0)
+	public static function sort_strings_lenght($ssl_firststring, $ssl_secondstring)
+	{
+		return strlen($ssl_secondstring) - strlen($ssl_firststring);		
 	}
 
 }

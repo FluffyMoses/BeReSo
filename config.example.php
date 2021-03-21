@@ -39,10 +39,10 @@ $bereso['images_thumbnail_height'] = 200;
 $bereso['new_amount_images'] = 5;
 
 // Version
-$bereso['version'] = "3.2";
+$bereso['version'] = "3.3";
 
 // Last update
-$bereso['last_change'] = "19.03.2021";
+$bereso['last_change'] = "21.03.2021";
 
 // Creation Date
 $bereso['created'] = "14.01.2021";

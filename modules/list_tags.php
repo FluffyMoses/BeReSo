@@ -62,9 +62,12 @@ if ($action == null)
 			$content_item = str_replace("(bereso_list_tags_taggroup_name)",$row['group_name'],$content_item);
 			// get tags and count items		
 			$group_items = 0;
-			preg_match_all("/(#\w+)/", $row['group_text'], $matches);
+			// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+			$row['group_text'] = $row['group_text'] . " ";
+			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 			for ($i=0;$i<count($matches[0]);$i++)
 			{			
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
 				$group_items = $group_items + Item::get_number_by_tag(str_replace("#",null,$matches[0][$i]),$user);
 			}		
 			$content_item = str_replace("(bereso_list_tags_taggroup_numbers)",$group_items,$content_item);

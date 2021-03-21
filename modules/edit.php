@@ -22,9 +22,12 @@ if (Item::is_owned_by_user($user,$item)) {
 			// delete all tags and save the "new" one
 			$sql->query("DELETE FROM bereso_tags WHERE tags_item='".$item."'");
 			// save tags
-			preg_match_all("/(#\w+)/", $edit_text, $matches);
+			// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+			$edit_text = $edit_text . " ";
+			preg_match_all("/(#\w+)\s/", $edit_text, $matches);
 			for ($i=0;$i<count($matches[0]);$i++)
 			{
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
 				$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$item."')");
 			}			
 			

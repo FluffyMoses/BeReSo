@@ -80,9 +80,12 @@ class Tags
 			$row = $result -> fetch_assoc();
 			// scan for hashtags
 			$hashtag_list = null;
-			preg_match_all("/(#\w+)/", $row['group_text'], $matches);
+			// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+			$row['group_text'] = $row['group_text'] . " ";
+			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 			for ($i=0;$i<count($matches[0]);$i++)
 			{
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
 				$hashtag_list .= "'".str_replace("#","",$matches[0][$i])."',";
 			}	
 			// hashtags exist
@@ -109,9 +112,12 @@ class Tags
 			while ($row = $result -> fetch_assoc())
 			{
 				// need to check again with the preg_match_all cause the like sql query returns all hashtags beginning with $taggroup too
-				preg_match_all("/(#\w+)/", $row['group_text'], $matches);
+				// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+				$row['group_text'] = $row['group_text'] . " ";
+				preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 				for ($i=0;$i<count($matches[0]);$i++)
 				{
+					$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
 					if (strtolower($matches[0][$i]) == strtolower("#".$itit_hashtag)) { return true; } // found the exact hashtag in one of the taggroups => return true
 					
 				}				
