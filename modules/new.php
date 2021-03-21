@@ -88,7 +88,11 @@ if ($action == "add")
 		// clear $add_name and $add_text for the form
 		$add_name = null;
 		$add_text = null;
-		
+
+		// add to navigation -> Last item
+		$navigation2 .= File::read_file("templates/main-navigation2-last_item.html");
+		$navigation2 = str_replace("(main-navigation-last_item)",Image::get_filenamecomplete($add_id,0),$navigation2);
+		$navigation2 = str_replace("(main-navigation-last_item_value)",$add_id,$navigation2);			
 	} 
 	// form not correct
 	else
