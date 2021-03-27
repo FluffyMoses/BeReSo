@@ -34,7 +34,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			// save name and text in item
 			$sql->query("UPDATE bereso_item SET item_name='".$edit_name."', item_text='".$edit_text."', item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
 			
-			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved): <b>\"$edit_name\"</b></font>";		
+			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved) <b>\"$edit_name\"</b></font>";		
 		} 
 		// form not correct
 		else

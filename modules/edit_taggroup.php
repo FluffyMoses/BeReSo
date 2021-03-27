@@ -44,7 +44,7 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 			$sql->query("UPDATE bereso_group SET group_name='".$edit_name."', group_text='".$edit_text."' WHERE group_user='".User::get_id_by_name($user)."' AND group_id='".$taggroupid."'");
 			User::set_last_taggroup($user,$edit_name); // reset last_taggroup link for the case when the name is changed
 		
-			$taggroup_edit_message = "<font color=\"green\">(bereso_template-edit_taggroup_entry_saved): <b>\"$edit_name\"</b></font>";
+			$taggroup_edit_message = "<font color=\"green\">(bereso_template-edit_taggroup_entry_saved) <b>\"$edit_name\"</b></font>";
 		
 		} 
 		// form not correct

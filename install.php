@@ -150,7 +150,7 @@ $installer['template']['requirements_user_not_exists'] = '
 			(installer_template_options)
 		</select>
 		<br><font color="red">(installer_user_error)</font><br>	
-		<input type="submit" value="(installer_requirements_create_user)" class="button" />
+		<button type="submit" value="(installer_requirements_create_user)" class="button">(installer_requirements_create_user)</button>
 	</form>
 </div>
 <br>
@@ -159,7 +159,7 @@ $installer['template']['requirements_phpextension'] = '<div class="boxed">(insta
 $installer['template']['requirements_phpextension_item'] = '(installer_requirements_phpextension_item)<br>';
 $installer['template']['requirements_table_item'] = '(installer_requirements_table_item)<br>';
 $installer['template']['requirements_table_exists'] = '<div class="boxed">(installer_requirements_table_exists)</div><br>';
-$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><input type="submit" value="(installer_requirements_create_tables)" class="button" /></form></div><br>';
+$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><button type="submit" value="(installer_requirements_create_tables)" class="button">(installer_requirements_create_tables)</button></form></div><br>';
 $installer['template']['installation_successfull'] = '<div class="boxed">(installer_installation_successfull)<br><br><a class="none" href="index.php">BeReSo index.php</a></div><br>';
 $installer['template']['font_green_open'] = '<font color="green">';
 $installer['template']['font_green_close'] = '</font>';

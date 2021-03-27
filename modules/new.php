@@ -84,7 +84,7 @@ if ($action == "add")
 		imagedestroy($old_image);
 		
 		
-	    $item_new_addmessage = "<font color=\"green\">(bereso_template-new_entry_saved): <b>\"$add_name\"</b></font>";
+	    $item_new_addmessage = "<font color=\"green\">(bereso_template-new_entry_saved) <b>\"$add_name\"</b></font>";
 		// clear $add_name and $add_text for the form
 		$add_name = null;
 		$add_text = null;

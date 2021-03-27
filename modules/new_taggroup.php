@@ -18,7 +18,7 @@ if ($action == "add")
 	{
 		$sql->query("INSERT into bereso_group (group_name, group_text, group_user) VALUES ('".$add_name."','".$add_text."','".User::get_id_by_name($user)."')");
 		
-	    $taggroup_new_addmessage = "<font color=\"green\">(bereso_template-new_taggroup_entry_saved): <b>\"$add_name\"</b></font>";
+	    $taggroup_new_addmessage = "<font color=\"green\">(bereso_template-new_taggroup_entry_saved) <b>\"$add_name\"</b></font>";
 		// clear $add_name and $add_text for the form
 		$add_name = null;
 		$add_text = null;

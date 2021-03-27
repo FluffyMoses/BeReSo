@@ -89,6 +89,10 @@ a.none:active { text-decoration:none; }
 	cursor: pointer;
 }
 
+.button:hover {
+	background-color: #f06a5d;	
+}
+
 * {
 	margin: 0;
 	font-family: 'Arial';
