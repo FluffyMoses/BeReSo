@@ -13,12 +13,11 @@
 	(bereso_new_item_message)
 	<br>
 
-<select name="addtagtotextarea" id="addtagtotextarea" onchange="insertAtCursor('add_text','addtagtotextarea')">
+<select name="addtagtotextarea" id="addtagtotextarea" onchange="insertAtCursor('add_text','addtagtotextarea')"  class="button" >
 	<option value="">(bereso_template-new_add_hashtag)</option>
 	(bereso_new_item_insert_hashtag)
-</>
-
-	<input type="submit" value="(bereso_template-new_save)" />
+</select>
+	<input type="submit" value="(bereso_template-new_save)" class="button" />
 </div>
 <br>
 
@@ -28,7 +27,7 @@
 			<td>
 				<center>
 				<p class="headline2">(bereso_template-new_preview_image)</p><br>
-				<input name="add_photo[0]" type="file" accept="image/x-png,image/png,image/jpeg" />
+				<input id="choose_image" name="add_photo[0]" type="file" accept="image/x-png,image/png,image/jpeg"  class="button" />
 				</center>
 			</td>		
 		</tr>
@@ -41,7 +40,7 @@
 			<td>
 				<center>
 				<p class="headline2">(bereso_template-new_item_page) 1</p><br>
-				<input name="add_photo[1]" type="file" accept="image/x-png,image/png,image/jpeg" />
+				<input id="choose_image" name="add_photo[1]" type="file" accept="image/x-png,image/png,image/jpeg" class="button" />
 				</center>
 			</td>		
 		</tr>

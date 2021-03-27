@@ -90,7 +90,6 @@ $installer['text']['de']['user_name'] = "Name (nur a-z, A-Z und - erlaubt)";
 $installer['text']['de']['user_password'] = "Passwort";
 $installer['text']['de']['user_name_error'] = "Name enh&auml;lt ung&uuml;ltige Zeichen.<br>";
 $installer['text']['de']['user_password_error'] = "Passwort enh&auml;lt ung&uuml;ltige Zeichen.<br>";
-$installer['text']['de']['user_template'] = "Template";
 $installer['text']['de']['phpextensions'] = "PHP Extensions geladen";
 $installer['text']['de']['user_createfolder_error'] = "Fehler beim erstellen des Benutzer Bilderordners: ";
 
@@ -112,7 +111,6 @@ $installer['text']['en']['user_name'] = "Name (nur a-z, A-Z and - allowed)";
 $installer['text']['en']['user_password'] = "Password";
 $installer['text']['en']['user_name_error'] = "Name contains forbidden characters.<br>";
 $installer['text']['en']['user_password_error'] = "Password contains forbidden characters.<br>";
-$installer['text']['en']['user_template'] = "Template";
 $installer['text']['en']['phpextensions'] = "PHP extensions loaded";
 $installer['text']['en']['user_createfolder_error'] = "Error while creating the user image folder: ";
 
@@ -147,12 +145,12 @@ $installer['template']['requirements_user_not_exists'] = '
 		<input name="user_name" type="text" style="width:100%;" /><br>
 		(installer_user_password)<br>
 		<input name="user_password" type="password" style="width:100%;" />	<br>
-		(installer_user_template)<br>
-		<select name="user_templateid">
+		<br>
+		<select name="user_templateid" class="button">
 			(installer_template_options)
 		</select>
 		<br><font color="red">(installer_user_error)</font><br>	
-		<input type="submit" value="(installer_requirements_create_user)" />
+		<input type="submit" value="(installer_requirements_create_user)" class="button" />
 	</form>
 </div>
 <br>
@@ -161,7 +159,7 @@ $installer['template']['requirements_phpextension'] = '<div class="boxed">(insta
 $installer['template']['requirements_phpextension_item'] = '(installer_requirements_phpextension_item)<br>';
 $installer['template']['requirements_table_item'] = '(installer_requirements_table_item)<br>';
 $installer['template']['requirements_table_exists'] = '<div class="boxed">(installer_requirements_table_exists)</div><br>';
-$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><input type="submit" value="(installer_requirements_create_tables)" /></form></div><br>';
+$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><input type="submit" value="(installer_requirements_create_tables)" class="button" /></form></div><br>';
 $installer['template']['installation_successfull'] = '<div class="boxed">(installer_installation_successfull)<br><br><a class="none" href="index.php">BeReSo index.php</a></div><br>';
 $installer['template']['font_green_open'] = '<font color="green">';
 $installer['template']['font_green_close'] = '</font>';
@@ -398,7 +396,6 @@ if ($check_requirement['phpextensions'] == true)
 					$content = str_replace("(installer_requirements_create_user)",$installer['text'][$installer['language']]['create_user'],$content);
 					$content = str_replace("(installer_user_name)",$installer['text'][$installer['language']]['user_name'],$content);
 					$content = str_replace("(installer_user_password)",$installer['text'][$installer['language']]['user_password'],$content);
-					$content = str_replace("(installer_user_template)",$installer['text'][$installer['language']]['user_template'],$content);
 					$content = str_replace("(installer_template_options)",$installer['template']['template_options'],$content);
 					// insert error message for username or password
 					if (strlen($content_usererror) > 0) { $content = str_replace("(installer_user_error)",$content_usererror,$content); } else { $content = str_replace("(installer_user_error)",null,$content); }
