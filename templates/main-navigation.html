@@ -1,7 +1,7 @@
         <!-- ++ menu ++ --> 		
         <nav>
           <ul>
-            <li class="submenu"><a href="#" class="menu1">&#9776;</a>
+            <li class="submenu"><a href="#" class="menu1"><button class="mainnavbutton" style="height: 45px; width: 45px; padding: 2px;"><img src="templates/img/main_navigation_main-menu.png" style="height: 39px; width: 39px;" /></button></a>
               <ul>            
                 <li><a href="?module=list_tags">(bereso_template-main_navigation_categories)</a></li>  
 				<li><a href="?module=show&action=random">(bereso_template-main_navigation_random_item)</a></li>
@@ -17,8 +17,8 @@
           (bereso_navigation2)
 
 		  <form enctype="multipart/form-data" action="?module=list&action=search" method="POST">
-		  <input type="image" src="templates/img/main_navigation-search.png" style="float: right;" width="37" height="21" />
-		  <input type="text" name="search" value="" size="30" style="float: right;">
+		  <input type="image" src="templates/img/main_navigation-search.png" style="float: right;" width="37" height="21" class="searchbutton" />
+		  <input type="text" name="search" value="" class="searchinputfield" placeholder="(bereso_template-main_navigation_search)" />
 		  </form>
 
         </nav>

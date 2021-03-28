@@ -1,19 +1,21 @@
 <center>
 <table width="300" cellpadding="0" cellspacing="0" border="0"><tr><td>
-	<p class="headline1">(bereso_template-login_bereso_login)</p>
+	<center>
+		<img src="templates/img/title.png" />
+	</center>
 	<br>
 	(bereso_login_message)
 	<div class="boxed">
 		<form enctype="multipart/form-data" action="?module=login&action=dologin" method="POST">
 			<p class="headline2">(bereso_template-login_name)<p>
-				<input name="login_name" type="text" style="width:100%;" />
+				<input name="login_name" type="text" style="width:100%;" class="logininputfield" />
 			<p class="headline2">(bereso_template-login_password)<p>
-				<input name="login_password" type="password" style="width:100%;" />
+				<input name="login_password" type="password" style="width:100%;" class="logininputfield"/>
 
 				<br>
 				<br>
 				<center><button type="submit" value="(bereso_template-login_login)" class="button">(bereso_template-login_login)</button></center>
 		</form>
-	</div>
+	</div>	
 </td></tr></table>
 </center>

@@ -253,7 +253,7 @@ if (($module != "show" && $module != "show_image" && $module != "list" && $modul
 	User::set_last_list($user,null); // delete the last list
 }
 // show last list icon and link when last list is set for this user
-if (strlen(User::get_last_list($user)) > 0 && $module != "list") // do not show icon if we are still in the list menu
+if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "edit" && $module != "delete") // do not show icon if we are still in the list menu or in edit or in delete module
 {
 	$navigation2 = File::read_file("templates/main-navigation2-last_list.html") . $navigation2; // set last tag always first
 	$last_list_tag = User::get_last_list($user);

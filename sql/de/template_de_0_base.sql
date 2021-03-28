@@ -1,5 +1,4 @@
 -- Add template 0 (basetemplate is always 0 for alle languages) - DE Basetemplate - used in all other templates when language is german
-INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_bereso_login', 'BeReSo Anmeldung', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_name', 'Name', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_password', 'Passwort', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'login_login', 'Anmelden', 'de');
@@ -15,3 +14,4 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'main_printpreview', 'Druckvorschau', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'printpreview_poweredby', 'Powered by', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'share_poweredby', 'Powered by', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'main_navigation_search', 'Suche...', 'de');
