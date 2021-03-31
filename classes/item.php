@@ -31,6 +31,26 @@ class Item
 		}                		
 	}	
 
+	// return ocr text by item id
+	public static function get_ocr_text($got_item_id)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT item_ocr_text from bereso_item WHERE item_id='$got_item_id'"))
+		{
+			$row = $result -> fetch_assoc();
+			// check if item exists
+			if (!empty($row))
+			{
+				return $row['item_ocr_text'];
+			}
+			else
+			{
+				return null;
+			}
+		}
+	}
+
+
 	// set item favorite status true/false
 	public static function set_favorite($sf_item_id,$sf_status)
 	{

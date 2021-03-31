@@ -1,9 +1,19 @@
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Dumping structure for table bereso.bereso_config
+CREATE TABLE IF NOT EXISTS `bereso_config` (
+  `config_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id of the bereso config item',
+  `config_name` varchar(250) COLLATE latin1_german1_ci NOT NULL COMMENT 'name of the bereso config item',
+  `config_value` text COLLATE latin1_german1_ci NOT NULL COMMENT 'value of the config item',
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci COMMENT='stores global bereso configuration';
 
 
 -- Dumping structure for table bereso.bereso_group
@@ -15,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `bereso_group` (
   PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information about tag groups';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_images
 CREATE TABLE IF NOT EXISTS `bereso_images` (
@@ -26,7 +35,6 @@ CREATE TABLE IF NOT EXISTS `bereso_images` (
   PRIMARY KEY (`images_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information for every single image';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_item
 CREATE TABLE IF NOT EXISTS `bereso_item` (
@@ -39,10 +47,11 @@ CREATE TABLE IF NOT EXISTS `bereso_item` (
   `item_timestamp_edit` int(15) DEFAULT NULL COMMENT 'last edit timestamp',
   `item_shareid` varchar(50) DEFAULT NULL COMMENT 'unique id for the sharing link when enabled (null if disabled)',
   `item_favorite` tinyint(1) DEFAULT 0 COMMENT 'is favorite true/false',
+  `item_ocr` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr enabled for this item',
+  `item_ocr_text` text DEFAULT NULL COMMENT 'ocr recognized text',
   PRIMARY KEY (`item_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores information for each item entry';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_tags
 CREATE TABLE IF NOT EXISTS `bereso_tags` (
@@ -52,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `bereso_tags` (
   PRIMARY KEY (`tags_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores every tag used by the items in "bereso_item.item_text" and links it to the item id';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_template
 CREATE TABLE IF NOT EXISTS `bereso_template` (
@@ -62,7 +70,6 @@ CREATE TABLE IF NOT EXISTS `bereso_template` (
   PRIMARY KEY (`template_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the name of the templates';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_template_text
 CREATE TABLE IF NOT EXISTS `bereso_template_text` (
@@ -74,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `bereso_template_text` (
   PRIMARY KEY (`template_text_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores the texts for all templates that are used by the replaces';
 
--- Data exporting was unselected.
 
 -- Dumping structure for table bereso.bereso_user
 CREATE TABLE IF NOT EXISTS `bereso_user` (
@@ -84,10 +90,10 @@ CREATE TABLE IF NOT EXISTS `bereso_user` (
   `user_template` int(10) DEFAULT NULL COMMENT 'template that is loaded for this user on login',
   `user_last_list` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'last tag that the user listed (needed for the back-to-list button)',
   `user_last_taggroup` varchar(250) CHARACTER SET latin1 COLLATE latin1_german1_ci DEFAULT NULL COMMENT 'last taggroup that the user listed (needed for the back-to-list_tags button)',
+  `user_ocr` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr enabled for this user',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COMMENT='stores all user informations';
 
--- Data exporting was unselected.
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

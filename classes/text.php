@@ -10,6 +10,26 @@
 
 class Text 
 {
+	// remove all letters and chars except the allowed
+	public static function convert_letter($cl_string,$cl_pattern)
+	{
+		if ($cl_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]"; } //  a-z 0-9 SPECIALCHARS
+		else { Log::die ("CHECK: \$cl_pattern failed  ".'"'.$cl_pattern.'"',false); }
+
+		$converted_string = null;
+
+		for ($i=0;$i<strlen($cl_string);$i++)
+		{			
+			for ($y=0;$y<strlen($letters);$y++)
+			{
+				if (mb_substr($cl_string,$i,1) == mb_substr($letters,$y,1)) { $converted_string .= mb_substr($cl_string,$i,1); } // char found in letters!
+			}			
+		}
+
+		// retunr the converted string - it contains only allowed characters
+		return $converted_string;
+	}
+
 	// check if string contains just letters nothing else!
 	public static function is_letter($il_string,$il_pattern)
 	{		

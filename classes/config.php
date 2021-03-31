@@ -29,5 +29,35 @@ class Config
         }
         return $config_value;
     }
+
+
+    // get config from database
+	public static function get_config($gc_name)
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT config_value from bereso_config WHERE config_name='$gc_name'"))
+		{
+			$row = $result -> fetch_assoc();
+			
+			// check if value exists
+			if (!empty($row))
+			{
+				return $row['config_value'];
+				
+			}
+			else 
+			{
+				return "ERBDKFJKE";
+			}
+		}                		
+	}	
+
+	// set item favorite status true/false
+	public static function set_config($sc_name,$sc_value)
+	{
+		global $sql;		
+        $sql->query("UPDATE bereso_config SET config_value='".$sc_value."' WHERE config_name='$sc_name'");
+	}
+
 }
 ?>

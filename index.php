@@ -103,6 +103,12 @@ elseif ($module == "login")
 	$generate_password = @$_GET['generate_password']; // just for the action=generate_user_sqlinsert
 	$generate_template = @$_GET['generate_template']; // just for the action=generate_user_sqlinsert
 }
+// for ocr.php
+elseif ($module == "ocr")
+{
+	$ocr_password = @$_GET['ocr_password']; // ocr password passed by the agent
+	$ocr_text = @$_POST['ocr_text']; // ocr text
+}
 
 
 // init variables
@@ -177,8 +183,12 @@ elseif ($module == "login")
 	if (!Text::is_letter($generate_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$generate_password failed ".'"'.$generate_password.'"'); }
 	if (strlen($generate_template) > 0) { if (!is_numeric($generate_template)) { Log::die ("CHECK: \$generate_template failed ".'"'.$generate_template.'"'); } }
 }
-
-
+// for ocr.php
+elseif ($module == "ocr")
+{
+	if (!Text::is_letter($ocr_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$ocr_password failed ".'"'.$ocr_password.'"',false); } // wrong character - end script and show error message
+	// TODO: OCR TEXT PARSE WRONG CHARACTERS
+}
 // set default page
 if ($module == "") { $module = "list_tags"; }
 
@@ -238,6 +248,7 @@ else // user is not logged in => load login module => form without menu and navi
 if ($module == "share") { include ("modules/share.php"); } // share module for logged in and anonymous users
 if ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
 if ($module == "offline") { include ("modules/offline.php"); } // offline module for serviceWorker offline message
+if ($module == "ocr") { include ("modules/ocr.php"); } // module for the ocr agent
 
 
 // load default template if not allready loaded by module

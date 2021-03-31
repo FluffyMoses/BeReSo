@@ -28,6 +28,7 @@ BeReSo is still under developement, so a few nice-to-have features, like a webin
 
 ### Installation
 <ul>
+  <li>Get the latest release: <a href="https://github.com/FluffyMoses/BeReSo/releases">https://github.com/FluffyMoses/BeReSo/releases</a></li>
   <li>Copy everything in the webspace directory</li>
   <li>Edit config.example.php and rename it to config.php</li>
   <li>Create the folder "images" (or rename it and change the name in the config.php)</li>

@@ -57,6 +57,7 @@ $installer['phpextensions'] = array(
 // SQL scripts that will be executed
 $installer['sql'] = array(
 	"sql/create_tables.sql",						// create bereso tables in database
+	"sql/create_tables_defaultvalues.sql",			// insert initial values into the database 
 
 	// german template
 	"sql/de/template_de_0_base.sql",				// german base template
@@ -307,6 +308,9 @@ if ($action == "create_tables")
 		$output = str_replace("(installer_content)",$content,$output); // insert content in output template
 		die($output); // end the install script
 	}
+
+	// wait for the reload to fix display problems - still ready for installation cause the db server was not fast enough
+	sleep(2);
 
 	header('Location: install.php'); // Redirect to the startpage
 	exit(); // stops the rest of the script from running 
