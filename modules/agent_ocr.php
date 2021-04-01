@@ -10,7 +10,7 @@
 // ########################
 // ##      BeReSo        ##
 // ##  OCR AGENT VERSION ##
-// ##		1.1          ##
+// ##		1.2          ##
 // ##     REQUIRED       ##
 // ########################
 
@@ -55,11 +55,10 @@ if (Config::get_config("ocr_enabled") == "1")
 		// save ocr text
 		if ($action == "save")
 		{
-			// add ocr text to existing one - if more than one page is saved
-			$old_ocr_text = Item::get_ocr_text($item);					
-
 			// save the entry
 			Item::set_ocr_text($item,$old_ocr_text . $ocr_text);
+
+			$ocr_text = str_replace("°",null,$ocr_text);
 
 			// on error write error as ocr_text - or else it will repeat everytime the agent starts
 			if (Item::get_ocr_text($item) == null) { Item::set_ocr_text($item,"OCR_AGENT_ERROR"); }

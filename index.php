@@ -193,7 +193,6 @@ elseif ($module == "login")
 elseif ($module == "agent_ocr")
 {
 	if (!Text::is_letter($ocr_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$ocr_password failed ".'"'.$ocr_password.'"',false); } // wrong character - end script and show error message
-	$ocr_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL"); // strip all unwanted characters
 }
 // for edit_ocr.php
 elseif ($module == "edit_ocr")

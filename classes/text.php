@@ -22,7 +22,7 @@ class Text
 		{			
 			for ($y=0;$y<strlen($letters);$y++)
 			{
-				if (mb_substr($cl_string,$i,1) == mb_substr($letters,$y,1)) { $converted_string .= mb_substr($cl_string,$i,1); } // char found in letters!
+				if (mb_substr($cl_string,$i,1) == mb_substr($letters,$y,1)) { $converted_string .= mb_substr($letters,$y,1); } // char found in letters!
 			}			
 		}
 
