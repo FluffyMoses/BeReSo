@@ -7,7 +7,11 @@
 
 		<textarea name="edit_text" rows="30" cols="32" style="width:100%;" id="add_text" class="inputfield">(bereso_edit_ocr_edit_text)</textarea>
 		<br><br>
-		<input type="checkbox" class="button" id="edit_searchable" name="edit_searchable" value="searchable" (bereso_edit_ocr_searchable)> <label for="edit_searchable">(bereso_template-edit_ocr_searchable)</label>
+
+		<label class="container">(bereso_template-edit_ocr_searchable)
+		  <input type="checkbox" class="button" name="edit_searchable" value="searchable" (bereso_edit_ocr_searchable)> 
+		  <span class="checkmark"></span>
+		</label>
 
 		<br>
 		(bereso_edit_ocr_message)
