@@ -2,7 +2,13 @@ ALTER TABLE `bereso_item` ADD `item_ocr` TINYINT(1) NOT NULL DEFAULT '0' COMMENT
 
 ALTER TABLE `bereso_user` ADD `user_ocr` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'is ocr enabled for this user' AFTER `user_last_taggroup`;
 
-CREATE TABLE `bereso`.`bereso_config` ( `config_id` INT(10) NOT NULL AUTO_INCREMENT COMMENT 'id of the bereso config item' , `config_name` VARCHAR(250) NOT NULL COMMENT 'name of the bereso config item' , `config_value` TEXT NOT NULL COMMENT 'value of the config item' , PRIMARY KEY (`config_id`)) ENGINE = InnoDB COMMENT = 'stores global bereso configuration';
+CREATE TABLE IF NOT EXISTS `bereso_config` (
+  `config_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id of the bereso config item',
+  `config_name` varchar(250) COLLATE latin1_german1_ci NOT NULL COMMENT 'name of the bereso config item',
+  `config_value` text COLLATE latin1_german1_ci NOT NULL COMMENT 'value of the config item',
+  PRIMARY KEY (`config_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci COMMENT='stores global bereso configuration';
+
 
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('dbversion', '3.4');
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('ocr_enabled', '0');
