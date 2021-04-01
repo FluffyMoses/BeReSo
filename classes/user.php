@@ -157,6 +157,10 @@ class User
 			{
 				return $row['user_last_taggroup'];
 			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 
@@ -165,6 +169,24 @@ class User
 	{
 		global $sql;
         $sql->query("UPDATE bereso_user SET user_last_taggroup='".$slt_tag."' WHERE user_name='$slt_user'");
+	}
+
+	// get ocr status for this user
+	public static function get_ocr($go_user)
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT user_ocr from bereso_user WHERE user_name='$go_user'"))
+		{
+			$row = $result -> fetch_assoc();
+			if (!empty($row))
+			{
+				return $row['user_ocr'];
+			}
+			else
+			{
+				return 0;
+			}
+		}
 	}
 }
 ?>

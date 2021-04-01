@@ -50,6 +50,47 @@ class Item
 		}
 	}
 
+	// set item ocr text
+	public static function set_ocr_text($sot_item_id,$sot_text)
+	{
+		global $sql;		
+		// if text is null write true null into the table
+		if ($sot_text == null) 
+		{
+			$sql->query("UPDATE bereso_item SET item_ocr_text=NULL WHERE item_id='$sot_item_id'");
+		}
+		else // no null - write text
+		{
+			$sql->query("UPDATE bereso_item SET item_ocr_text='".$sot_text."' WHERE item_id='$sot_item_id'");
+		}
+	}
+
+	// return ocr by item id
+	public static function get_ocr($go_item_id)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT item_ocr from bereso_item WHERE item_id='$go_item_id'"))
+		{
+			$row = $result -> fetch_assoc();
+			// check if item exists
+			if ($row['item_ocr'] == 1) 
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	// set item ocr status true/false
+	public static function set_ocr($so_item_id,$so_status)
+	{
+		global $sql;		
+		if ($so_status == true) { $set_status = 1; } else { $set_status = 0; } // status variable for db entry		
+        $sql->query("UPDATE bereso_item SET item_ocr='".$set_status."' WHERE item_id='$so_item_id'");
+	}
 
 	// set item favorite status true/false
 	public static function set_favorite($sf_item_id,$sf_status)

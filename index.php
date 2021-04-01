@@ -103,11 +103,16 @@ elseif ($module == "login")
 	$generate_password = @$_GET['generate_password']; // just for the action=generate_user_sqlinsert
 	$generate_template = @$_GET['generate_template']; // just for the action=generate_user_sqlinsert
 }
-// for ocr.php
-elseif ($module == "ocr")
+// for agent_ocr.php
+elseif ($module == "agent_ocr")
 {
 	$ocr_password = @$_GET['ocr_password']; // ocr password passed by the agent
 	$ocr_text = @$_POST['ocr_text']; // ocr text
+}
+// for edit_ocr.php
+elseif ($module == "edit_ocr")
+{
+	$edit_text = @$_POST['edit_text'];
 }
 
 
@@ -183,12 +188,19 @@ elseif ($module == "login")
 	if (!Text::is_letter($generate_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$generate_password failed ".'"'.$generate_password.'"'); }
 	if (strlen($generate_template) > 0) { if (!is_numeric($generate_template)) { Log::die ("CHECK: \$generate_template failed ".'"'.$generate_template.'"'); } }
 }
-// for ocr.php
-elseif ($module == "ocr")
+// for agent_ocr.php
+elseif ($module == "agent_ocr")
 {
 	if (!Text::is_letter($ocr_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$ocr_password failed ".'"'.$ocr_password.'"',false); } // wrong character - end script and show error message
-	// TODO: OCR TEXT PARSE WRONG CHARACTERS
+	$ocr_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL"); // strip all unwanted characters
 }
+// for edit_ocr.php
+elseif ($module == "agent_ocr")
+{
+	$edit_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL"); // strip all unwanted characters
+}
+
+
 // set default page
 if ($module == "") { $module = "list_tags"; }
 
@@ -246,9 +258,10 @@ else // user is not logged in => load login module => form without menu and navi
 
 // always load these modules - logged in or not
 if ($module == "share") { include ("modules/share.php"); } // share module for logged in and anonymous users
-if ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
-if ($module == "offline") { include ("modules/offline.php"); } // offline module for serviceWorker offline message
-if ($module == "ocr") { include ("modules/ocr.php"); } // module for the ocr agent
+elseif ($module == "share_image") { include ("modules/share_image.php"); } // share module for logged in and anonymous users
+elseif ($module == "offline") { include ("modules/offline.php"); } // offline module for serviceWorker offline message
+elseif ($module == "agent_ocr") { include ("modules/agent_ocr.php"); } // module for the agent_ocr
+elseif ($module == "edit_ocr") { include ("modules/edit_ocr.php"); } // module for the edit_ocr
 
 
 // load default template if not allready loaded by module
@@ -257,14 +270,14 @@ if ($output_default == true) { $output = File::read_file("templates/main.html");
 
 // Navigation changes for many modules:
 
-// -> Last list - backbutton on show, edit, delete
-// delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or show.php?action=random
-if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "delete" && $module != "show_printpreview") or $action == "random")
+// -> Last list - backbutton on show, edit, edit_ocr, delete
+// delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or edit_ocr.php or show.php?action=random
+if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "edit_ocr" && $module != "delete" && $module != "show_printpreview") or $action == "random")
 {
 	User::set_last_list($user,null); // delete the last list
 }
 // show last list icon and link when last list is set for this user
-if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "edit" && $module != "delete") // do not show icon if we are still in the list menu or in edit or in delete module
+if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "edit" && $module != "edit_ocr" && $module != "delete") // do not show icon if we are still in the list menu or in edit or in edit_ocr or in delete module
 {
 	$navigation2 = File::read_file("templates/main-navigation2-last_list.html") . $navigation2; // set last tag always first
 	$last_list_tag = User::get_last_list($user);

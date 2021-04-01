@@ -102,5 +102,17 @@ if (!(User::is_logged_in($user,$passwordhash)))
 {
 	$content .= File::read_file("templates/login-form.html");
 	$content = str_replace("(bereso_login_message)",$login_message,$content);
+
+	// insert motd if set
+	if (strlen(Config::get_config("login_motd")) > 0)
+	{
+		$content = str_replace("(bereso_login_motd)",File::read_file("templates/login-message_motd.html"),$content); // insert the motd template into the login template
+		$content = str_replace("(bereso_login_motd_value)",Config::get_config("login_motd"),$content); // insert the motd value from the database into the template
+	}
+	else
+	{
+		$content = str_replace("(bereso_login_motd)",null,$content); // no motd - delete the replace placeholder
+	}
+
 }
 ?>

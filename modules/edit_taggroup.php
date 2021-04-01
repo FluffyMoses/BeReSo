@@ -56,7 +56,7 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 				$edit_name_replace = $edit_name; // if set the form will replace the text with the variable content, not with the sql loaded content
 				$edit_text_replace = $edit_text; // if set the form will replace the text with the variable content, not with the sql loaded content
 		}	
-		// load new_taggroup-form again with message success or failure
+		// load edit_taggroup-form again with message success or failure
 		$action = null;
 	}
 

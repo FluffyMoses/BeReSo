@@ -231,3 +231,23 @@ a.none:active { text-decoration:none; }
 	margin: 0;
 	font-family: 'Arial';
 }
+
+
+/* Labels */
+.labelgreen {
+  color: white;
+  padding: 9px;
+  background-color: #4CAF50;
+}
+
+.labelgray {
+  color: black;
+  padding: 9px;
+  background-color: #e7e7e7;
+}
+
+.labelorange {
+  color: white;
+  padding: 9px;
+  background-color: #ff9800;
+}

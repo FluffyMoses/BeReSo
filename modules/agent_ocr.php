@@ -2,7 +2,7 @@
 // Bereso
 // BEst REcipe SOftware
 // ###################################
-// Ocr
+// Agent OCR
 // included by ../index.php
 // ###################################
 
@@ -56,16 +56,13 @@ if (Config::get_config("ocr_enabled") == "1")
 		if ($action == "save")
 		{
 			// add ocr text to existing one - if more than one page is saved
-			$old_ocr_text = Item::get_ocr_text($item);
-
-			// strip all unwanted characters
-			$ocr_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL");
+			$old_ocr_text = Item::get_ocr_text($item);					
 
 			// save the entry
-			$sql->query('UPDATE bereso_item SET item_ocr_text="'.$old_ocr_text . $ocr_text .'" WHERE item_id="'.$item.'"');
+			Item::set_ocr_text($item,$old_ocr_text . $ocr_text);
 
 			// on error write error as ocr_text - or else it will repeat everytime the agent starts
-			if (Item::get_ocr_text($item) == null) { $sql->query('UPDATE bereso_item SET item_ocr_text="OCR_AGENT_ERROR" WHERE item_id="'.$item.'"'); }
+			if (Item::get_ocr_text($item) == null) { Item::set_ocr_text($item,"OCR_AGENT_ERROR"); }
 
 			// return message to the agent
 			$output = "Saved ocr text for item: " . $item;
