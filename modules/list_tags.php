@@ -50,6 +50,17 @@ if ($action == null)
 	$content = str_replace("(bereso_list_tags_allitem_numbers)",Item::get_number($user),$content); // item count for all items of $user
 	$content = str_replace("(bereso_list_tags_shareditem_numbers)",Item::get_sharednumber($user),$content); // item count for all shared items of $user
 	$content = str_replace("(bereso_list_tags_favoriteitem_numbers)",Item::get_favoritenumber($user),$content); // item count for all favorite items of $user
+
+	// if ocr is enabled 
+	if (Config::get_config("ocr_enabled") == 1 && User::get_ocr($user) == true) // ocr enabled for user and global
+	{
+		$content = str_replace("(bereso_list_tags_allocritems)",File::read_file("templates/list_tags-allocritems.html"),$content); // no ocr - delete the replace placeholder
+		$content = str_replace("(bereso_list_tags_ocritem_numbers)",Item::get_ocrnumber($user),$content); // item count for all ocr items of $user
+	}
+	else // ocr disabled
+	{
+		$content = str_replace("(bereso_list_tags_allocritems)",null,$content); // no ocr - delete the replace placeholder
+	}
 	
 	$content_item = null;
 

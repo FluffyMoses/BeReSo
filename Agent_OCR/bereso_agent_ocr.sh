@@ -5,33 +5,30 @@
 # BEst REcipe SOftware
 # ###################################
 # BeReSo OCR Agent
-# Version 1.0
+# Version 1.1
 # ###################################
-
 
 # Config
 BERESO_URL="http://bereso/" # URL to the BeReSo installation
 BERESO_PASSWORD="PASSWORD_FOR_OCR_AGENT" # Password for the OCR agent
 export TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/ # Tesseract tessdata folder
 LANGUAGE=deu # Set tesseract processing language
-
+LOGPATH=/home/user/bereso_agent_ocr.log
 
 ############################################
 # NO CONFIG CHANGE NEEDED BELOW THIS LINE
 ############################################
 
 # Log start date and time
-echo $'' >> bereso_agent_ocr.log
+echo $'' >> $LOGPATH
 start=$(date '+%d/%m/%Y %H:%M:%S');
-echo "$start starting..." >> bereso_agent_ocr.log
+echo "$start starting..." >> $LOGPATH
 
 # Get list with URLs and item ids
 OCRLIST=$(curl "$BERESO_URL?module=agent_ocr&action=list&ocr_password=$BERESO_PASSWORD")
 
-
 # seperate OCRLIST into an array per line
 readarray -t OCRITEM <<<"$OCRLIST"
-
 
 # loop through all items
 for i in ${OCRITEM[@]}; do
@@ -68,4 +65,4 @@ done
 
 # Log end date and time
 end=$(date '+%d/%m/%Y %H:%M:%S');
-echo "$end finished" >> bereso_agent_ocr.log
+echo "$end finished" >> $LOGPATH

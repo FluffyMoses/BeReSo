@@ -190,7 +190,6 @@ a.none:active { text-decoration:none; }
 	text-align: center;
 	text-decoration: none;
 	font-size: 14px;
-	cursor: pointer;
 }
 
 .searchinputfield {
@@ -201,7 +200,6 @@ a.none:active { text-decoration:none; }
 	padding: 5px 10px;
 	text-decoration: none;
 	font-size: 14px;
-	cursor: pointer;
 	position: absolute;
 	right: 65;
 	top: 18;
@@ -222,7 +220,6 @@ a.none:active { text-decoration:none; }
 	padding: 5px 10px;
 	text-decoration: none;
 	font-size: 14px;
-	cursor: pointer;
 }
 
 

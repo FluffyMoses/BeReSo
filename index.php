@@ -113,6 +113,7 @@ elseif ($module == "agent_ocr")
 elseif ($module == "edit_ocr")
 {
 	$edit_text = @$_POST['edit_text'];
+	$edit_searchable = @$_POST['edit_searchable'];
 }
 
 
@@ -195,9 +196,11 @@ elseif ($module == "agent_ocr")
 	$ocr_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL"); // strip all unwanted characters
 }
 // for edit_ocr.php
-elseif ($module == "agent_ocr")
+elseif ($module == "edit_ocr")
 {
-	$edit_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL"); // strip all unwanted characters
+	$form_item_text_error = 0;
+	if(!Text::is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1;  }
+	if ($edit_searchable == "searchable") { $edit_searchable = true; } else { $edit_searchable = false; }
 }
 
 

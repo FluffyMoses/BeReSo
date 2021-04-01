@@ -83,14 +83,6 @@ if (Item::is_owned_by_user($user,$item)) {
 		$navigation = str_replace("(bereso_show_item_id)",$item,$navigation);
 		
 		// build output
-		$content = str_replace("(bereso_show_item_images)",$content_item,$content);
-		if ($item_favorite == true) { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-favorite.html"),$content); } else { $content = str_replace("(berso_show_item_favorite)",null,$content); }
-		$content = str_replace("(bereso_show_item_text)",$item_text_higlighted,$content);
-		$content = str_replace("(bereso_show_item_name)",$row['item_name'],$content);
-		$content = str_replace("(bereso_show_item_id)",$item,$content);
-		$content = str_replace("(bereso_show_item_timestamp_creation)",Time::timestamp_to_datetime($row['item_timestamp_creation']),$content);
-		$content = str_replace("(bereso_show_item_timestamp_edit)",Time::timestamp_to_datetime($row['item_timestamp_edit']),$content);
-		$content = str_replace("(bereso_show_item_imagename)",Image::get_filename($item),$content);
 		
 		// item shared? show link
 		if (strlen($item_sharing) > 0) 
@@ -129,6 +121,15 @@ if (Item::is_owned_by_user($user,$item)) {
 		{
 			$content = str_replace("(bereso_show_ocr_status)",null,$content); // no ocr allowed - delete the replace placeholder
 		}
+
+		$content = str_replace("(bereso_show_item_images)",$content_item,$content);
+		if ($item_favorite == true) { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-favorite.html"),$content); } else { $content = str_replace("(berso_show_item_favorite)",null,$content); }
+		$content = str_replace("(bereso_show_item_text)",$item_text_higlighted,$content);
+		$content = str_replace("(bereso_show_item_name)",$row['item_name'],$content);
+		$content = str_replace("(bereso_show_item_id)",$item,$content);
+		$content = str_replace("(bereso_show_item_timestamp_creation)",Time::timestamp_to_datetime($row['item_timestamp_creation']),$content);
+		$content = str_replace("(bereso_show_item_timestamp_edit)",Time::timestamp_to_datetime($row['item_timestamp_edit']),$content);
+		$content = str_replace("(bereso_show_item_imagename)",Image::get_filename($item),$content);
 
 	}
 }

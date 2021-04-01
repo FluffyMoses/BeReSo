@@ -23,16 +23,16 @@ if (substr($tag,0,6) == "SEARCH")
 // List items via search request
 if (strlen($search) > 0)
 {
-	if ($search_is_letter_failed == true)
+	if ($search_is_letter_failed == true) // wrong character in $search
 	{
 		$sql_list_items = null;
 		$content = File::read_file("templates/list-searcherror.html"); // load error template for content	
 		User::set_last_list($user,null); // delete the last list
 	}
-	// wrong character in $search
-	else
+	else // start searching...
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%') ORDER BY item_name ASC"; 
+		// is $search in name, text or ocr_text (if ocr searchable is true for this item)
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%' OR (item_ocr_searchable='1' AND item_ocr_text LIKE '%".$search."%')) ORDER BY item_name ASC"; 
 		$list_items_headline = "(bereso_template-list_search_results) " . $search;	
 		User::set_last_list($user,"SEARCH".$search);
 	}
@@ -57,6 +57,12 @@ elseif (strlen($tag) > 0)
 	{
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_favorite='1' ORDER BY item_name ASC";
 		$list_items_headline = "(bereso_template-list_tags_all_favorite_items)";
+	}	
+	// list all ocr items
+	elseif ($tag == "OCR") 
+	{
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_ocr='1' ORDER BY item_name ASC";
+		$list_items_headline = "(bereso_template-list_tags_all_ocr_items)";
 	}	
 	// list items with $tag
 	else

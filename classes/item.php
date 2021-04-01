@@ -92,6 +92,33 @@ class Item
         $sql->query("UPDATE bereso_item SET item_ocr='".$set_status."' WHERE item_id='$so_item_id'");
 	}
 
+	// return ocr searchable by item id
+	public static function get_ocr_searchable($gos_item_id)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT item_ocr_searchable from bereso_item WHERE item_id='$gos_item_id'"))
+		{
+			$row = $result -> fetch_assoc();
+			// check if item exists
+			if ($row['item_ocr_searchable'] == 1) 
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	// set item ocr searchable true/false
+	public static function set_ocr_searchable($sos_item_id,$sos_status)
+	{
+		global $sql;		
+		if ($sos_status == true) { $set_status = 1; } else { $set_status = 0; } // status variable for db entry		
+        $sql->query("UPDATE bereso_item SET item_ocr_searchable='".$set_status."' WHERE item_id='$sos_item_id'");
+	}
+
 	// set item favorite status true/false
 	public static function set_favorite($sf_item_id,$sf_status)
 	{
@@ -117,7 +144,6 @@ class Item
 			}
 		}                		
 	}	
-
 
 	// get item share id
 	public static function get_share_id($gsi_item_id)
@@ -171,5 +197,13 @@ class Item
         if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_favorite = '1'"))
 		return mysqli_num_rows($result);
 	}		
+
+	// get number of ocr items of user
+	public static function get_ocrnumber($gs_user) 
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_ocr = '1'"))
+		return mysqli_num_rows($result);
+	}	
 }
 ?>
