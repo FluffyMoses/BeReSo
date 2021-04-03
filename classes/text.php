@@ -13,6 +13,16 @@ class Text
 	// remove all letters and chars except the allowed
 	public static function convert_letter($cl_string,$cl_pattern)
 	{
+		// Problems with some characters => replace them with temp chars - run the conversion and replace them back
+		// => temp chars
+		$cl_string = str_replace("Ü","BERESOU",$cl_string);
+		$cl_string = str_replace("ü","BERESOu",$cl_string);
+		$cl_string = str_replace("Ä","BERESOA",$cl_string);
+		$cl_string = str_replace("ä","BERESOa",$cl_string);
+		$cl_string = str_replace("Ö","BERESOO",$cl_string);
+		$cl_string = str_replace("ö","BERESOo",$cl_string);
+		$cl_string = str_replace("ß","BERESOss",$cl_string);
+
 		if ($cl_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]"; } //  a-z 0-9 SPECIALCHARS
 		else { Log::die ("CHECK: \$cl_pattern failed  ".'"'.$cl_pattern.'"',false); }
 
@@ -25,6 +35,16 @@ class Text
 				if (mb_substr($cl_string,$i,1) == mb_substr($letters,$y,1)) { $converted_string .= mb_substr($letters,$y,1); } // char found in letters!
 			}			
 		}
+
+		// Problems with some characters => replace them with temp chars - run the conversion and replace them back
+		// => real chars
+		$converted_string = str_replace("BERESOU","Ü",$converted_string);
+		$converted_string = str_replace("BERESOu","ü",$converted_string);
+		$converted_string = str_replace("BERESOA","Ä",$converted_string);
+		$converted_string = str_replace("BERESOa","ä",$converted_string);
+		$converted_string = str_replace("BERESOO","Ö",$converted_string);
+		$converted_string = str_replace("BERESOo","ö",$converted_string);
+		$converted_string = str_replace("BERESOss","ß",$converted_string);
 
 		// retunr the converted string - it contains only allowed characters
 		return $converted_string;

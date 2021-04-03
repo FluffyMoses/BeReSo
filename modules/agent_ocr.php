@@ -10,7 +10,7 @@
 // ########################
 // ##      BeReSo        ##
 // ##  OCR AGENT VERSION ##
-// ##		1.2          ##
+// ##		1.3          ##
 // ##     REQUIRED       ##
 // ########################
 
@@ -55,16 +55,26 @@ if (Config::get_config("ocr_enabled") == "1")
 		// save ocr text
 		if ($action == "save")
 		{
+			// read content from the uploaded textfile and save it into the database
+			// read uploaded file
+			$ocr_text = File::read_file($ocr_text_file['tmp_name']);
+
+			// strip all unwanted chars
+			$ocr_text = Text::convert_letter($ocr_text,"a-z0-9 SPECIAL");
+
 			// save the entry
-			Item::set_ocr_text($item,$old_ocr_text . $ocr_text);
+			Item::set_ocr_text($item,$ocr_text);	
 
-			$ocr_text = str_replace("°",null,$ocr_text);
+			// on error write error as ocr_text - or else it will repeat everytime the agent starts - also return fail or succes message
+			if (Item::get_ocr_text($item) == null) { // no ocr text saved -> something went wrong
+				Item::set_ocr_text($item,"OCR_AGENT_ERROR");
+				$output = "OCR_AGENT_ERROR ".$item."\n";
+			}
+			else // text saved sucessfully
+			{
+				$output = "Saved ".strlen(Item::get_ocr_text($item))." Characters in Item ".$item."\n";
+			}
 
-			// on error write error as ocr_text - or else it will repeat everytime the agent starts
-			if (Item::get_ocr_text($item) == null) { Item::set_ocr_text($item,"OCR_AGENT_ERROR"); }
-
-			// return message to the agent
-			$output = "Saved ocr text for item: " . $item;
 		}
 	}
 	else 

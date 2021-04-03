@@ -5,18 +5,17 @@
 # BEst REcipe SOftware
 # ###################################
 # BeReSo OCR Agent
-# Version 1.2
+# Version 1.3
 # ###################################
 
 
 # Config
-BERESO_URL="http://bereso/" # URL to the BeReSo installation
+BERESO_URL="http://bereso/"
 BERESO_PASSWORD="PASSWORD_FOR_OCR_AGENT" # Password for the OCR agent
 export TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/ # Tesseract tessdata folder
 LANGUAGE=deu # Set tesseract processing language
 LOGPATH=/home/user/bereso_agent_ocr.log
 OCRTEMP=/home/user/temp/
-
 
 ############################################
 # NO CONFIG CHANGE NEEDED BELOW THIS LINE
@@ -71,14 +70,16 @@ do
         # build save ocr url
         OCRSAVEURL="$BERESO_URL?module=agent_ocr&action=save&ocr_password=$BERESO_PASSWORD&item=$BASEFILE"
 
-        # upload the data
-        OCRTEXT=`cat $OCRTEMP$BASEFILE` # read file ocr.txt
+        OCRTEXT=$OCRTEMP$BASEFILE # path to ocr text file
 
-        # save the data
-        curl -d "ocr_text=$OCRTEXT" -X POST $OCRSAVEURL
+        # if $BASEFILE is not a number but * -> there is no file in temp
+        if [ "$BASEFILE" == "*" ]
+        then
+                echo "No ocr job" >> $LOGPATH # Log nothing todo
+        else
+                curl -F "ocr_text_file=@$OCRTEXT" $OCRSAVEURL >> $LOGPATH # upload the textfile for this entry and save response in logfile
+        fi
 
-        # log entry
-        echo "$BASEFILE" >> $LOGPATH
 done
 
 

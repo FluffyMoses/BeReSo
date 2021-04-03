@@ -107,7 +107,7 @@ elseif ($module == "login")
 elseif ($module == "agent_ocr")
 {
 	$ocr_password = @$_GET['ocr_password']; // ocr password passed by the agent
-	$ocr_text = @$_POST['ocr_text']; // ocr text
+	$ocr_text_file = @$_FILES['ocr_text_file']; // ocr text file
 }
 // for edit_ocr.php
 elseif ($module == "edit_ocr")
