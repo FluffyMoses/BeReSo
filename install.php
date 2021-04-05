@@ -26,8 +26,16 @@ include("classes/user.php");
 include("classes/text.php");
 
 
+// Modules
+include("modules/about.php");
+
+
 // Config
 include("config.php");
+
+
+// Default image folder - can later be changed via the admincenter
+$bereso['images'] = "images/";
 
 
 // Installer language - use bereso default language if available
@@ -36,6 +44,7 @@ else { $installer['language'] = "en"; } // english is always the fallback langua
 
 // check tables
 $installer['tables'] = array(
+	"bereso_config",
 	"bereso_group",
 	"bereso_images",
 	"bereso_item",
@@ -93,6 +102,7 @@ $installer['text']['de']['user_name_error'] = "Name enh&auml;lt ung&uuml;ltige Z
 $installer['text']['de']['user_password_error'] = "Passwort enh&auml;lt ung&uuml;ltige Zeichen.<br>";
 $installer['text']['de']['phpextensions'] = "PHP Extensions geladen";
 $installer['text']['de']['user_createfolder_error'] = "Fehler beim erstellen des Benutzer Bilderordners: ";
+$installer['text']['de']['requirements_url'] = "BeReSo URL (mit / am Ende)";
 
 // english
 $installer['text']['en']['bereso_installer'] = "BeReSo Installer";
@@ -114,6 +124,7 @@ $installer['text']['en']['user_name_error'] = "Name contains forbidden character
 $installer['text']['en']['user_password_error'] = "Password contains forbidden characters.<br>";
 $installer['text']['en']['phpextensions'] = "PHP extensions loaded";
 $installer['text']['en']['user_createfolder_error'] = "Error while creating the user image folder: ";
+$installer['text']['en']['requirements_url'] = "BeReSo URL (ending with /)";
 
 
 // Installer HTML templates
@@ -160,7 +171,7 @@ $installer['template']['requirements_phpextension'] = '<div class="boxed">(insta
 $installer['template']['requirements_phpextension_item'] = '(installer_requirements_phpextension_item)<br>';
 $installer['template']['requirements_table_item'] = '(installer_requirements_table_item)<br>';
 $installer['template']['requirements_table_exists'] = '<div class="boxed">(installer_requirements_table_exists)</div><br>';
-$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><button type="submit" value="(installer_requirements_create_tables)" class="button">(installer_requirements_create_tables)</button></form></div><br>';
+$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST">(installer_requirements_url): <input class="inputfield" name="bereso_url" value="http://bereso/"><br><br><button type="submit" value="(installer_requirements_create_tables)" class="button">(installer_requirements_create_tables)</button></form></div><br>';
 $installer['template']['installation_successfull'] = '<div class="boxed">(installer_installation_successfull)<br><br><a class="none" href="index.php">BeReSo index.php</a></div><br>';
 $installer['template']['font_green_open'] = '<font color="green">';
 $installer['template']['font_green_close'] = '</font>';
@@ -302,6 +313,10 @@ if ($action == "create_tables")
 	{
 		$sql_file .= File::read_file($installer['sql'][$i])."\n";
 	}
+
+	// Add config entries
+	$sql_file .= "INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('url', '".$_POST['bereso_url']."');"; // BeReSo URL - save in bereso_config
+
 	if (!$sql->multi_query($sql_file)) 
 	{
 		$content = str_replace("(installer_query_sql)",$installer['template']['font_red_open'].$installer['text'][$installer['language']]['query_sql_error']."<br> " . $sql->error.$installer['template']['font_red_close'],$installer['template']['query_sql']); // load query_sql template and insert error message
@@ -322,7 +337,7 @@ if ($action == "create_user" && $check_post['user'] == true)
 	// check if name, password and templateid are not empty
 	if(strlen($user_name) > 0 && strlen($user_password) > 0 && is_numeric($user_templateid))
 	{
-		$sql->query("INSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('".$user_name."','".User::generate_password_hash($user_password)."','".$user_templateid."')"); // save new user to the database
+		$sql->query("INSERT INTO bereso_user (user_name,user_pwhash,user_template,user_admin) VALUES ('".$user_name."','".User::generate_password_hash($user_password)."','".$user_templateid."','1')"); // save new user to the database
 		$add_id = $sql->insert_id;
 		// create image folder for this user
 		if (!@mkdir($bereso['images'].$add_id)) 
@@ -380,6 +395,7 @@ if ($check_requirement['phpextensions'] == true)
 			{
 				$content .= str_replace("(installer_requirements_table_not_exists)",$content_tables,$installer['template']['requirements_table_not_exists']); // load table_exists template and insert error message
 				$content = str_replace("(installer_requirements_create_tables)",$installer['text'][$installer['language']]['create_tables'],$content);
+				$content = str_replace("(installer_requirements_url)",$installer['text'][$installer['language']]['requirements_url'],$content);				
 			}
 		}
 	}

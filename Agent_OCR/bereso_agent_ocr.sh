@@ -10,7 +10,7 @@
 
 
 # Config
-BERESO_URL="http://bereso/"
+BERESO_URL="http://bereso/" # URL to the BeReSo installation
 BERESO_PASSWORD="PASSWORD_FOR_OCR_AGENT" # Password for the OCR agent
 export TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/ # Tesseract tessdata folder
 LANGUAGE=deu # Set tesseract processing language

@@ -1,0 +1,141 @@
+<form enctype="multipart/form-data" action="?module=admin&action=saveconfig" method="POST">
+	<p class="headline1">(bereso_template-admin_config)</p>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+			<tr>
+				<td width="50%" valign="top">
+					<input name="bereso_url" type="text" style="width:100%;" value="(bereso_admin_config_url)" class="inputfield" />
+				</td>
+				<td width="50%">
+					<p class="headline3">(bereso_template-admin_config_url)<p>
+				</td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<label class="container">(bereso_template-admin_config_httpsredirect)
+						<input type="checkbox" class="button" name="bereso_httpsredirect" value="httpsredirect" (bereso_admin_config_httpsredirect)> 
+						<span class="checkmark"></span>
+					</label>
+				</td>
+				<td width="50%">
+				
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+			<tr>
+				<td width="50%" valign="top">
+					<input name="bereso_images" type="text" style="width:100%;" value="(bereso_admin_config_images)" class="inputfield" />
+				</td>
+				<td width="50%">
+					<p class="headline3">(bereso_template-admin_config_images)<p>
+				</td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<input name="bereso_images_thumbnail_height" type="text" style="width:100%;" value="(bereso_admin_config_images_thumbnail_height)" class="inputfield" />
+				</td>
+				<td width="50%">
+					<p class="headline3">(bereso_template-admin_config_images_thumbnail)<p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+				<tr>
+					<td width="50%" valign="top">
+						<input name="bereso_timezone" type="text" style="width:100%;" value="(bereso_admin_config_timezone)" class="inputfield" />
+					</td>
+					<td width="50%">
+						<p class="headline3">(bereso_template-admin_config_timezone) <a href="https://www.php.net/manual/en/timezones.php" target="_BLANK">https://www.php.net/manual/en/timezones.php</a><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%" valign="top">
+						<input name="bereso_datetime" type="text" style="width:100%;" value="(bereso_admin_config_datetime)" class="inputfield" />
+					</td>
+					<td width="50%">
+						<p class="headline3">(bereso_template-admin_config_datetime) <a href="https://www.php.net/manual/de/function.date.php" target="_BLANK">https://www.php.net/manual/de/function.date.php</a><p>
+					</td>
+				</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+				<tr>
+					<td width="50%" valign="top">
+						<input name="bereso_sessionlifetime" type="text" style="width:100%;" value="(bereso_admin_config_sessionlifetime)" class="inputfield" />
+					</td>
+					<td width="50%">
+						<p class="headline3">(bereso_template-admin_config_sessionlifetime)<p>
+					</td>
+				</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+				<tr>
+					<td width="50%" valign="top">
+						<input name="bereso_new_amount_images" type="text" style="width:100%;" value="(bereso_admin_config_new_amount_images)" class="inputfield" />
+					</td>
+					<td width="50%">
+						<p class="headline3">(bereso_template-admin_config_new_amount_images)<p>
+					</td>
+				</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+			<tr>
+				<td width="50%" valign="top">
+					<label class="container">(bereso_template-admin_config_ocr_enabled)
+						<input type="checkbox" class="button" name="bereso_ocr_enabled" value="ocr_enabled" (bereso_admin_config_ocr_enabled)> 
+						<span class="checkmark"></span>
+					</label>
+				</td>
+				<td width="50%">
+				
+				</td>
+			</tr>
+			<tr>
+				<td width="50%" valign="top">
+					<input name="bereso_ocr_password" type="text" style="width:100%;" value="(bereso_admin_config_ocr_password)" class="inputfield" />
+				</td>
+				<td width="50%">
+					<p class="headline3">(bereso_template-admin_config_ocr_password)<p>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+				<tr>
+					<td width="50%" valign="top">
+						<textarea rows="10" name="bereso_login_motd" type="text" style="width:100%;" class="inputfield">(bereso_admin_config_login_motd)</textarea>
+					</td>
+					<td width="50%" valign="top">
+						<p class="headline3">(bereso_template-admin_config_login_motd)<p>
+					</td>
+				</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+
+			(bereso_admin_config_message)
+			<br>
+
+			<button type="submit" value="(bereso_template-admin_config_save)" class="button">(bereso_template-admin_config_save)</button>
+	</div>
+</form>

@@ -77,6 +77,26 @@ class User
 			}
 		}                		
 	}
+
+	// check if user is admin
+	public static function is_admin($ia_user)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT user_admin from bereso_user WHERE user_name='$ia_user'"))
+		{
+			$row = $result -> fetch_assoc();
+			// check if user exists and password matches hashed password
+			if (!empty($row) && $row['user_admin'] == "1") // not empty and user_admin = 1 
+			{
+				return true;
+				
+			}
+			else 
+			{
+				return false;
+			}
+		}                		
+	}
 	
 	// Hash password  and return value
 	public static function generate_password_hash($gph_password)

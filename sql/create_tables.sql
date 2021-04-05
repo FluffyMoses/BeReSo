@@ -7,10 +7,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for bereso
-CREATE DATABASE IF NOT EXISTS `bereso` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `bereso`;
-
 -- Dumping structure for table bereso.bereso_config
 CREATE TABLE IF NOT EXISTS `bereso_config` (
   `config_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id of the bereso config item',
@@ -97,11 +93,12 @@ CREATE TABLE IF NOT EXISTS `bereso_template_text` (
 -- Dumping structure for table bereso.bereso_user
 CREATE TABLE IF NOT EXISTS `bereso_user` (
   `user_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'the unique id of an user',
-  `user_name` varchar(250) NOT NULL COMMENT 'login name of the user',
-  `user_pwhash` varchar(250) DEFAULT NULL COMMENT 'hashed password',
+  `user_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'login name of the user',
+  `user_pwhash` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'hashed password',
   `user_template` int(10) DEFAULT NULL COMMENT 'template that is loaded for this user on login',
-  `user_last_list` varchar(250) DEFAULT NULL COMMENT 'last tag that the user listed (needed for the back-to-list button)',
-  `user_last_taggroup` varchar(250) DEFAULT NULL COMMENT 'last taggroup that the user listed (needed for the back-to-list_tags button)',
+  `user_admin` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is user admin',
+  `user_last_list` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'last tag that the user listed (needed for the back-to-list button)',
+  `user_last_taggroup` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'last taggroup that the user listed (needed for the back-to-list_tags button)',
   `user_ocr` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr enabled for this user',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='stores all user informations';

@@ -22,6 +22,7 @@ nav ul li {
     float: left;
     list-style: none;
     transition: 0.5s;
+    z-index: 20; /* over other css elements in content area */
 }
 
 nav ul li a {

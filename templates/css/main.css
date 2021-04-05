@@ -73,8 +73,9 @@ img.favorite {
 
 
 /* Headlines */
-p.headline1 { color: #333333; font-family: 'Bitter', serif; font-size: 24px; font-weight: bold;  }
-p.headline2 { color: #333333; font-family: 'Bitter', serif; font-size: 20px; font-weight: bold;  }
+p.headline1 { color: #333333; font-family: 'Arial', serif; font-size: 24px; font-weight: bold;  }
+p.headline2 { color: #333333; font-family: 'Arial', serif; font-size: 20px; font-weight: bold;  }
+p.headline3 { color: #333333; font-family: 'Arial', serif; font-size: 20px; }
 
 
 /* Links */
@@ -270,6 +271,7 @@ a.none:active { text-decoration:none; }
   cursor: pointer;
   height: 0;
   width: 0;
+  z-index: 10;
 }
 
 .checkmark {

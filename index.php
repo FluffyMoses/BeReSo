@@ -6,6 +6,10 @@
 // ###################################
 
 
+// BeReSo informations
+include("modules/about.php");
+
+
 // Classes
 include "classes/config.php"; // Static file Functions
 include "classes/file.php"; // Static file Functions
@@ -18,8 +22,24 @@ include "classes/item.php"; // Static item Functions
 include "classes/tags.php"; // Static tags Functions
 
 
-// Config
-include "config.php";
+// Config static
+include "config.php"; // static config file - edited by user
+
+
+// set timestamp for this run
+$bereso['now'] = time();
+
+
+// SQL connection
+$sql = @new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['password'],$bereso['sql']['database']); 
+if (mysqli_connect_errno()) {
+    Log::die("Connect failed: " . mysqli_connect_error(), false); // log problems with SQL Connection
+}
+$sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
+
+
+// Config dynamic
+include "modules/config.php"; // load dynamic configs - php.ini values, dbsettings
 
 
 // Redirect to HTTPS when HTTP is requested - $bereso['https_redirect'] == true and $bereso['url'] musst be https:// 
@@ -39,10 +59,6 @@ if ($bereso['https_redirect'] == true && strtolower(substr($bereso['url'],0,5)) 
 
 // start PHP session
 session_start();
-
-
-// set timestamp for this run
-$bereso['now'] = time();
 
 
 // Read POST and GET variables
@@ -114,6 +130,21 @@ elseif ($module == "edit_ocr")
 {
 	$edit_text = @$_POST['edit_text'];
 	$edit_searchable = @$_POST['edit_searchable'];
+}
+// for admin.php
+elseif ($module == "admin")
+{
+	$bereso_url = @$_POST['bereso_url'];
+	$bereso_httpsredirect = @$_POST['bereso_httpsredirect'];
+	$bereso_images = @$_POST['bereso_images'];
+	$bereso_images_thumbnail_height = @$_POST['bereso_images_thumbnail_height'];
+	$bereso_timezone = @$_POST['bereso_timezone'];
+	$bereso_datetime = @$_POST['bereso_datetime'];
+	$bereso_sessionlifetime = @$_POST['bereso_sessionlifetime'];
+	$bereso_new_amount_images = @$_POST['bereso_new_amount_images'];
+	$bereso_ocr_password = @$_POST['bereso_ocr_password'];
+	$bereso_ocr_enabled = @$_POST['bereso_ocr_enabled'];
+	$bereso_login_motd = @$_POST['bereso_login_motd'];
 }
 
 
@@ -201,18 +232,26 @@ elseif ($module == "edit_ocr")
 	if(!Text::is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1;  }
 	if ($edit_searchable == "searchable") { $edit_searchable = true; } else { $edit_searchable = false; }
 }
+// for admin.php
+elseif ($module == "admin")
+{
+	$form_config_error = 0;
+	if(!Text::is_letter($bereso_url,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_httpsredirect,"a-z")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_images,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if (!is_numeric($bereso_images_thumbnail_height)) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_timezone,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_datetime,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if (!is_numeric($bereso_sessionlifetime)) { $form_config_error = 1;  }
+	if (!is_numeric($bereso_new_amount_images)) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_ocr_password,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_ocr_enabled,"a-z_")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_login_motd,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+}
 
 
 // set default page
 if ($module == "") { $module = "list_tags"; }
-
-
-// SQL connection
-$sql = @new mysqli($bereso['sql']['host'],$bereso['sql']['user'],$bereso['sql']['password'],$bereso['sql']['database']); 
-if (mysqli_connect_errno()) {
-    Log::die("Connect failed: " . mysqli_connect_error(), false); // log problems with SQL Connection
-}
-$sql->query("SET NAMES 'utf8'"); // UTF8 DB Setting
 
 
 // if install.php is still on the webserver while user trys to run bereso
@@ -251,6 +290,7 @@ if (User::is_logged_in($user,$passwordhash))
 	elseif ($module == "delete") { include ("modules/delete.php"); }
 	elseif ($module == "import") { include ("modules/import.php"); }
 	elseif ($module == "login") { include ("modules/login.php"); }
+	elseif ($module == "admin") { include ("modules/admin.php"); }
 }
 else // user is not logged in => load login module => form without menu and navigation
 {	
@@ -271,6 +311,9 @@ if ($output_default == true) { $output = File::read_file("templates/main.html");
 
 
 // Navigation changes for many modules:
+
+// add navigation link to the admincenter
+if (User::is_admin($user)) { $navigation .= File::read_file("templates/main-navigation-admin.html"); }
 
 // -> Last list - backbutton on show, edit, edit_ocr, delete
 // delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or edit_ocr.php or show.php?action=random

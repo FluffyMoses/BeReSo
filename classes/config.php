@@ -47,7 +47,7 @@ class Config
 			}
 			else 
 			{
-				return "ERBDKFJKE";
+				return "ERROR_MISSING_CONFIG";
 			}
 		}                		
 	}	
