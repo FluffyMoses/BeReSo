@@ -50,6 +50,13 @@ img.maxwidthheightlimit {
 	max-height: 200;
 }
 
+img.image_admin_last_menu {
+	max-width: 39;
+	max-height: 39;
+	padding: 1px;
+	margin: auto;
+}
+
 img.image_last_list {
 	max-width: 39;
 	max-height: 39;

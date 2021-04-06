@@ -83,7 +83,14 @@ class Image
 	public static function get_foldername_by_user_id($gfbui_user_id)
 	{
 		global $bereso;
-		return $bereso['images'] . $gfbui_user_id . "/";
+		if ($gfbui_user_id > 0 && is_numeric($gfbui_user_id))
+		{
+			return $bereso['images'] . $gfbui_user_id . "/";
+		}
+		else
+		{
+			return "ERROR";
+		}
 	}
 
 	// return image foldername by share id

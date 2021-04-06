@@ -1,0 +1,35 @@
+<p class="headline1">(bereso_template-admin_users_new_user)</p>
+<br>
+
+<div class="boxed">
+<form enctype="multipart/form-data" action="?module=admin&action=new_user_add" method="POST">
+	<p class="headline2">(bereso_template-admin_users_new_name)</p>
+	<input name="user_name" type="text" style="width:100%;" value="(bereso_admin_users_new_name)" class="inputfield" />
+	<p class="headline2">(bereso_template-admin_users_new_password)<p>
+	<input name="user_password" type="text" style="width:100%;" value="(bereso_admin_users_new_password)" class="inputfield" />
+	<br>
+	<br>
+	<p class="headline2">(bereso_template-admin_users_new_template)</p>
+	<select name="user_templates" class="button" >
+		<option value="1" (bereso_admin_users_new_template_1)>DE - Rezeptverwaltung</option>	
+		<option value="2" (bereso_admin_users_new_template_2)>DE - Kreativ</option>
+		<option value="3" (bereso_admin_users_new_template_3)>DE - Projektverwaltung</option>
+		<option value="4" (bereso_admin_users_new_template_4)>EN - Recipe management</option>
+	</select>
+	<br>
+	<br>
+	<label class="container">(bereso_template-admin_users_new_ocr)
+	  <input type="checkbox" class="button" name="user_ocr" value="new_ocr" (bereso_admin_users_new_ocr)> 
+	  <span class="checkmark"></span>
+	</label>
+	<br>
+	<label class="container">(bereso_template-admin_users_new_admin)
+	  <input type="checkbox" class="button" name="user_admin" value="new_admin" (bereso_admin_users_new_admin)> 
+	  <span class="checkmark"></span>
+	</label>
+	<br>
+	(bereso_admin_users_new_message)
+	<br>
+	<button type="submit" value="(bereso_template-admin_users_new_save)" class="button">(bereso_template-admin_users_new_save)</button>
+</div>
+<br>

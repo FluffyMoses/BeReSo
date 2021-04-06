@@ -15,7 +15,6 @@ if (("standalone" in window.navigator) && window.navigator.standalone) {
 
 		noddy = event.target;
 
-		// Bubble up until we hit link or top HTML element. Warning: BODY element is not compulsory so better to stop on HTML
 		while (noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
 			noddy = noddy.parentNode;
 		}

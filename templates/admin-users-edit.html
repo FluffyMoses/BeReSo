@@ -1,0 +1,44 @@
+<p class="headline1">(bereso_template-admin_users_edit_user)</p>
+<br>
+
+<div class="boxed">
+	<form enctype="multipart/form-data" action="?module=admin&action=edit_user_save&user_id=(bereso_admin_users_edit_user_id)" method="POST">
+		<p class="headline2">(bereso_template-admin_users_edit_name)</p>
+		<input name="user_name" type="text" style="width:100%;" value="(bereso_admin_users_edit_name)" class="inputfield" />
+
+		<br>
+		<br>
+		<p class="headline2">(bereso_template-admin_users_edit_template)</p>
+		<select name="user_templates" class="button" >
+		<option value="1" (bereso_admin_users_edit_template_1)>DE - Rezeptverwaltung</option>	
+		<option value="2" (bereso_admin_users_edit_template_2)>DE - Kreativ</option>
+		<option value="3" (bereso_admin_users_edit_template_3)>DE - Projektverwaltung</option>
+		<option value="4" (bereso_admin_users_edit_template_4)>EN - Recipe management</option>
+		</select>
+		<br>
+		<br>
+		<label class="container">(bereso_template-admin_users_edit_ocr)
+		  <input type="checkbox" class="button" name="user_ocr" value="edit_ocr" (bereso_admin_users_edit_ocr)> 
+		  <span class="checkmark"></span>
+		</label>
+		<br>
+		<label class="container">(bereso_template-admin_users_edit_admin)
+		  <input type="checkbox" class="button" name="user_admin" value="edit_admin" (bereso_admin_users_edit_admin)> 
+		  <span class="checkmark"></span>
+		</label>
+		(bereso_admin_users_edit_message)
+		<br>
+		<button type="submit" value="(bereso_template-admin_users_edit_save)" class="button">(bereso_template-admin_users_edit_save)</button>
+	</form>
+</div>
+<br>
+<div class="boxed">
+	<form enctype="multipart/form-data" action="?module=admin&action=edit_user_password_save&user_id=(bereso_admin_users_edit_user_id)" method="POST">
+		<p class="headline2">(bereso_template-admin_users_edit_password)<p>
+		<input name="user_password" type="text" style="width:100%;" value="(bereso_admin_users_edit_password)" class="inputfield" />
+		<br>
+		(bereso_admin_users_edit_password_message)
+		<br>
+		<button type="submit" value="(bereso_template-admin_users_edit_save)" class="button">(bereso_template-admin_users_edit_save)</button>
+	</form>
+</div>

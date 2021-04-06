@@ -134,6 +134,7 @@ elseif ($module == "edit_ocr")
 // for admin.php
 elseif ($module == "admin")
 {
+	// configuration
 	$bereso_url = @$_POST['bereso_url'];
 	$bereso_httpsredirect = @$_POST['bereso_httpsredirect'];
 	$bereso_images = @$_POST['bereso_images'];
@@ -145,6 +146,13 @@ elseif ($module == "admin")
 	$bereso_ocr_password = @$_POST['bereso_ocr_password'];
 	$bereso_ocr_enabled = @$_POST['bereso_ocr_enabled'];
 	$bereso_login_motd = @$_POST['bereso_login_motd'];
+	// user management
+	$user_id = @$_GET['user_id'];
+	$user_name = @$_POST['user_name'];
+	$user_password = @$_POST['user_password'];
+	$user_templates = @$_POST['user_templates'];
+	$user_ocr = @$_POST['user_ocr'];
+	$user_admin = @$_POST['user_admin'];
 }
 
 
@@ -235,6 +243,7 @@ elseif ($module == "edit_ocr")
 // for admin.php
 elseif ($module == "admin")
 {
+	// configuration
 	$form_config_error = 0;
 	if(!Text::is_letter($bereso_url,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_httpsredirect,"a-z")) { $form_config_error = 1;  }
@@ -247,6 +256,15 @@ elseif ($module == "admin")
 	if(!Text::is_letter($bereso_ocr_password,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_ocr_enabled,"a-z_")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_login_motd,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	// user management
+	$form_user_error = 0;
+	$form_user_password_error = 0;
+	if (!is_numeric($user_id) && strlen($user_id) > 0) { Log::die ("CHECK: \$user_id failed ".'"'.$user_id.'"'); }
+	if(!Text::is_letter($user_name,"a-z-") or strlen($user_name) == 0) { $form_user_error = 1;  }
+	if(!Text::is_letter($user_password,"a-z0-9 SPECIAL") or strlen($user_password) == 0) { $form_user_password_error = 1;  }
+	if (!is_numeric($user_templates) && strlen($user_templates) > 0) { Log::die ("CHECK: \$user_templates failed ".'"'.$user_templates.'"'); }
+	if(!Text::is_letter($user_ocr,"a-z_")) { $form_user_error = 1; }
+	if(!Text::is_letter($user_admin,"a-z_")) { $form_user_error = 1; }
 }
 
 

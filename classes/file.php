@@ -48,5 +48,20 @@ class File
         elseif ($gd_format == "GB") { $directorysize = $directorysize / 1024 / 1024 / 1024; }
         return round($directorysize,2); // round directorysize
     }
+
+    // delete directory - delete all files in the folder and the folder
+    public static function delete_directory($dd_path)
+    {
+        $files = scandir($dd_path); // scan for files in directory
+        foreach ($files as $file => $value)
+        {           
+            // only files inside this directory
+            if (!is_dir($dd_path.$value))
+            {    
+                unlink($dd_path.$value); // delete file
+            }
+        }
+        rmdir($dd_path); // delete folder
+    }
 }
 ?>
