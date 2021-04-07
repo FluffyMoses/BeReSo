@@ -1,0 +1,1 @@
+UPDATE `bereso_config` SET `config_value` = '3.6' WHERE `config_name`='dbversion';

@@ -112,7 +112,38 @@ if (Item::is_owned_by_user($user,$item)) {
 		imagedestroy($rotate_image);
 
 		// change timestamp_edit
-		$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");					
+		$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");	
+		
+		// Rename all images of this item to prevent browser from showing old cached ones
+		// get old and new filename
+		$old_filename = Image::get_filename($item);
+		$new_filename = uniqid();			
+		// check if alle files are renamed correctly
+		$error_rename = false;
+		$error_rename_log = null;			
+		// rename all image files
+		if ($result = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."'"))
+		{	
+			while ($row = $result -> fetch_assoc())
+			{
+				$old_complete_filename = Image::get_filenamecomplete($item,$row['images_image_id']);
+				$new_complete_filename = $new_filename . "_" . $row['images_image_id'] . Image::get_fileextension($item,$row['images_image_id']);					
+				rename(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$old_complete_filename,Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename); // rename the file
+				// check if rename failed
+				if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
+			}
+		}
+		// only change db if no rename error occured
+		if ($error_rename == false)
+		{
+			// item update new_filename in database
+			$sql->query("UPDATE bereso_item SET item_imagename='".$new_filename."' WHERE item_id='".$item."'");
+		}
+		else
+		{
+			// Log rename error and end script
+			Log::die ("CHECK: rename item ".$item." (old imageid: ".$old_filename." - new imageid: ".$new_filename.") after image upload: ".$error_rename_log);
+		}
 		
 		$action = null; // Load Edit Form again
 	}	
@@ -156,6 +187,37 @@ if (Item::is_owned_by_user($user,$item)) {
 							imagedestroy($new_image);
 							imagedestroy($old_image);
 						}
+
+						// Rename all images of this item to prevent browser from showing old cached ones
+						// get old and new filename
+						$old_filename = Image::get_filename($item);
+						$new_filename = uniqid();			
+						// check if alle files are renamed correctly
+						$error_rename = false;
+						$error_rename_log = null;			
+						// rename all image files
+						if ($result = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."'"))
+						{	
+							while ($row = $result -> fetch_assoc())
+							{
+								$old_complete_filename = Image::get_filenamecomplete($item,$row['images_image_id']);
+								$new_complete_filename = $new_filename . "_" . $row['images_image_id'] . Image::get_fileextension($item,$row['images_image_id']);					
+								rename(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$old_complete_filename,Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename); // rename the file
+								// check if rename failed
+								if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
+							}
+						}
+						// only change db if no rename error occured
+						if ($error_rename == false)
+						{
+							// item update new_filename in database
+							$sql->query("UPDATE bereso_item SET item_imagename='".$new_filename."' WHERE item_id='".$item."'");
+						}
+						else
+						{
+							// Log rename error and end script
+							Log::die ("CHECK: rename item ".$item." (old imageid: ".$old_filename." - new imageid: ".$new_filename.") after image upload: ".$error_rename_log);
+						}
 				}
 				else // Fileextension not ok
 				{
@@ -180,14 +242,13 @@ if (Item::is_owned_by_user($user,$item)) {
 		// item shared? => disable sharing
 		if (strlen($item_sharing) > 0) 
 		{
+			// rename all files to prevent access to old direct links
 			// get old and new filename
 			$old_filename = Image::get_filename($item);
-			$new_filename = uniqid();
-			
+			$new_filename = uniqid();			
 			// check if alle files are renamed correctly
 			$error_rename = false;
-			$error_rename_log = null;
-			
+			$error_rename_log = null;			
 			// rename all image files
 			if ($result = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$item."'"))
 			{	
