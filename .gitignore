@@ -10,9 +10,6 @@ Thumbs.db
 # Git
 .git/
 
-# Agent_OCR - is in it's own repository
-Agent_OCR/
-
 # BeReSo
 images/
 die.log
