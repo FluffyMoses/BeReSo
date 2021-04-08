@@ -272,8 +272,8 @@ elseif ($module == "admin")
 if ($module == "") { $module = "list_tags"; }
 
 
-// if install.php is still on the webserver while user trys to run bereso
-if (file_exists("install.php")) { Log::die ("Delete install.php after setup to run BeReSo!"); }
+// if install.php is still on the webserver while user trys to run BeReSo - redirect to install.php
+if (file_exists("install.php")) { header('Location: install.php',true, 302 ); }
 
 
 // set default title
