@@ -278,7 +278,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			$sql->query("UPDATE bereso_item SET item_shareid='".uniqid()."' WHERE item_id='".$item."'");		
 		}		
 		// redirect back to show.php
-		header('Location: ?module=show&item='.$item,true, 301 ); 
+		header('Location: index.php?module=show&item='.$item,true, 302 ); 
 		exit(); // stops the rest of the script from running 
 	}
 	
@@ -297,7 +297,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			Item::set_favorite($item,true);
 		}	
 		// redirect back to show.php
-		header('Location: ?module=show&item='.$item,true, 301 ); 
+		header('Location: index.php?module=show&item='.$item,true, 302 ); 
 		exit(); // stops the rest of the script from running 
 	}
 

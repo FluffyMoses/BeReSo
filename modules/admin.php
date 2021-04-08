@@ -278,7 +278,7 @@ if (User::is_admin($user))
 		$sql->query("DELETE FROM bereso_user WHERE user_id='".$user_id."'"); // delete user in database
 
 		// redirect back to users in admin.php
-		header('Location: ?module=admin&action=users',true, 301 ); 
+		header('Location: index.php?module=admin&action=users',true, 302 ); 
 	}
 
 

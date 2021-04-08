@@ -41,7 +41,7 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename 
 				$sql->query("INSERT into bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$row2['images_image_id']."','".Image::get_fileextension($row['item_id'],$row2['images_image_id'],false)."')");
 			}
 		}
-		header('Location: '.$bereso['url']."?module=show&item=".$add_id); // Redirect to the new created item
+		header('Location: index.php?module=show&item='.$add_id, true, 302); // Redirect to the new created item
 		exit(); // stops the rest of the script from running 
 	}
 	// image does not exist or is not shared

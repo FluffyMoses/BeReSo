@@ -25,7 +25,7 @@ if ($action == "random")
 		// user has no items
 		else
 		{
-			header('Location: '.$bereso['url']); // Redirect to the startpage
+			header('Location: index.php', true, 302);// Redirect to the startpage
 			exit(); // stops the rest of the script from running 
 		}
 	}	

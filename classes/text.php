@@ -23,7 +23,7 @@ class Text
 		$cl_string = str_replace("ö","BERESOo",$cl_string);
 		$cl_string = str_replace("ß","BERESOss",$cl_string);
 
-		if ($cl_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]"; } //  a-z 0-9 SPECIALCHARS
+		if ($cl_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[];\$§=&*+|\""; } //  a-z 0-9 SPECIALCHARS
 		else { Log::die ("CHECK: \$cl_pattern failed  ".'"'.$cl_pattern.'"',false); }
 
 		$converted_string = null;
@@ -58,8 +58,8 @@ class Text
 		elseif ($il_pattern == "a-z-") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789-"; } //  a-z plus -
 		elseif ($il_pattern == "a-z0-9") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789"; } //  a-z 0-9
 		elseif ($il_pattern == "a-z0-9 ") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 "; } //  a-z 0-9 SPACE
-		elseif ($il_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[]"; } //  a-z 0-9 SPECIALCHARS		
-		elseif ($il_pattern == "a-z0-9 SPECIALPASSWORDHASH") { $letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \r\n!?-#:./,_°%()[]$"; } //  a-z 0-9 SPECIALCHARS		
+		elseif ($il_pattern == "a-z0-9 SPECIAL") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[];\$§=&*+|\""; } //  a-z 0-9 SPECIALCHARS		
+		elseif ($il_pattern == "a-z0-9 SPECIALPASSWORDHASH") { $letters = "abcdefghijklmnopqrstuvwxyzöäüßABCDEFGHIJKLMNOPQRSTUVWXYZÖÄÜ0123456789 \r\n!?-#:./,_°%()[];\$§=&*+|\""; } //  a-z 0-9 SPECIALCHARS		
 		else { Log::die ("CHECK: \$il_pattern failed  ".'"'.$il_pattern.'"'); }
 		
 		for ($i=0;$i<strlen($il_string);$i++)

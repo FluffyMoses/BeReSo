@@ -10,7 +10,7 @@
 // ########################
 // ##      BeReSo        ##
 // ##  OCR AGENT VERSION ##
-// ##		1.3          ##
+// ##		1.4          ##
 // ##     REQUIRED       ##
 // ########################
 
@@ -67,8 +67,8 @@ if (Config::get_config("ocr_enabled") == "1")
 
 			// on error write error as ocr_text - or else it will repeat everytime the agent starts - also return fail or succes message
 			if (Item::get_ocr_text($item) == null) { // no ocr text saved -> something went wrong
-				Item::set_ocr_text($item,"OCR_AGENT_ERROR");
-				$output = "OCR_AGENT_ERROR ".$item."\n";
+				Item::set_ocr_text($item,"TESSERACT_OCR_NO_CHARACTERS_RECOGNIZED");
+				$output = "TESSERACT_OCR_NO_CHARACTERS_RECOGNIZED ".$item."\n";
 			}
 			else // text saved sucessfully
 			{

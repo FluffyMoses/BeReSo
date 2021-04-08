@@ -14,7 +14,7 @@
 // 2) creates tables in database
 // 3) inserts templates and template texts
 // 4) creates first user account
-// 5) delete install.php file
+// 5) delete install.php file and starts BeReSo!
 
 // Login with your new created user
 // ###################################
@@ -95,14 +95,14 @@ $installer['text']['de']['table_not_exists'] = "Tabellen existieren nicht:";
 $installer['text']['de']['create_tables'] = "Erstelle Tabellen und f&uuml;ge Templates ein";
 $installer['text']['de']['create_user'] = "Erstelle Benutzer";
 $installer['text']['de']['query_sql_error'] = "SQL Query Fehler:";
-$installer['text']['de']['installation_successfull'] = "Installation erfolgreich!<br><br>L&ouml;sche die install.php und den sql Ordner vom Webserver und starte BeReSo!";
+$installer['text']['de']['installation_successfull'] = "Installation erfolgreich!<br>";
+$installer['text']['de']['installation_successfull_button'] = "L&ouml;sche die install.php und starte BeReSo!";
 $installer['text']['de']['user_name'] = "Name (nur a-z, A-Z und - erlaubt)";
 $installer['text']['de']['user_password'] = "Passwort";
 $installer['text']['de']['user_name_error'] = "Name enh&auml;lt ung&uuml;ltige Zeichen.<br>";
 $installer['text']['de']['user_password_error'] = "Passwort enh&auml;lt ung&uuml;ltige Zeichen.<br>";
 $installer['text']['de']['phpextensions'] = "PHP Extensions geladen";
 $installer['text']['de']['user_createfolder_error'] = "Fehler beim erstellen des Benutzer Bilderordners: ";
-$installer['text']['de']['requirements_url'] = "BeReSo URL (mit / am Ende)";
 
 // english
 $installer['text']['en']['bereso_installer'] = "BeReSo Installer";
@@ -117,14 +117,14 @@ $installer['text']['en']['table_not_exists'] = "Tables not exists:";
 $installer['text']['en']['create_tables'] = "Create tables and install templates";
 $installer['text']['en']['create_user'] = "Create user";
 $installer['text']['en']['query_sql_error'] = "SQL query error:";
-$installer['text']['en']['installation_successfull'] = "Installation successfull!<br><br>Delete the install.php file and the sql folder from your webserver and run BeReSo!";
+$installer['text']['en']['installation_successfull'] = "Installation successfull!<br>";
+$installer['text']['en']['installation_successfull_button'] = "Delete install.php file and run BeReSo!";
 $installer['text']['en']['user_name'] = "Name (nur a-z, A-Z and - allowed)";
 $installer['text']['en']['user_password'] = "Password";
 $installer['text']['en']['user_name_error'] = "Name contains forbidden characters.<br>";
 $installer['text']['en']['user_password_error'] = "Password contains forbidden characters.<br>";
 $installer['text']['en']['phpextensions'] = "PHP extensions loaded";
 $installer['text']['en']['user_createfolder_error'] = "Error while creating the user image folder: ";
-$installer['text']['en']['requirements_url'] = "BeReSo URL (ending with /)";
 
 
 // Installer HTML templates
@@ -171,8 +171,8 @@ $installer['template']['requirements_phpextension'] = '<div class="boxed">(insta
 $installer['template']['requirements_phpextension_item'] = '(installer_requirements_phpextension_item)<br>';
 $installer['template']['requirements_table_item'] = '(installer_requirements_table_item)<br>';
 $installer['template']['requirements_table_exists'] = '<div class="boxed">(installer_requirements_table_exists)</div><br>';
-$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST">(installer_requirements_url): <input class="inputfield" name="bereso_url" value="http://bereso/"><br><br><button type="submit" value="(installer_requirements_create_tables)" class="button">(installer_requirements_create_tables)</button></form></div><br>';
-$installer['template']['installation_successfull'] = '<div class="boxed">(installer_installation_successfull)<br><br><a class="none" href="index.php">BeReSo index.php</a></div><br>';
+$installer['template']['requirements_table_not_exists'] = '<div class="boxed">(installer_requirements_table_not_exists)<br><form enctype="multipart/form-data" action="install.php?action=create_tables" method="POST"><br><button type="submit" value="(installer_requirements_create_tables)" class="button">(installer_requirements_create_tables)</button></form></div><br>';
+$installer['template']['installation_successfull'] = '<div class="boxed">(installer_installation_successfull)<br><br><a class="none" href="install.php?action=delete_and_redirect"><button class="button">(installer_installation_successfull_button)</button></a></div><br>';
 $installer['template']['font_green_open'] = '<font color="green">';
 $installer['template']['font_green_close'] = '</font>';
 $installer['template']['font_red_open'] = '<font color="red">';
@@ -224,6 +224,15 @@ if ($action == "create_user") // only check variables if posted
 }
 
 
+// after sucessfull installation - delete install.php and redirect to index.php
+if ($action == "delete_and_redirect")
+{
+	unlink("install.php"); // delete installer
+	header('Location: index.php',true, 302 ); // redirect to startpage
+	exit();
+}
+
+
 // Requirements
 
 //  init requirements
@@ -232,6 +241,7 @@ $check_requirement['imagefolder'] = false; // check requirements: image folder w
 $check_requirement['tables_exist'] = true; // check requirements: db tables exist - start true -> false if not exists down below
 $check_requirement['user_exists'] = false; // check requirements: user does not exist
 $check_requirement['phpextensions'] = true; // check requirements: php extensions loaded - start true -> false if not loaded down below
+
 
 // PHP extensions - check requirements
 for ($i=0;$i<count($installer['phpextensions']);$i++)
@@ -314,9 +324,6 @@ if ($action == "create_tables")
 		$sql_file .= File::read_file($installer['sql'][$i])."\n";
 	}
 
-	// Add config entries
-	$sql_file .= "INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('url', '".$_POST['bereso_url']."');"; // BeReSo URL - save in bereso_config
-
 	if (!$sql->multi_query($sql_file)) 
 	{
 		$content = str_replace("(installer_query_sql)",$installer['template']['font_red_open'].$installer['text'][$installer['language']]['query_sql_error']."<br> " . $sql->error.$installer['template']['font_red_close'],$installer['template']['query_sql']); // load query_sql template and insert error message
@@ -327,7 +334,7 @@ if ($action == "create_tables")
 	// wait for the reload to fix display problems - still ready for installation cause the db server was not fast enough
 	sleep(2);
 
-	header('Location: install.php'); // Redirect to the startpage
+	header('Location: install.php', true, 302); // Redirect to the startpage
 	exit(); // stops the rest of the script from running 
 }
 
@@ -346,7 +353,7 @@ if ($action == "create_user" && $check_post['user'] == true)
 		}
 	}
 
-	header('Location: install.php'); // Redirect to the startpage
+	header('Location: install.php', true, 302); // Redirect to the startpage
 	exit(); // stops the rest of the script from running 
 }
 
@@ -394,8 +401,7 @@ if ($check_requirement['phpextensions'] == true)
 			else
 			{
 				$content .= str_replace("(installer_requirements_table_not_exists)",$content_tables,$installer['template']['requirements_table_not_exists']); // load table_exists template and insert error message
-				$content = str_replace("(installer_requirements_create_tables)",$installer['text'][$installer['language']]['create_tables'],$content);
-				$content = str_replace("(installer_requirements_url)",$installer['text'][$installer['language']]['requirements_url'],$content);				
+				$content = str_replace("(installer_requirements_create_tables)",$installer['text'][$installer['language']]['create_tables'],$content);			
 			}
 		}
 	}
@@ -433,6 +439,7 @@ if ($check_requirement['phpextensions'] == true)
 if ($check_requirement['tables_exist'] == true && $check_requirement['user_exists'] == true && $check_requirement['imagefolder'] == true && $check_requirement['phpextensions'])
 {
 	$content .= str_replace("(installer_installation_successfull)",$installer['text'][$installer['language']]['installation_successfull'],$installer['template']['installation_successfull']); // load installation_successfull message
+	$content = str_replace("(installer_installation_successfull_button)",$installer['text'][$installer['language']]['installation_successfull_button'],$content); // load installation_successfull_button message
 }
 
 

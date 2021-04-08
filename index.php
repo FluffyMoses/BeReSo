@@ -51,7 +51,7 @@ if ($bereso['https_redirect'] == true && strtolower(substr($bereso['url'],0,5)) 
 		// redirect to https url
 		$https_url_script = explode('/',$_SERVER['REQUEST_URI']); // we need everything on the right side of the last /
 		$https_url = $bereso['url'].$https_url_script[count($https_url_script)-1]; // Bereso URL and user HTTP request
-		header('Location: '.$https_url,true, 301 ); 
+		header('Location: '.$https_url,true, 302 ); 
 		exit(); // stops the rest of the script from running 
 	}
 }

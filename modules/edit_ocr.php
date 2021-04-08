@@ -42,7 +42,7 @@ if (Config::get_config("ocr_enabled") == 1)
 				Item::set_ocr_searchable($item,false);
 
 				// redirect back to show.php
-				header('Location: ?module=show&item='.$item,true, 301 ); 
+				header('Location: index.php?module=show&item='.$item,true, 302 ); 
 				exit(); // stops the rest of the script from running 
 			}
 
