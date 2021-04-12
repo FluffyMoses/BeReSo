@@ -11,6 +11,7 @@ $login_message = null;
 // logout user and show login form again
 if ($action == "logout")
 {
+	Log::useraction($user,$module,$action,"Logout");  // log when user_log enabled
 	$login_message .= File::read_file("templates/login-message_logout.html");
 	// Delete Cookies and clear login
 	$_SESSION['user'] = null;
@@ -29,7 +30,7 @@ if ($action == "dologin")
     if ($result = $sql->query($query))
 	{
 		$row = $result -> fetch_assoc();
-		// if entry with this share id exists
+		// if entry with this user exists
 		if (mysqli_num_rows($result) == 1)
 		{
 			// Verify entered password but only store salted hash in session
@@ -37,7 +38,16 @@ if ($action == "dologin")
 			{
 				$passwordhash = $row['user_pwhash']; // store pw hash
 				$user = $row['user_name']; // username from db - case sensitive
+				Log::useraction($login_name,$module,$action,"Login successful"); // log when user_log enabled
 			}
+			else 
+			{
+				Log::useraction($login_name,$module,$action,"Wrong password"); // log when user_log enabled
+			}
+		}
+		else
+		{
+			Log::useraction($login_name,$module,$action,"User \"$login_name\" does not exist"); 
 		}
 	}
 
@@ -64,38 +74,6 @@ if ($action == "dologin")
 
 }
 
-// Generate SQL INSERT with password hash -- execute it to add new user
-if ($action == "generate_user_sqlinsert") {
-	if (strlen($generate_user) > 0) 
-	{
-		if (strlen($generate_user) > 0) {
-			if (is_numeric($generate_template) && $generate_template > 0)
-			{
-				if (User::get_id_by_name($generate_user) == 0) // User does not exist
-				{
-					$content = "-- (bereso_template-login_execute_sql_query) ".$generate_user."<br>\nINSERT INTO bereso_user (user_name,user_pwhash,user_template) VALUES ('".$generate_user."','".User::generate_password_hash($generate_password)."','".$generate_template."');"; // regular die no (Log::die) logging of the hash value!
-				}
-				else // User exists
-				{
-					$content = "(bereso_template-login_execute_sql_query_user_exists)".$generate_user;
-				}
-			}
-			else
-			{
-				Log::die("generate_user_sqlinsert: generate_template mut be greater than 0");
-			}
-		}
-		else
-		{
-			Log::die("generate_user_sqlinsert: generate_password not set");
-		}
-	} 
-	else 
-	{
-		Log::die("generate_user_sqlinsert: generate_user not set");
-	}
-
-}
 
 // Login form
 if (!(User::is_logged_in($user,$passwordhash))) 

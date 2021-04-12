@@ -10,4 +10,5 @@ INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('new_amount_
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('images_thumbnail_height', '200');
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('https_redirect', '0');
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('images', 'images/');
-
+INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('user_log', '0');
+INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('agent_ocr_log', '0');

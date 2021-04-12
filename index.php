@@ -137,6 +137,8 @@ elseif ($module == "admin")
 	// configuration
 	$bereso_url = @$_POST['bereso_url'];
 	$bereso_httpsredirect = @$_POST['bereso_httpsredirect'];
+	$bereso_user_log = @$_POST['bereso_user_log'];
+	$bereso_agent_ocr_log = @$_POST['bereso_agent_ocr_log'];
 	$bereso_images = @$_POST['bereso_images'];
 	$bereso_images_thumbnail_height = @$_POST['bereso_images_thumbnail_height'];
 	$bereso_timezone = @$_POST['bereso_timezone'];
@@ -247,6 +249,8 @@ elseif ($module == "admin")
 	$form_config_error = 0;
 	if(!Text::is_letter($bereso_url,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_httpsredirect,"a-z")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_user_log,"a-z_")) { $form_config_error = 1;  }	
+	if(!Text::is_letter($bereso_agent_ocr_log,"a-z_")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_images,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
 	if (!is_numeric($bereso_images_thumbnail_height)) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_timezone,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }

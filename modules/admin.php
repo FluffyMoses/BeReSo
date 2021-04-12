@@ -105,6 +105,8 @@ if (User::is_admin($user))
 
 				$admin_user_message = "<font color=\"green\">(bereso_template-admin_users_new_saved) <b>\"$user_name\"</b></font>"; // success message
 
+				Log::useraction($user,$module,$action,"Added user " . User::get_name_by_id($add_id) . " (".$add_id.")");  // log when user_log enabled
+
 				// reset all buffer variables 
 				$user_name = null;
 				$user_password = null;
@@ -115,11 +117,13 @@ if (User::is_admin($user))
 			else // user already exists
 			{
 				$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_new_user_exists)</font>"; // error message
+				Log::useraction($user,$module,$action,"Adding user " . $user_name . " failed - User exists");  // log when user_log enabled
 			}
 		}
 		else
 		{
 			$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_new_user_error_missing)</font>"; // error message
+			Log::useraction($user,$module,$action,"Adding user failed: Wrong characters or empty");  // log when user_log enabled
 		}
 
 		// load new user form after saving or error
@@ -163,12 +167,15 @@ if (User::is_admin($user))
 
 			$admin_user_password_message = "<font color=\"green\">(bereso_template-admin_users_edit_password_saved)</font>"; // error message
 
+			Log::useraction($user,$module,$action,"Edited user password " . User::get_name_by_id($user_id) . " (".$user_id.")");  // log when user_log enabled
+
 			// reset all buffer variables 
 			$user_password = null;
 		} 
 		else // password empty or contains forbidden characters
 		{
 			$admin_user_password_message = "<font color=\"red\">(bereso_template-admin_users_edit_password_error)</font>"; // error message
+			Log::useraction($user,$module,$action,"Editing user password " . User::get_name_by_id($user_id) . " (".$user_id.") failed: Wrong characters or empty");  // log when user_log enabled
 		}
 
 		// load edit user form after saving or error
@@ -199,8 +206,10 @@ if (User::is_admin($user))
 			$user_templates = null;
 			$user_admin = null;
 			$user_ocr = null;
+
+			Log::useraction($user,$module,$action,"Editing user " . User::get_name_by_id($user_id) . " (".$user_id.")");  // log when user_log enabled
 		} 
-		else // password empty or contains forbidden characters
+		else // empty or contains forbidden characters
 		{
 			$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_edit_user_error_missing)</font>"; // error message
 
@@ -210,8 +219,10 @@ if (User::is_admin($user))
 			$user_name_replace = $user_name; 
 			$user_templates_replace = $user_templates; 
 
+			Log::useraction($user,$module,$action,"Editing user  " . User::get_name_by_id($user_id) . " (".$user_id.") failed: Wrong characters or empty");  // log when user_log enabled
 
-		}
+
+		}		
 
 		// load edit user form after saving or error
 		$action = "edit_user";
@@ -267,6 +278,8 @@ if (User::is_admin($user))
 	// delete user - confirmed
 	if ($action == "delete_user_confirm") 
 	{ 
+		Log::useraction($user,$module,$action,"Deleted user " . User::get_name_by_id($user_id) . " (".$user_id.")");  // log when user_log enabled
+
 		// delete files and folder
 		File::delete_directory(Image::get_foldername_by_user_id($user_id));
 
@@ -292,6 +305,11 @@ if (User::is_admin($user))
 			Config::set_config("url",$bereso_url);
 			if ($bereso_httpsredirect == "httpsredirect") { $bereso_httpsredirect = 1; } else { $bereso_httpsredirect = 0; } // if checked set to 1 - else 0
 			Config::set_config("https_redirect",$bereso_httpsredirect);
+			if ($bereso_user_log == "user_log") { $bereso_user_log = 1; } else { $bereso_user_log = 0; } // if checked set to 1 - else 0			
+			Config::set_config("user_log",$bereso_user_log);
+			if ($bereso_agent_ocr_log == "agent_ocr_log") { $bereso_agent_ocr_log = 1; } else { $bereso_agent_ocr_log = 0; } // if checked set to 1 - else 0			
+			Config::set_config("agent_ocr_log",$bereso_agent_ocr_log);
+			Config::set_config("https_redirect",$bereso_httpsredirect);
 			Config::set_config("images",$bereso_images);
 			Config::set_config("images_thumbnail_height",$bereso_images_thumbnail_height);
 			Config::set_config("timezone",$bereso_timezone);
@@ -305,11 +323,15 @@ if (User::is_admin($user))
 
 			// return message
 			$admin_config_message = "<font color=\"green\">(bereso_template-admin_config_saved)</font>";
+
+			Log::useraction($user,$module,$action,"Saved config");  // log when user_log enabled
 		}
 		else // wrong characters in post variables
 		{
 			// return message
 			$admin_config_message = "<font color=\"red\">(bereso_template-admin_config_error_text_characters)</font>";
+
+			Log::useraction($user,$module,$action,"Saving config failed - wrong characters");  // log when user_log enabled
 		}
 
 		// set config in running script
@@ -324,6 +346,8 @@ if (User::is_admin($user))
 
 		// buffer the rest of the config settings that have no $bereso value - if the script cannot save it displays the text/value last submitted instead of the db value
 		$buffer['ocr_enabled'] = $bereso_ocr_enabled;
+		$buffer['user_log'] = $bereso_user_log;
+		$buffer['agent_ocr_log'] = $bereso_agent_ocr_log;
 		$buffer['ocr_password'] = $bereso_ocr_password;
 		$buffer['login_motd'] = $bereso_login_motd;
 		
@@ -341,6 +365,8 @@ if (User::is_admin($user))
 		if (!isset($buffer))
 		{
 			$buffer['ocr_enabled'] = Config::get_config("ocr_enabled");
+			$buffer['user_log'] = Config::get_config("user_log");
+			$buffer['agent_ocr_log'] = Config::get_config("agent_ocr_log");
 			$buffer['ocr_password'] = Config::get_config("ocr_password");
 			$buffer['login_motd'] = Config::get_config("login_motd");
 		}
@@ -348,6 +374,8 @@ if (User::is_admin($user))
 		// insert config values in template
 		$content = str_replace("(bereso_admin_config_url)",$bereso['url'],$content);
 		if ($bereso['https_redirect'] == true) { $content = str_replace("(bereso_admin_config_httpsredirect)","checked",$content); } else { $content = str_replace("(bereso_admin_config_httpsredirect)",null,$content); }
+		if ($buffer['user_log'] == true) { $content = str_replace("(bereso_admin_config_user_log)","checked",$content); } else { $content = str_replace("(bereso_admin_config_user_log)",null,$content); }
+		if ($buffer['agent_ocr_log'] == true) { $content = str_replace("(bereso_admin_config_agent_ocr_log)","checked",$content); } else { $content = str_replace("(bereso_admin_config_agent_ocr_log)",null,$content); }
 		$content = str_replace("(bereso_admin_config_images)",$bereso['images'],$content);
 		$content = str_replace("(bereso_admin_config_images_thumbnail_height)",$bereso['images_thumbnail_height'],$content);
 		$content = str_replace("(bereso_admin_config_timezone)",$bereso['timezone'],$content);

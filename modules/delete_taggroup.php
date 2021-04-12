@@ -26,6 +26,8 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 		$userid = User::get_id_by_name($user); 
 		// delete SQL entrys
 		$sql->query("DELETE FROM bereso_group where group_id='".$taggroupid."' AND group_user='".$userid."'");
+
+		Log::useraction($user,$module,$action,"Deleted taggroup $taggroupid");  // log when user_log enabled
 		
 		header('Location: index.php', true, 302); // Redirect to the startpage
 		exit(); // stops the rest of the script from running 

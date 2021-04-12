@@ -35,15 +35,22 @@ if (Item::is_owned_by_user($user,$item)) {
 			$sql->query("UPDATE bereso_item SET item_name='".$edit_name."', item_text='".$edit_text."', item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
 			
 			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved) <b>\"$edit_name\"</b></font>";		
+
+			Log::useraction($user,$module,$action,"Item $item saved");  // log when user_log enabled
 		} 
 		// form not correct
 		else
 		{
+				// init variables for logging 0/1
+				$form_item_missing = 0;
+
 				if ($form_item_name_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_characters)</font>"; } // name wrong char
 				elseif ($form_item_text_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_text_characters)</font>"; } // text wrong char
-				else { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_missing)</font>"; } // name missing
+				else { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_missing)</font>"; $form_item_missing = 1; } // name missing
 				$edit_name_replace = $edit_name; // if set the form will replace the text with the variable content, not with the sql loaded content
 				$edit_text_replace = $edit_text; // if set the form will replace the text with the variable content, not with the sql loaded content
+
+				Log::useraction($user,$module,$action,"Item saving failed - Errors: name($form_item_name_error) text($form_item_text_error) missing_name($form_item_missing)");  // log when user_log enabled
 		}	
 		// load edit-form again with message success or failure
 		$action = null;
@@ -77,10 +84,13 @@ if (Item::is_owned_by_user($user,$item)) {
 		{
 			// change timestamp_edit
 			$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
+
+			Log::useraction($user,$module,$action,"Item image $item-$item_image_id (".Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$item_image_id).") deleted");  // log when user_log enabled
 				
 			unlink (Image::get_foldername_by_user_id(User::get_id_by_name($user)).Image::get_filenamecomplete($item,$item_image_id)); // delete file 
 			$sql->query("DELETE FROM bereso_images WHERE images_item='".$item."' AND images_image_id='".$item_image_id."'"); // delete db record for that file
 			$action = null; // Load Edit Form again	
+
 		}
 	}	
 
@@ -133,6 +143,9 @@ if (Item::is_owned_by_user($user,$item)) {
 				if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
 			}
 		}
+
+		Log::useraction($user,$module,$action,"Image $item-$item_image_id ($image_path) turned and renamend - oldfilename($old_filename) newfilename($new_filename)");  // log when user_log enabled
+
 		// only change db if no rename error occured
 		if ($error_rename == false)
 		{
@@ -207,6 +220,9 @@ if (Item::is_owned_by_user($user,$item)) {
 								if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
 							}
 						}
+
+						Log::useraction($user,$module,$action,"Image uploaded $item-$item_image_id and renamed  - oldfilename($old_filename) newfilename($new_filename)");  // log when user_log enabled
+
 						// only change db if no rename error occured
 						if ($error_rename == false)
 						{
@@ -223,6 +239,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				{
 					// error message
 					$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";
+					Log::useraction($user,$module,$action,"Image upload $item-$item_image_id failed - Wrong Fileextension");  // log when user_log enabled
 				}
 			}					
 		} 
@@ -230,6 +247,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		else
 		{
 			$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_file (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font>"; // max_file_upload size exceeded					
+			Log::useraction($user,$module,$action,"Image upload $item-$item_image_id failed - Upload size exceeded");  // log when user_log enabled
 		}
 		$action = null; // Load Edit Form again	
 	}		
@@ -261,6 +279,9 @@ if (Item::is_owned_by_user($user,$item)) {
 					if (!file_exists(Image::get_foldername_by_user_id(User::get_id_by_name($user)).$new_complete_filename)) { $error_rename = true; $error_rename_log .= "Renaming file: ".$old_complete_filename." to ".$new_complete_filename." - "; }
 				}
 			}
+
+			Log::useraction($user,$module,$action,"Sharing item $item disabled and renamed  - oldfilename($old_filename) newfilename($new_filename)");  // log when user_log enabled
+
 			// only change db if no rename error occured
 			if ($error_rename == false)
 			{
@@ -276,6 +297,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		else // item not shared - enable sharing - create link
 		{
 			$sql->query("UPDATE bereso_item SET item_shareid='".uniqid()."' WHERE item_id='".$item."'");		
+			Log::useraction($user,$module,$action,"Sharing item $item enabled");  // log when user_log enabled
 		}		
 		// redirect back to show.php
 		header('Location: index.php?module=show&item='.$item,true, 302 ); 
@@ -291,10 +313,12 @@ if (Item::is_owned_by_user($user,$item)) {
 		if ($item_favorite == true) 
 		{
 			Item::set_favorite($item,false);
+			Log::useraction($user,$module,$action,"Favorite item $item disabled");  // log when user_log enabled
 		}
 		else
 		{
 			Item::set_favorite($item,true);
+			Log::useraction($user,$module,$action,"Favorite item $item enabled");  // log when user_log enabled
 		}	
 		// redirect back to show.php
 		header('Location: index.php?module=show&item='.$item,true, 302 ); 

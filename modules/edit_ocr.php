@@ -29,17 +29,19 @@ if (Config::get_config("ocr_enabled") == 1)
 				if ($item_ocr == true) 
 				{
 					Item::set_ocr($item,false);
+					Log::useraction($user,$module,$action,"OCR on item $item disabled");  // log when user_log enabled
 				}
 				else
 				{
 					Item::set_ocr($item,true);
+					Log::useraction($user,$module,$action,"OCR on item $item enabled");  // log when user_log enabled
 				}	
 
 				// reset ocr text on enable/disable
 				Item::set_ocr_text($item,NULL);  // needs to be null not "" !
 
 				// reset ocr searchable
-				Item::set_ocr_searchable($item,false);
+				Item::set_ocr_searchable($item,false);				
 
 				// redirect back to show.php
 				header('Location: index.php?module=show&item='.$item,true, 302 ); 
@@ -56,6 +58,9 @@ if (Config::get_config("ocr_enabled") == 1)
 					Item::set_ocr_searchable($item,$edit_searchable);
 
 					$ocr_edit_message = "<font color=\"green\">(bereso_template-edit_ocr_entry_saved)</font>";
+
+					if ($edit_searchable == true) { $edit_log_searchable = 1; } else { $edit_log_searchable = 0; }
+					Log::useraction($user,$module,$action,"OCR text saved for item $item - searchable($edit_log_searchable)");  // log when user_log enabled
 				}
 				else // wrong characters
 				{
@@ -63,6 +68,7 @@ if (Config::get_config("ocr_enabled") == 1)
 					$edit_searchable_replace = $edit_searchable;
 
 					$ocr_edit_message = "<font color=\"red\">(bereso_template-edit_ocr_entry_error_text_characters)</font>";
+					Log::useraction($user,$module,$action,"OCR text not saved for item $item - Wrong characters");  // log when user_log enabled
 				}
 
 				// load edit_ocr-form again with message success or failure

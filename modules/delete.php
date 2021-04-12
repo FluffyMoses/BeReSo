@@ -48,6 +48,8 @@ if (Item::is_owned_by_user($user,$item)) {
 		$sql->query("DELETE FROM bereso_tags where tags_item='".$item."'");
 		$sql->query("DELETE FROM bereso_item where item_id='".$item."'");
 		$sql->query("DELETE FROM bereso_images where images_item='".$item."'");
+
+		Log::useraction($user,$module,$action,"Deleted item $item");  // log when user_log enabled
 		
 		header('Location: index.php', true, 302); // Redirect to the startpage
 		exit(); // stops the rest of the script from running 

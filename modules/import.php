@@ -41,6 +41,9 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename 
 				$sql->query("INSERT into bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$row2['images_image_id']."','".Image::get_fileextension($row['item_id'],$row2['images_image_id'],false)."')");
 			}
 		}
+
+		Log::useraction($user,$module,$action,"Imported ".$row['item_id']." as $add_id");  // log when user_log enabled
+
 		header('Location: index.php?module=show&item='.$add_id, true, 302); // Redirect to the new created item
 		exit(); // stops the rest of the script from running 
 	}

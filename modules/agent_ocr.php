@@ -35,6 +35,7 @@ if (Config::get_config("ocr_enabled") == "1")
 			// 5,https://bereso/images/3/601bb10defcd0_2.png
 			// 6,https://bereso/images/4/601bb10dea321_1.png
 			
+			$count_images = 0;
 			// get all items with ocr enabled (=1) and no ocr text
 			if ($result = $sql->query("SELECT item_id, item_user FROM bereso_item WHERE item_ocr='1' AND item_ocr_text IS NULL")) // check for true null in text and enabled ocr for this item
 			{	
@@ -45,10 +46,13 @@ if (Config::get_config("ocr_enabled") == "1")
 						while ($row2 = $result2 -> fetch_assoc())
 						{
 							$output .= $row['item_id'].",".$bereso['url'].Image::get_foldername_by_user_id($row['item_user']).Image::get_filenamecomplete($row['item_id'],$row2['images_image_id'])."\n";
+							$count_images++;
 						}
 					}
 				}
 			}
+
+			Log::agentocr($action,"get ocr items images list ($count_images)");
 		}
 
 
@@ -69,10 +73,12 @@ if (Config::get_config("ocr_enabled") == "1")
 			if (Item::get_ocr_text($item) == null) { // no ocr text saved -> something went wrong
 				Item::set_ocr_text($item,"TESSERACT_OCR_NO_CHARACTERS_RECOGNIZED");
 				$output = "TESSERACT_OCR_NO_CHARACTERS_RECOGNIZED ".$item."\n";
+				Log::agentocr($action,"OCR Text not saved - No characters recognized: $item");
 			}
 			else // text saved sucessfully
 			{
 				$output = "Saved ".strlen(Item::get_ocr_text($item))." Characters in Item ".$item."\n";
+				Log::agentocr($action,"OCR Text saved: $item");
 			}
 
 		}
