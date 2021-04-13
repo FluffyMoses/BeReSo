@@ -32,6 +32,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			}			
 			
 			// save name and text in item
+			$edit_text = str_replace("\r\n","\n",$edit_text); // replace windows \r\n with unix stlyle \n
 			$sql->query("UPDATE bereso_item SET item_name='".$edit_name."', item_text='".$edit_text."', item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
 			
 			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved) <b>\"$edit_name\"</b></font>";		
@@ -324,6 +325,37 @@ if (Item::is_owned_by_user($user,$item)) {
 		header('Location: index.php?module=show&item='.$item,true, 302 ); 
 		exit(); // stops the rest of the script from running 
 	}
+
+
+	// save checkboxes status from show.php ajax script (onclick -> javascript -> calls this url)
+	if ($action == "check")
+	{
+		// Return status to javascript console output - no content - override output!
+		$output_default = false; // do not use default output template
+
+		if ($result = $sql->query("SELECT item_text from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_id='".$item."'"))
+		{	
+			$row = $result -> fetch_assoc();
+
+			// check if needs to check or uncheck
+			if (strstr($row['item_text'],'[c]'.$replace_text.'[/c]')) // check
+			{
+				$output = "Item $item - checked: $replace_text"; 
+				$replace_text = str_replace('[c]'.$replace_text.'[/c]','[C]'.$replace_text.'[/C]',$row['item_text']);
+				$sql->query("UPDATE bereso_item SET item_text='".$replace_text."' WHERE item_id='".$item."'");
+				Log::useraction($user,$module,$action,"Checkbox checked on $item");  // log when user_log enabled
+			}
+			else // uncheck
+			{
+				$output = "Item $item - unchecked: $replace_text"; 
+				$replace_text = str_replace('[C]'.$replace_text.'[/C]','[c]'.$replace_text.'[/c]',$row['item_text']);
+				$sql->query("UPDATE bereso_item SET item_text='".$replace_text."' WHERE item_id='".$item."'");
+				Log::useraction($user,$module,$action,"Checkbox unchecked on $item");  // log when user_log enabled
+			}
+		}
+	}
+
+
 
 	// Show form for item
 	if ($action == null){

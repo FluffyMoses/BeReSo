@@ -91,6 +91,7 @@ elseif ($module == "edit")
 	$edit_text = @$_POST['edit_text'];
 	$edit_photo = @$_FILES['edit_photo'];
 	$item_image_id = @$_GET['item_image_id'];
+	$replace_text = @$_GET['replace_text'];
 }
 // for new_taggroup.php
 elseif ($module == "new_taggroup") 
@@ -198,6 +199,7 @@ elseif ($module == "edit") // for edit.php - user form content will not stop the
 	$form_item_text_error = 0;
 	if(!Text::is_letter($edit_name,"a-z0-9 SPECIAL")) { $form_item_name_error = 1;  }
 	if(!Text::is_letter($edit_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1;  }
+	if(!Text::is_letter($replace_text,"a-z0-9 SPECIAL")) {  Log::die ("CHECK: \$replace_text failed ".'"'.$replace_text.'"');  }
 }
 // for new_taggroup.php
 elseif ($module == "new_taggroup") //  for new_taggroup.php - user form content will not stop the script but clear the variable!

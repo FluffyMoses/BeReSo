@@ -12,6 +12,11 @@
 	(bereso_edit_item_message)
 	<br>
 
+	<button type="button" onclick="javascript:insertbeginendselection('edit_text','[b]','[/b]')" class="button"><b>B</b></button>
+	<button type="button" onclick="javascript:insertbeginendselection('edit_text','[i]','[/i]')" class="button"><i>I</i></button>
+	<button type="button" onclick="javascript:insertbeginendselection('edit_text','[u]','[/u]')" class="button"><u>U</u></button>
+	<button type="button" onclick="javascript:insertbeginendselection('edit_text','[c]','[/c]')" class="button">&check;</button>
+
 <select name="addtagtotextarea" id="addtagtotextarea" onchange="insertAtCursor('edit_text','addtagtotextarea')" class="button">
 	<option value="">(bereso_template-edit_add_hashtag)</option>
 	(bereso_edit_item_insert_hashtag)

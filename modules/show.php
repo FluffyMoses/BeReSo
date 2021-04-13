@@ -43,7 +43,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		$row = $result -> fetch_assoc();
 		
 		// Highlight Tags with links
-		$item_text_higlighted = Text::highlight_text($row['item_text']);
+		$item_text_higlighted = Text::highlight_text_show($row['item_text'],$item);
 		
 		// templates for images
 		$content_item = null;

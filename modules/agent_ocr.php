@@ -77,8 +77,8 @@ if (Config::get_config("ocr_enabled") == "1")
 			}
 			else // text saved sucessfully
 			{
-				$output = "Saved ".strlen(Item::get_ocr_text($item))." Characters in Item ".$item."\n";
-				Log::agentocr($action,"OCR Text saved: $item");
+				$output = "Saved ".strlen(Item::get_ocr_text($item))." Characters in item ".$item."\n";
+				Log::agentocr($action,"OCR text saved: $item (".strlen(Item::get_ocr_text($item))." Characters)");
 			}
 
 		}

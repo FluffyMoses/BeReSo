@@ -77,26 +77,33 @@ class Text
 		return true; // no wrong char found
 	}
 		
-	// Highlight text - newline, hashtaglinks, http(s) links, etc
-	public static function highlight_text($ht_text)
+	// Highlight text - newline, hashtaglinks, http(s) links, etc - for show.php
+	public static function highlight_text_show($hts_text, $item)
 	{
+		global $bereso;
 		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
-		$ht_text = $ht_text . " ";
+		$hts_text = $hts_text . " ";
 		// # link with tag list - known problems with öäüß_ in #
-		preg_match_all("/(#\w+)\s/", $ht_text, $matches);
+		preg_match_all("/(#\w+)\s/", $hts_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $ht_text);
+			$hts_text = preg_replace('/('.$matches[0][$i].')/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $hts_text);
 		}
-		$ht_text = str_replace("\n","<br>",$ht_text); // new line					
-		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
-		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
-		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
-		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link
-		return $ht_text;
+		// checkbox replace - needs to be in one line or else it will fill <br> cause of the \n endings
+		$hts_text = preg_replace('/\[c\]([a-zA-Z0-9 äÄüÜöÖß]*?)\[\/c\]/', '<label class="container">$1<input type="checkbox" class="button" value="" onclick="get_http_request(\''.$bereso['url'].'index.php?module=edit&action=check&replace_text=$1&item='.$item.'\')"><span class="checkmark"></span></label>', $hts_text); // checkbox unchecked - no /i (case sensitive ignored) - no /s (new line characters allowed) - before all replaces so that the $replace_text could be found in the database
+		$hts_text = preg_replace('/\[C\]([a-zA-Z0-9 äÄüÜöÖß]*?)\[\/C\]/', '<label class="container">$1<input type="checkbox" class="button" value="" onclick="get_http_request(\''.$bereso['url'].'index.php?module=edit&action=check&replace_text=$1&item='.$item.'\')" checked> <span class="checkmark"></span></label>', $hts_text); // checkbox checked - no /s (new line characters allowed) - before all replaces so that the $replace_text could be found in the database
+
+		$hts_text = str_replace("\n","<br>",$hts_text); // new line		
+
+		$hts_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $hts_text); // bold
+		$hts_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $hts_text); // italic
+		$hts_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $hts_text); // underlined		
+
+		$hts_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $hts_text); // https http insert real link
+		return $hts_text;
 	}
 	
-	// Highlight text share - newline, http(s) links, etc
+	// Highlight text share - newline, http(s) links, etc - for share and login motd
 	public static function highlight_text_share($ht_text)
 	{
 		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
@@ -109,13 +116,19 @@ class Text
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
-		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
-		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
+		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // italic
+		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // underlined
+		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/is', '
+			<label class="container">$1
+			  <input type="checkbox" class="button" value=""> 
+			  <span class="checkmark"></span>
+			</label>				
+		', $ht_text); // checkbox
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}	
 
-	// Highlight text printpreview - newline, http(s) links, etc
+	// Highlight text printpreview - newline, http(s) links, etc - for print preview
 	public static function highlight_text_printpreview($ht_text)
 	{
 		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
@@ -128,8 +141,14 @@ class Text
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
-		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // bold
-		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // bold
+		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // italic
+		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // underlined
+		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/is', '
+			<label class="container">$1
+			  <input type="checkbox" class="button" value=""> 
+			  <span class="checkmark"></span>
+			</label>				
+		', $ht_text); // checkbox
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<font color="blue"><u>$2</u></font>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}
