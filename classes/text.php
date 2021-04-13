@@ -84,6 +84,9 @@ class Text
 		// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
 		$hts_text = $hts_text . " ";
 		// # link with tag list - known problems with öäüß_ in #
+
+		$hts_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $hts_text); // https http insert real link
+
 		preg_match_all("/(#\w+)\s/", $hts_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
@@ -98,8 +101,7 @@ class Text
 		$hts_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $hts_text); // bold
 		$hts_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $hts_text); // italic
 		$hts_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $hts_text); // underlined		
-
-		$hts_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $hts_text); // https http insert real link
+		
 		return $hts_text;
 	}
 	
@@ -118,12 +120,8 @@ class Text
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
 		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // italic
 		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // underlined
-		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/is', '
-			<label class="container">$1
-			  <input type="checkbox" class="button" value=""> 
-			  <span class="checkmark"></span>
-			</label>				
-		', $ht_text); // checkbox
+		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/', '<label class="container">$1<input type="checkbox" class="button" value=""> <span class="checkmark"></span></label>', $ht_text); // checkbox
+		$ht_text = preg_replace('/\[C\](.*?)\[\/C\]/', '<label class="container">$1<input type="checkbox" class="button" value="" checked> <span class="checkmark"></span></label>', $ht_text); // checkbox
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}	
@@ -143,12 +141,8 @@ class Text
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
 		$ht_text = preg_replace('/\[i\](.*?)\[\/i\]/is', '<i>$1</i>', $ht_text); // italic
 		$ht_text = preg_replace('/\[u\](.*?)\[\/u\]/is', '<u>$1</u>', $ht_text); // underlined
-		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/is', '
-			<label class="container">$1
-			  <input type="checkbox" class="button" value=""> 
-			  <span class="checkmark"></span>
-			</label>				
-		', $ht_text); // checkbox
+		$ht_text = preg_replace('/\[c\](.*?)\[\/c\]/', '<label class="container">$1<input type="checkbox" class="button" value=""> <span class="checkmark"></span></label>', $ht_text); // checkbox
+		$ht_text = preg_replace('/\[C\](.*?)\[\/C\]/', '<label class="container">$1<input type="checkbox" class="button" value="" checked> <span class="checkmark"></span></label>', $ht_text); // checkbox
 		$ht_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<font color="blue"><u>$2</u></font>', $ht_text); // https http insert real link		
 		return $ht_text;
 	}
