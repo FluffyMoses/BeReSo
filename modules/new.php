@@ -66,6 +66,10 @@ if ($action == "add")
 
 				// Move and rename images
 				move_uploaded_file($add_photo['tmp_name'][$i], Image::get_foldername_by_user_id(User::get_id_by_name($user)) . $add_uniqueid . "_".$i.".".$save_fileextension);
+
+				// fix exif orientation
+				$image_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) .  $add_uniqueid . "_".$i.".".$save_fileextension;
+				if (Image::get_exif_orientation($image_path) != 0) { Image::rotate($image_path,Image::get_exif_orientation($image_path)); } 
 			}
 		}
 		

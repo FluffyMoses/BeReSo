@@ -60,6 +60,7 @@ $installer['phpextensions'] = array(
 	"gd",
 	"mysqli",
 	"mbstring",
+	"exif",
 );
 
 

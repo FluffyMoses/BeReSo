@@ -49,6 +49,41 @@ class Image
 		return null; // no entry found
 	}
 
+	// rotate image
+	public static function rotate($r_imagepath,$r_image_rotate_degrees)
+	{
+		// Load Jpg or Png
+		if (Image::get_header_fileextension($r_imagepath) == ".jpg") {
+			$load_image = imagecreatefromjpeg($r_imagepath);
+			// rotate
+			$rotate_image = imagerotate($load_image, $r_image_rotate_degrees, 0);
+			imagejpeg($rotate_image,$r_imagepath);
+		}
+		elseif (Image::get_header_fileextension($r_imagepath) == ".png")
+		{
+			$load_image = imagecreatefrompng($r_imagepath);
+			// rotate
+			$rotate_image = imagerotate($load_image, $r_image_rotate_degrees, 0);
+			imagepng($rotate_image,$r_imagepath);
+		} 
+		else {
+			Log::die ("CHECK: image rotate($image_path) - no jpg or png ");
+		}
+		imagedestroy($load_image);
+		imagedestroy($rotate_image);
+	}
+
+	// return exif orientation degrees
+	public static function get_exif_orientation($geo_imagepath)
+	{
+		 $exif = exif_read_data($geo_imagepath);
+		 if (empty($exif['Orientation'])) { return 0; }
+		 if ($exif['Orientation'] == 3) { return 180; }
+		 elseif ($exif['Orientation'] == 6) { return -90; }
+		 elseif ($exif['Orientation'] == 8) { return 90; }
+		 else { return 0; }
+	}
+
 	// build image filename from database based on item id 
 	public static function get_filename($gf_item_id)
 	{

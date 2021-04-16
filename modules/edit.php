@@ -101,26 +101,9 @@ if (Item::is_owned_by_user($user,$item)) {
 		if ($action == "turn_image_right") { $image_rotate_degrees = 270; } else { $image_rotate_degrees = 90; }
 		$image_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filenamecomplete($item,$item_image_id);
 
-		// Load Jpg or Png
-		if (Image::get_header_fileextension($image_path) == ".jpg") {
-			$load_image = imagecreatefromjpeg($image_path);
-			// rotate
-			$rotate_image = imagerotate($load_image, $image_rotate_degrees, 0);
-			imagejpeg($rotate_image,$image_path);
-		}
-		elseif (Image::get_header_fileextension($image_path) == ".png")
-		{
-			$load_image = imagecreatefrompng($image_path);
-			// rotate
-			$rotate_image = imagerotate($load_image, $image_rotate_degrees, 0);
-			imagepng($rotate_image,$image_path);
-		} 
-		else {
-			Log::die ("CHECK: edit image rotate - no jpg or png $image_path");
-		}
-
-		imagedestroy($load_image);
-		imagedestroy($rotate_image);
+		if (Image::get_exif_orientation($image_path) != 0) { $image_rotate_degrees = $image_rotate_degrees + Image::get_exif_orientation($image_path); } // when orientation that is displayed is basesd on exif information - after rotation the exif information will be lost so we need to adjust the angle
+		
+		Image::rotate($image_path,$image_rotate_degrees);
 
 		// change timestamp_edit
 		$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");	
@@ -184,6 +167,10 @@ if (Item::is_owned_by_user($user,$item)) {
 						$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");					
 						// status message					
 						$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";	
+
+						 // fix exif orientation
+						$image_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filenamecomplete($item,$item_image_id);
+						if (Image::get_exif_orientation($image_path) != 0) { Image::rotate($image_path,Image::get_exif_orientation($image_path)); }
 
 						if($item_image_id == 0) // preview
 						{

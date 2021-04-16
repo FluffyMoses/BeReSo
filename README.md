@@ -13,7 +13,8 @@ BeReSo is still under developement, so a few nice-to-have features, like a webin
     <ul>
       <li>extension=gd // image conversion</li>
       <li>extension=mysqli // mysql and mariadb connections</li>
-      <li>extension=mbstring // mb_substr => multibyte safe substring (for example ü,ö,ä are two chars in regular substr or $string[ID] char<br></li>
+      <li>extension=mbstring // mb_substr => multibyte safe substring and needed by exif<br></li>
+      <li>extension=exif // needed for image exif informations
     </ul>
   </li>
   <li>Set the upload parameters high engough in the php.ini. For example 60 Mb:
