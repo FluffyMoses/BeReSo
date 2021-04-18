@@ -395,7 +395,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				else // no image, load empty placeholder
 				{
 					$content_edit_images .= File::read_file("templates/edit-image.html");
-					$content_edit_images = str_replace("(bereso_edit_item_image_image)",null,$content_edit_images);
+					$content_edit_images = str_replace("(bereso_edit_item_image_image)",File::read_file("templates/edit-image-image-new.html"),$content_edit_images);
 					$content_edit_images = str_replace("(bereso_edit_item_image_delete)",null,$content_edit_images);	
 					$content_edit_images = str_replace("(bereso_edit_item_image_turn)",null,$content_edit_images);	
 					$content_edit_images = str_replace("(bereso_edit_item_image_id)",$i,$content_edit_images);
