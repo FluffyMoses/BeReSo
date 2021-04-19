@@ -31,11 +31,11 @@ class Config
     }
 
 
-    // get config from database
+    // get system config from database (user id == 0)
 	public static function get_config($gc_name)
 	{
 		global $sql;
-        if ($result = $sql->query("SELECT config_value from bereso_config WHERE config_name='$gc_name'"))
+        if ($result = $sql->query("SELECT config_value from bereso_config WHERE config_name='$gc_name' AND config_user='0'"))
 		{
 			$row = $result -> fetch_assoc();
 			
@@ -52,11 +52,43 @@ class Config
 		}                		
 	}	
 
-	// set item favorite status true/false
+	// set system config (user id == 0)
 	public static function set_config($sc_name,$sc_value)
 	{
 		global $sql;		
-        $sql->query("UPDATE bereso_config SET config_value='".$sc_value."' WHERE config_name='$sc_name'");
+        $sql->query("UPDATE bereso_config SET config_value='".$sc_value."' WHERE config_name='$sc_name' AND config_user='0'");
+	}
+
+
+    // get user config from database - set default value if not exists
+	public static function get_userconfig($gu_name,$gu_user)
+	{
+		global $sql,$bereso,$module,$action;
+		$userid = User::get_id_by_name($gu_user); 
+        if ($result = $sql->query("SELECT config_value from bereso_config WHERE config_name='$gu_name' AND config_user='".$userid."'"))
+		{
+			$row = $result -> fetch_assoc();
+			
+			// check if value exists
+			if (!empty($row))
+			{
+				return $row['config_value'];								
+			}
+			else // entry does not exist - set default value
+			{
+				$sql->query("INSERT INTO bereso_config (config_name, config_value, config_user) VALUES ('".$gu_name."','".$bereso[$gu_name]."','".$userid."')");
+				Log::useraction($gu_user,$module,$action,"Set default user value $gu_name (".$bereso[$gu_name].")");
+				return $bereso[$gu_name];
+			}
+		}                		
+	}	
+
+	// set user config
+	public static function set_userconfig($su_name,$su_value,$su_user)
+	{
+		global $sql;		
+		$userid = User::get_id_by_name($su_user); 
+        $sql->query("UPDATE bereso_config SET config_value='".$su_value."' WHERE config_name='$su_name' AND config_user='".$userid."'");
 	}
 
 }

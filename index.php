@@ -157,6 +157,12 @@ elseif ($module == "admin")
 	$user_ocr = @$_POST['user_ocr'];
 	$user_admin = @$_POST['user_admin'];
 }
+// for userconfig.php
+elseif ($module == "userconfig")
+{
+	$bereso_wakescreenlock = @$_POST['bereso_wakescreenlock'];
+	$bereso_items_per_page = @$_POST['bereso_items_per_page'];
+}
 
 
 // init variables
@@ -272,6 +278,13 @@ elseif ($module == "admin")
 	if(!Text::is_letter($user_ocr,"a-z_")) { $form_user_error = 1; }
 	if(!Text::is_letter($user_admin,"a-z_")) { $form_user_error = 1; }
 }
+// for userconfig.php
+elseif ($module == "userconfig")
+{
+	$form_config_error = 0;
+	if(!Text::is_letter($bereso_wakescreenlock,"a-z")) { $form_config_error = 1;  }	
+	if (!is_numeric($bereso_items_per_page)) { $form_config_error = 1;  }
+}
 
 
 // set default page
@@ -301,6 +314,11 @@ if ($language == null) // User is not logged in -> set system default language
 // Check if the user is logged in and load the following modules
 if (User::is_logged_in($user,$passwordhash)) 
 {
+	// Load user configuration
+	$bereso['items_per_page'] = Config::get_userconfig("userconfig_items_per_page",$user); // Items per page
+	$bereso['wakescreenlock'] = Config::get_userconfig("userconfig_wakescreenlock",$user); // wake screenlock enabled
+
+	// Load modules
 	if ($module == "list_tags") { include ("modules/list_tags.php"); }
 	elseif ($module == "new_taggroup") { include ("modules/new_taggroup.php"); }
 	elseif ($module == "edit_taggroup") { include ("modules/edit_taggroup.php"); }
@@ -314,11 +332,14 @@ if (User::is_logged_in($user,$passwordhash))
 	elseif ($module == "delete") { include ("modules/delete.php"); }
 	elseif ($module == "import") { include ("modules/import.php"); }
 	elseif ($module == "login") { include ("modules/login.php"); }
+	elseif ($module == "userconfig") { include ("modules/userconfig.php"); }
 	elseif ($module == "admin") { include ("modules/admin.php"); }
 }
 else // user is not logged in => load login module => form without menu and navigation
 {	
+	// disable navigation
 	$output_navigation = false;
+	// load module
 	include("modules/login.php");	
 }
 
@@ -336,8 +357,23 @@ if ($output_default == true) { $output = File::read_file("templates/main.html");
 
 // Navigation changes for many modules:
 
-// add navigation link to the admincenter
-if (User::is_admin($user)) { $navigation .= File::read_file("templates/main-navigation-admin.html"); }
+// only on module list_tags and list
+if ($module == "list_tags" or $module == "list") 
+{ 
+	$navigation .= File::read_file("templates/main-navigation-list_tags-list-new_taggroup.html");  // new taggroup
+}
+
+// only on module list_tags (startpage)
+if ($module == "list_tags") 
+{
+	$navigation .= File::read_file("templates/main-navigation-list_tags-random.html"); // random item
+	$navigation .= File::read_file("templates/main-navigation-list_tags-userconfig.html");  // user config
+	// is admin
+	if (User::is_admin($user))
+	{
+		$navigation .= File::read_file("templates/main-navigation-list_tags-admin.html"); // admin center
+	}
+} 
 
 // -> Last list - backbutton on show, edit, edit_ocr, delete
 // delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or edit_ocr.php or show.php?action=random
@@ -354,8 +390,8 @@ if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "e
 	$navigation2 = str_replace("(main-navigation-last_list_value)",$last_list_tag,$navigation2);
 }
 
-// -> Last list_tags taggroup - "backbutton" on list_tags, delete_taggroup, edit_taggroup and list
-if ($module == "list_tags" or $module == "list" or $module == "delete_taggroup" or $module == "edit_taggroup")
+// -> Last list_tags taggroup - "backbutton" on list_tags, delete_taggroup, edit_taggroup, userconfig, admin (+action == null) and list
+if ($module == "list_tags" or $module == "list" or $module == "delete_taggroup" or $module == "edit_taggroup" or $module == "userconfig" or ($module == "admin" && $action == null))
 {
 	// if module list_tags is loaded -> set the taggroup
 	if ($module == "list_tags") {
@@ -371,8 +407,13 @@ if ($module == "list_tags" or $module == "list" or $module == "delete_taggroup" 
 		// if $last_taggroup_value is set then the last list_tags list was a taggroup -> else -> point to the main list_tags page
 		if (strlen($last_taggroup_value) > 0) { $last_taggroup_action = "taggroup"; } else { $last_taggroup_action = null; }
 	}
+	elseif ($module == "userconfig" or ($module == "admin" && $action == null)) // set last_list_tags link - always null -> point to the main list_tags page
+	{
+		$last_taggroup_value = null;
+		$last_taggroup_action = null;
+	}
 	// add to navigation2 - if not on the main list_tags page
-	if (($module == "list_tags" && $action == "taggroup") or $module == "list" or $module == "delete_taggroup" or $module == "edit_taggroup") {
+	if (($module == "list_tags" && $action == "taggroup") or $module == "list" or $module == "delete_taggroup" or $module == "edit_taggroup" or $module == "userconfig" or ($module == "admin" && $action == null)) {
 		$navigation2 = File::read_file("templates/main-navigation2-last_list_tags.html") . $navigation2; // set last list_tag  always first
 		$navigation2 = str_replace("(main-navigation-last_list_tags_action)",$last_taggroup_action,$navigation2);
 		$navigation2 = str_replace("(main-navigation-last_list_tags_value)",$last_taggroup_value,$navigation2);

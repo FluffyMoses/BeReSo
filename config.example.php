@@ -25,4 +25,7 @@ $bereso['default_language'] = "en";
 $bereso['log_die'] = true; // enable logging of die messages (critical failures or unallowed access) in text file
 $bereso['log_die_path'] = "die.log"; // path to this textfile
 
+// Userconfig default values
+$bereso['userconfig_items_per_page'] = 100; // Items per page
+$bereso['userconfig_wakescreenlock'] = 0; // wake screenlock enabled
 ?>

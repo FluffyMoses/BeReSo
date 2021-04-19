@@ -361,7 +361,7 @@ if (User::is_admin($user))
 	{
 		$content = File::read_file("templates/admin-config.html");
 
-		// if form was not submitted and configuration saved - load some values direct from database - else show the posted value
+		// if form was not submitted or configuration saved - load some values direct from database - else show the posted value
 		if (!isset($buffer))
 		{
 			$buffer['ocr_enabled'] = Config::get_config("ocr_enabled");

@@ -1,0 +1,48 @@
+<form enctype="multipart/form-data" action="?module=userconfig&action=saveconfig" method="POST">
+	<p class="headline1">(bereso_template-userconfig_config)</p>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+			<tr>
+				<td width="100%" valign="top">
+					<label class="container">(bereso_template-userconfig_wakescreenlock)
+						<input type="checkbox" class="button" name="bereso_wakescreenlock" value="wakescreenlock" (bereso_userconfig_wakescreenlock)> 
+						<span class="checkmark"></span>
+					</label>
+					<p class="headline3" id="wakescreenlock_status"></p>
+					<script>
+						if ('wakeLock' in navigator) {
+							document.getElementById("wakescreenlock_status").innerHTML = '<span class="labelgreen">(bereso_template-userconfig_wakescreenlock_supported)</span>';
+						}
+						else
+						{
+							document.getElementById("wakescreenlock_status").innerHTML = '<span class="labelgray">(bereso_template-userconfig_wakescreenlock_notsupported)</span>';
+						}					
+					</script>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+				<tr>
+					<td width="50%" valign="top">
+						<input name="bereso_items_per_page" type="text" style="width:100%;" value="(bereso_userconfig_items_per_page)" class="inputfield" />
+					</td>
+					<td width="50%">
+						<p class="headline3">(bereso_template-userconfig_items_per_page)</p>
+					</td>
+				</tr>
+		</table>
+	</div>
+	<br>
+	<div class="boxed">
+		<table width="100%" cellspacing="5" cellpadding="5" border="0">
+
+			(bereso_userconfig_message)
+			<br>
+
+			<button type="submit" value="(bereso_template-userconfig_save)" class="button">(bereso_template-userconfig_save)</button>
+	</div>
+</form>
