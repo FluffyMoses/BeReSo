@@ -10,8 +10,9 @@ CREATE TABLE IF NOT EXISTS `bereso_config` (
   `config_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id of the bereso config item',
   `config_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'name of the bereso config item',
   `config_value` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'value of the config item',
+  `config_user` int(10) NOT NULL DEFAULT 0 COMMENT 'configuration belongs to this user - 0 means system configuration',
   PRIMARY KEY (`config_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='stores global bereso configuration';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='stores global bereso configuration';
 
 -- Dumping structure for table bereso.bereso_group
 CREATE TABLE IF NOT EXISTS `bereso_group` (

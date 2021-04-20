@@ -15,10 +15,6 @@ CREATE TABLE IF NOT EXISTS `bereso_log` (
 
 INSERT INTO `bereso_config` (`config_name`, `config_value`) VALUES ('agent_ocr_log', '0');
 
-
-
-
-
 DELETE FROM `bereso_template`;
 DELETE FROM `bereso_template_text`;
 

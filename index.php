@@ -76,6 +76,7 @@ $share_image_id = @$_GET['share_image_id'];
 if ($module == "list")
 {
 	$search = @$_POST['search'];
+	$page = @$_GET['page'];
 }
 // for new.php 
 elseif ($module == "new") 
@@ -189,6 +190,7 @@ if (!Text::is_letter($taggroup,"a-z0-9")) { Log::die ("CHECK: \$taggroup failed 
 if ($module == "list")
 {
 	if (!Text::is_letter($search,"a-z0-9 SPECIAL")) { $search_is_letter_failed = true; } else { $search_is_letter_failed = false; }
+	if (strlen($page) > 0) { if (!is_numeric($page) or $page <= 0) { $page = 1; } } else { $page = 1; } // if page is not set or wrong set it to 1
 }
 // for new.php
 elseif ($module == "new") //  for new.php and new_taggroup.php - user form content will not stop the script but clear the variable!
@@ -354,6 +356,8 @@ elseif ($module == "edit_ocr") { include ("modules/edit_ocr.php"); } // module f
 // load default template if not allready loaded by module
 if ($output_default == true) { $output = File::read_file("templates/main.html"); }
 
+if (@$bereso['wakescreenlock'] == 1) { $output = str_replace("(bereso_script_wakescreenlock)",'<script src="templates/js/wakescreenlock.js"></script>',$output); } else { $output = str_replace("(bereso_script_wakescreenlock)",null,$output); } // enable or disable wake screen lock script
+
 
 // Navigation changes for many modules:
 
@@ -379,15 +383,19 @@ if ($module == "list_tags")
 // delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or edit_ocr.php or show.php?action=random
 if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "edit_ocr" && $module != "delete" && $module != "show_printpreview") or $action == "random")
 {
-	User::set_last_list($user,null); // delete the last list
+	if (!isset($page)) { $page = null; } // prevent error mesages
+	User::set_last_list($user,null,$page); // delete the last list
 }
 // show last list icon and link when last list is set for this user
 if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "edit" && $module != "edit_ocr" && $module != "delete") // do not show icon if we are still in the list menu or in edit or in edit_ocr or in delete module
 {
 	$navigation2 = File::read_file("templates/main-navigation2-last_list.html") . $navigation2; // set last tag always first
-	$last_list_tag = User::get_last_list($user);
+	$last_list_explode = explode(",",User::get_last_list($user)); // split response by ,
+	$last_list_tag = $last_list_explode[0]; // tag
+	$last_list_page_number = $last_list_explode[1]; // page number
 	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
 	$navigation2 = str_replace("(main-navigation-last_list_value)",$last_list_tag,$navigation2);
+	$navigation2 = str_replace("(main-navigation-last_list_page_number)",$last_list_page_number,$navigation2);
 }
 
 // -> Last list_tags taggroup - "backbutton" on list_tags, delete_taggroup, edit_taggroup, userconfig, admin (+action == null) and list

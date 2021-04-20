@@ -65,7 +65,6 @@ if (Item::is_owned_by_user($user,$item)) {
 		if (strlen($item_sharing) > 0) { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_stop_sharing)",$navigation); } else { $navigation = str_replace("(bereso_show_item_share_status)","(bereso_template-main_navigation_show_start_sharing)",$navigation); }
 		// Text favorite or not favorite
 		$item_favorite = Item::get_favorite($item);
-		if ($item_favorite == true) { $navigation = str_replace("(bereso_show_item_favorite_status)","(bereso_template-main_navigation_show_stop_favorite)",$navigation); } else { $navigation = str_replace("(bereso_show_item_favorite_status)","(bereso_template-main_navigation_show_start_favorite)",$navigation); }
 		// Text ocr	
 		if (Config::get_config("ocr_enabled") == 1 && User::get_ocr($user) == true) // is ocr enabled for this user and global
 		{
@@ -73,11 +72,6 @@ if (Item::is_owned_by_user($user,$item)) {
 			$navigation .= File::read_file("templates/main-navigation-show-ocr-toggle.html");
 			$item_ocr = Item::get_ocr($item);
 			if ($item_ocr == true) { $navigation = str_replace("(bereso_show_item_ocr_status)","(bereso_template-main_navigation_show_stop_ocr)",$navigation); } else { $navigation = str_replace("(bereso_show_item_ocr_status)","(bereso_template-main_navigation_show_start_ocr)",$navigation); }
-			// show Edit ocr button when something is available
-			if (strlen(Item::get_ocr_text($item)) > 0)
-			{
-				$navigation .= File::read_file("templates/main-navigation-show-ocr-edit.html");
-			}
 		}
 		// Replace inside navigation
 		$navigation = str_replace("(bereso_show_item_id)",$item,$navigation);
@@ -123,7 +117,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		}
 
 		$content = str_replace("(bereso_show_item_images)",$content_item,$content);
-		if ($item_favorite == true) { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-favorite.html"),$content); } else { $content = str_replace("(berso_show_item_favorite)",null,$content); }
+		if ($item_favorite == true) { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-favorite.html"),$content); } else { $content = str_replace("(berso_show_item_favorite)",File::read_file("templates/show-item-notfavorite.html"),$content); }
 		$content = str_replace("(bereso_show_item_text)",$item_text_higlighted,$content);
 		$content = str_replace("(bereso_show_item_name)",$row['item_name'],$content);
 		$content = str_replace("(bereso_show_item_id)",$item,$content);

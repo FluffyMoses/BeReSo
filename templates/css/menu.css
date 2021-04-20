@@ -1,7 +1,7 @@
 nav {
     float: left;
     width: 100%;
-    background: #ab0e00;
+    background: #880c50;
     font-size: 16px;
 }
 
@@ -31,7 +31,7 @@ nav ul li a {
 }
 
 nav ul li:hover {
-    background: #f06a5d;
+    background: #b57297;
 }
 
 nav ul ul {

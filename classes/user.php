@@ -160,10 +160,11 @@ class User
 	}
 
 	// set last listed tag for this user
-	public static function set_last_list($sll_user,$sll_tag)
+	public static function set_last_list($sll_user,$sll_tag,$sll_page)
 	{
 		global $sql;
-        $sql->query("UPDATE bereso_user SET user_last_list='".$sll_tag."' WHERE user_name='$sll_user'");
+		if ($sll_tag != null) { $set_tag = $sll_tag.",".$sll_page; } else { $set_tag = null; }
+        $sql->query("UPDATE bereso_user SET user_last_list='".$set_tag."' WHERE user_name='$sll_user'");
 	}
 
 	// get last listed taggroup for this user

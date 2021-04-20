@@ -73,9 +73,14 @@ img.image_last_item {
 	margin: auto;
 }
 
-img.favorite {
+img.favoritelist {
 	max-width: 15;
 	max-height: 15;
+}
+
+img.favoriteshow {
+	max-width: 25;
+	max-height: 25;
 }
 
 
@@ -88,15 +93,15 @@ p.headline3 { color: #333333; font-family: 'Arial', serif; font-size: 20px; }
 /* Links */
 a.menu1:link { font-weight:bold; color:white; text-decoration:none;  font-size: 2em; }
 a.menu1:visited { font-weight:bold; color:white; text-decoration:none; }
-a.menu1:focus { font-weight:bold; color:#ff0000; text-decoration:none; }
-a.menu1:hover { font-weight:bold; color:#ff0000; text-decoration:none; }
-a.menu1:active { font-weight:bold; color:#ff0000; text-decoration:none; }
+a.menu1:focus { font-weight:bold; color:#880c50; text-decoration:none; }
+a.menu1:hover { font-weight:bold; color:#b57297; text-decoration:none; }
+a.menu1:active { font-weight:bold; color:#880c50; text-decoration:none; }
 
-a.highlitetag:link { font-weight:bold; color:#ff0000; text-decoration:none; }
-a.highlitetag:visited { font-weight:bold; color:#ff0000; text-decoration:none; }
-a.highlitetag:focus { font-weight:bold; color:#ff0000; text-decoration:none; }
-a.highlitetag:hover { font-weight:bold; color:#f06a5d; text-decoration:none; }
-a.highlitetag:active { font-weight:bold; color:#ff0000; text-decoration:none; }
+a.highlitetag:link { font-weight:bold; color:#880c50; text-decoration:none; }
+a.highlitetag:visited { font-weight:bold; color:#880c50; text-decoration:none; }
+a.highlitetag:focus { font-weight:bold; color:#880c50; text-decoration:none; }
+a.highlitetag:hover { font-weight:bold; color:#b57297; text-decoration:none; }
+a.highlitetag:active { font-weight:bold; color:#880c50; text-decoration:none; }
 
 a.none:link {  text-decoration:none; }
 a.none:visited { text-decoration:none; }
@@ -117,11 +122,11 @@ a.none:active { text-decoration:none; }
 }
 
 .mainnavbutton:hover {
-	background-color: #ab0e00;	
+	background-color: #880c50;	
 }
 
 .button {
-	background-color: #ab0e00;
+	background-color: #880c50;
 	border: 1px solid #000000;
 	border-radius: 8px;
 	color: white;
@@ -134,11 +139,11 @@ a.none:active { text-decoration:none; }
 }
 
 .button:hover {
-	background-color: #f06a5d;	
+	background-color: #b57297;	
 }
 
 .uploadbutton {
-	background-color: #ab0e00;
+	background-color: #880c50;
 	border: 1px solid #000000;
 	border-radius: 8px;
 	color: white;
@@ -150,7 +155,7 @@ a.none:active { text-decoration:none; }
 }
 
 .uploadbutton:hover {
-	background-color: #f06a5d;	
+	background-color: #b57297;	
 }
 
 .navbutton {
@@ -168,7 +173,7 @@ a.none:active { text-decoration:none; }
 }
 
 .navbutton:hover {
-	background-color: #ab0e00;	
+	background-color: #b57297;	
 }
 
 .searchbutton {
@@ -184,7 +189,36 @@ a.none:active { text-decoration:none; }
 }
 
 .searchbutton:hover {
-	background-color: #ab0e00;	
+	background-color: #b57297;	
+}
+
+.copybutton {
+	background-color: #fce5e3;
+	border: 1px solid #000000;
+	border-radius: 8px;
+	padding: 5px 5px;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+
+.copybutton:hover {
+	background-color: #b57297;	
+}
+
+.pagegraybutton {
+	border: 1px solid #C0C0C0;
+	padding: 7px;
+	margin: 1px;
+	background-color: #e7e7e7;
+	border-radius: 8px;
+}
+
+.pageredbutton {
+	border: 1px solid #C0C0C0;
+	padding: 7px;
+	margin: 1px;
+	background-color: #fce5e3;
+	border-radius: 8px;
 }
 
 
@@ -241,22 +275,31 @@ a.none:active { text-decoration:none; }
 /* Labels */
 .labelgreen {
   color: white;
-  padding: 9px;
+  padding: 5px;
+  font-size: 22px;
   background-color: #4CAF50;
 }
 
 .labelgray {
   color: black;
-  padding: 9px;
+  padding: 5px;
+  font-size: 22px;
   background-color: #e7e7e7;
 }
 
 .labelorange {
   color: white;
-  padding: 9px;
+  padding: 5px;
+  font-size: 22px;
   background-color: #ff9800;
 }
 
+.labelred {
+  color: black;
+  padding: 5px;
+  font-size: 22px;
+  background-color: #fce5e3;
+}
 
 /* Checkbox */
 .container {
@@ -292,11 +335,11 @@ a.none:active { text-decoration:none; }
 }
 
 .container:hover input ~ .checkmark {
-  background-color: #ab0e00;
+  background-color: #b57297;
 }
 
 .container input:checked ~ .checkmark {
-  background-color: #ab0e00;
+  background-color: #880c50;
 }
 
 .checkmark:after {
