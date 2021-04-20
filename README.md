@@ -1,10 +1,27 @@
 # BeReSo
-BEst REcipe SOftware
 
-### README.md
 The purpose of this software is to organize photos of articles, recipes, or others.<br>
 The additional templates make it easy to rename the software and use it for something else, but the main focus will be on the photo recipe management.<br>
-BeReSo is still under developement, so a few nice-to-have features, like a webinterface for usermanagement, are still missing, but are planned for the future.<br>
+BeReSo is still under developement, so a few nice-to-have features are still missing, but are planned for the future.<br>
+
+### Features
+<ul>
+    <li>Manage recipe screenshots, scans, photos, etc. via mobilephone or browser.</li>
+    <li>Adding hashtags to an recipe description automaticalle creates a category folder and adds the recipe to it.</li>    
+    <li>Multiple hashtag categories can be moved inside a tag group that acts like a folder for tags.</li>
+    <li>Webinterface admincenter to change configurations and manage users.</li>
+    <li>OCR support via additional BeReSo OCR Agent, based on Tesseract. <a href="https://github.com/FluffyMoses/BeReSo-Agent-OCR-Docker" target="_BLANK">Available as Docker image.</a></li>
+    <li>Multi users with different language and style templates supported.</li>
+    <li>Webinterface for users to change some settings like keep display always on while using BeReSo, recipes per page, etc.</li>
+    <li>Share recipes via link.</li>
+    <li>Create checkboxes that automatically save their statis inside the recipe description. (to check if ingredient is added, bought etc.)</li>
+    <li>Import shared recipes into your own BeReSo account.</li>
+    <li>Generate printable view of each recipe.</li>
+    <li>Mark recipes as favorite.</li>
+    <li>Can be installed as WebApp.</li>
+    <li>etc.</li>
+</ul>
+
 
 ### Requirements
 <ul>
