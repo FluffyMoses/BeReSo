@@ -269,7 +269,7 @@ elseif ($module == "admin")
 	if (!is_numeric($bereso_new_amount_images)) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_ocr_password,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_ocr_enabled,"a-z_")) { $form_config_error = 1;  }
-	if(!Text::is_letter($bereso_login_motd,"a-z0-9 SPECIAL")) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_login_motd,"a-z0-9 SPECIALHTML")) { $form_config_error = 1;  }
 	// user management
 	$form_user_error = 0;
 	$form_user_password_error = 0;
