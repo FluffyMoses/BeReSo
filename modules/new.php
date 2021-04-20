@@ -42,7 +42,7 @@ if ($action == "add")
 		preg_match_all("/(#\w+)\s/", $add_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
+			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 			$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
 		}		
 

@@ -90,6 +90,7 @@ class Text
 		preg_match_all("/(#\w+)\s/", $hts_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
+			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 			$hts_text = preg_replace('/('.$matches[0][$i].')/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $hts_text);
 		}
 		// checkbox replace - needs to be in one line or else it will fill <br> cause of the \n endings
@@ -114,6 +115,7 @@ class Text
 		preg_match_all("/(#\w+)\s/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
+			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b> ", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
@@ -135,6 +137,7 @@ class Text
 		preg_match_all("/(#\w+)\s/", $ht_text, $matches);
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
+			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	

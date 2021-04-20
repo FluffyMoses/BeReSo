@@ -78,7 +78,7 @@ if ($action == null)
 			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 			for ($i=0;$i<count($matches[0]);$i++)
 			{			
-				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 				$group_items = $group_items + Item::get_number_by_tag(str_replace("#",null,$matches[0][$i]),$user);
 			}		
 			$content_item = str_replace("(bereso_list_tags_taggroup_numbers)",$group_items,$content_item);

@@ -85,7 +85,7 @@ class Tags
 			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 			for ($i=0;$i<count($matches[0]);$i++)
 			{
-				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 				$hashtag_list .= "'".str_replace("#","",$matches[0][$i])."',";
 			}	
 			// hashtags exist
@@ -117,7 +117,7 @@ class Tags
 				preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
 				for ($i=0;$i<count($matches[0]);$i++)
 				{
-					$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remote whitespace
+					$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
 					if (strtolower($matches[0][$i]) == strtolower("#".$itit_hashtag)) { return true; } // found the exact hashtag in one of the taggroups => return true
 					
 				}				
