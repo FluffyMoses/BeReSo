@@ -76,7 +76,7 @@ BeReSo is still under developement, so a few nice-to-have features are still mis
   </li>
 </ul>
 
-![bereso_ios_addtohomescreen](https://user-images.githubusercontent.com/79584516/111751058-4fc85b00-8894-11eb-8879-3b9fd3b40faf.png) ![bereso_ios_homescreen](https://user-images.githubusercontent.com/79584516/111750869-109a0a00-8894-11eb-94ba-f86784980e02.jpg) ![bereso_ios_webapp](https://user-images.githubusercontent.com/79584516/111751163-6ff81a00-8894-11eb-9aef-e40ebc2f7ee5.jpg)
+<img src="https://gnadl.com/images/bereso/on_homescreen.jpg" height="447" width="250"> <img src="https://gnadl.com/images/bereso/webapp.png" height="447" width="250"> 
 
 <ul>
   <li>Chrome webapp installation:
@@ -86,7 +86,4 @@ BeReSo is still under developement, so a few nice-to-have features are still mis
   </li>
 </ul>
 
-
-![bereso_chrome_install](https://user-images.githubusercontent.com/79584516/111752240-bbf78e80-8895-11eb-9c1f-95854acb0001.PNG)
-![bereso_chrome_webapp](https://user-images.githubusercontent.com/79584516/111752421-f95c1c00-8895-11eb-9e74-6f878d4a171f.PNG)
-
+<img src="https://gnadl.com/images/bereso/install_chrome.png" height="351" width="200"> <img src="https://gnadl.com/images/bereso/recipes_list.png" height="420" width="400">
