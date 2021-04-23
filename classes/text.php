@@ -117,7 +117,7 @@ class Text
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
 			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
-			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b> ", $ht_text);
+			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font class=\"highlitetag\">".$matches[0][$i]."</font></b> ", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
@@ -139,7 +139,7 @@ class Text
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
 			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
-			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font color=\"#ff0000\">".$matches[0][$i]."</font></b>", $ht_text);
+			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font class=\"highlitetag\">".$matches[0][$i]."</font></b>", $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold

@@ -109,6 +109,7 @@ a.none:focus { text-decoration:none; }
 a.none:hover { text-decoration:none; }
 a.none:active { text-decoration:none; }
 
+font.highlitetag { font-weight:bold; color:#880c50; text-decoration:none; } 
 
 /* Buttons */
 .mainnavbutton {
