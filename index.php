@@ -157,6 +157,9 @@ elseif ($module == "admin")
 	$user_templates = @$_POST['user_templates'];
 	$user_ocr = @$_POST['user_ocr'];
 	$user_admin = @$_POST['user_admin'];
+	// copy Items
+	$bereso_sourceitemid = @$_POST['bereso_sourceitemid'];
+	$bereso_targetuserid = @$_POST['bereso_targetuserid'];
 }
 // for userconfig.php
 elseif ($module == "userconfig")
@@ -279,6 +282,9 @@ elseif ($module == "admin")
 	if (!is_numeric($user_templates) && strlen($user_templates) > 0) { Log::die ("CHECK: \$user_templates failed ".'"'.$user_templates.'"'); }
 	if(!Text::is_letter($user_ocr,"a-z_")) { $form_user_error = 1; }
 	if(!Text::is_letter($user_admin,"a-z_")) { $form_user_error = 1; }
+	// copy Items	
+	if (!is_numeric($bereso_sourceitemid) && strlen($bereso_sourceitemid) > 0) { $bereso_sourceitemid = 0; } // when $bereso_sourceitemid is 0 - no item could be found and error message is displayed
+	if (!is_numeric($bereso_targetuserid) && strlen($bereso_targetuserid) > 0) { $bereso_sourceitemid = 0; } // when $bereso_sourceitemid is 0 - no item could be found and error message is displayed
 }
 // for userconfig.php
 elseif ($module == "userconfig")

@@ -13,6 +13,7 @@ if (User::is_admin($user))
 	$admin_config_message = null; // init error/success message variable
 	$admin_user_message = null; // init error/success message variable
 	$admin_user_password_message = null; // init error/success message variable
+	$copyitem_message = null; // init error/success message variable
 
 	$user_name_replace = null; // if set the form will replace the text with the variable content, not with the sql loaded content
 	$user_templates_replace = null; // if set the form will replace the text with the variable content, not with the sql loaded content
@@ -40,6 +41,85 @@ if (User::is_admin($user))
 			}
 		}
 		$content = str_replace("(bereso_admin_center_statistic_discspace)",$disc_space. " MB",$content); // Used discspace of all bereso users
+	}
+
+
+	// Copy item to another user - same as import - but uses item id and not shareid
+	// save item and show form again afterwards
+	if ($action == "savecopyitem")
+	{
+		// Load item details
+		if ($result = $sql->query("SELECT item_id, item_name, item_text, item_user, item_imagename from bereso_item WHERE item_id='".$bereso_sourceitemid."'"))
+		{	
+			$row = $result -> fetch_assoc();
+	
+			// if entry with this item id exists
+			if (mysqli_num_rows($result) == 1 && $bereso_targetuserid > 0)
+			{		
+				// new unique ids for imagename 
+				$add_uniqueid = uniqid();
+
+				$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit) VALUES ('".$row['item_name']."','".$row['item_text']."','".$bereso_targetuserid."','".$add_uniqueid."','".$bereso['now']."','".$bereso['now']."')");
+				$add_id = $sql->insert_id;
+			
+				// save tags
+				// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+				$row['item_text'] = $row['item_text'] . " ";
+				preg_match_all("/(#\w+)\s/", $row['item_text'], $matches);
+				for ($i=0;$i<count($matches[0]);$i++)
+				{
+					$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
+					$sql->query("INSERT into bereso_tags (tags_name, tags_item) VALUES ('".str_replace("#","",$matches[0][$i])."','".$add_id."')");
+				}		
+		
+				// copy image files to new imagename
+				if ($result2 = $sql->query("SELECT images_image_id from bereso_images WHERE images_item='".$row['item_id']."'"))
+				{	
+					while ($row2 = $result2 -> fetch_assoc())
+					{
+						$old_file = Image::get_foldername_by_user_id($row['item_user']).Image::get_filenamecomplete($row['item_id'],$row2['images_image_id']);
+						$new_file = Image::get_foldername_by_user_id($bereso_targetuserid).$add_uniqueid."_".$row2['images_image_id'].Image::get_fileextension($row['item_id'],$row2['images_image_id']);
+						copy($old_file,$new_file); // copy image
+						$sql->query("INSERT into bereso_images (images_item, images_image_id, images_fileextension) VALUES ('".$add_id."','".$row2['images_image_id']."','".Image::get_fileextension($row['item_id'],$row2['images_image_id'],false)."')");
+					}
+				}
+
+				Log::useraction($user,$module,$action,"Copied ".$row['item_id']." (User: ".$row['item_user'].") to $add_id (User: ".$bereso_targetuserid.")");  // log when user_log enabled
+				$copyitem_message = "<font color=\"green\">(bereso_template-admin_copyitem_successful) ID:".$row['item_id']." (User ID: ".$row['item_user'].") -&gt; ID: $add_id (User ID: $bereso_targetuserid)</font>";
+			}
+			// item does not exist
+			else 
+			{
+				$copyitem_message = "<font color=\"red\">(bereso_template-admin_copyitem_error)</font>";
+			}
+		}
+		$action = "copyitem"; // show form again
+	}
+
+
+	// form for copyitem
+	if ($action == "copyitem")
+	{
+
+		// show form
+		$content = File::read_file("templates/admin-copyitem.html");
+		$content = str_replace("(bereso_admin_copyitem_message)",$copyitem_message,$content);
+		// load users into dropdown menu
+		$content_users = null;
+		if ($result = $sql->query("SELECT user_id, user_name FROM bereso_user ORDER BY user_name ASC"))
+		{
+			while($row = $result -> fetch_assoc())
+			{
+				$content_users .= File::read_file("templates/admin-copyitem-useritem.html");
+				$content_users = str_replace("(bereso_admin_users_id)",$row['user_id'],$content_users);
+				$content_users = str_replace("(bereso_admin_users_name)",$row['user_name'],$content_users);
+			}
+		}
+		$content = str_replace("(bereso_admin_users)",$content_users,$content);
+
+		// add to navigation 2
+		$navigation2 = File::read_file("templates/main-navigation2-admin_last_menu.html");
+		$navigation2 = str_replace("(bereso_admin_last_menu_link)","?module=admin",$navigation2);
 	}
 
 

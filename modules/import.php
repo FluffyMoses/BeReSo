@@ -47,7 +47,7 @@ if ($result = $sql->query("SELECT item_id, item_name, item_text, item_imagename 
 		header('Location: index.php?module=show&item='.$add_id, true, 302); // Redirect to the new created item
 		exit(); // stops the rest of the script from running 
 	}
-	// image does not exist or is not shared
+	// item does not exist or is not shared
 	else 
 	{
 		$content = File::read_file("templates/share-error.html");
