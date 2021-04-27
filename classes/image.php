@@ -49,6 +49,28 @@ class Image
 		return null; // no entry found
 	}
 
+	// check if image metainformations are stored in database
+	public static function image_in_database($iid_filename)
+	{
+		// get filename and image_id - example filename 601ba3f3a86fa_0.png
+		$explode_file = explode(".",$iid_filename); 
+		if (count($explode_file) == 2) {
+			$extension = $explode_file[1];
+			$explode_file2 = explode("_",$explode_file[0]);
+			if (count($explode_file2) == 2)
+			{
+				$filename = $explode_file2[0];
+				$image_id = $explode_file2[1];
+				if (Image::get_filenamecomplete(Image::get_itemid_by_filename($filename),$image_id) == $iid_filename) // meta informations found
+				{
+					return true;
+				}
+			}
+		}
+		// no meta informations found
+		return false;
+	}
+
 	// rotate image
 	public static function rotate($r_imagepath,$r_image_rotate_degrees)
 	{
@@ -82,6 +104,17 @@ class Image
 		 elseif ($exif['Orientation'] == 6) { return -90; }
 		 elseif ($exif['Orientation'] == 8) { return 90; }
 		 else { return 0; }
+	}
+
+	// get item id by filename 
+	public static function get_itemid_by_filename($gibf_filename)
+	{
+		global $sql;
+		if ($result = $sql->query("SELECT item_id from bereso_item WHERE item_imagename='".$gibf_filename."'"))
+		{		
+			$row = $result -> fetch_assoc();
+			if ($row['item_id'] != null) { return $row['item_id']; }
+		}
 	}
 
 	// build image filename from database based on item id 

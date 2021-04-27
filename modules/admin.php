@@ -43,6 +43,72 @@ if (User::is_admin($user))
 		$content = str_replace("(bereso_admin_center_statistic_discspace)",$disc_space. " MB",$content); // Used discspace of all bereso users
 	}
 
+	// check if there is an missmatch between the items stored on the filesystem and the meta informations in the database
+	if ($action == "checkimages")
+	{
+			$checkimages_content = null;
+			$content = File::read_file("templates/admin-checkimages.html");
+
+			// check every user - folder
+			if ($result = $sql->query("SELECT user_id, user_name FROM bereso_user ORDER BY user_id ASC"))
+			{
+				while($row = $result -> fetch_assoc())
+				{				
+					// read files and check database
+					$checkimages_content .= File::read_file("templates/admin-checkimages-readfile.html");
+					$checkimages_content = str_replace("(berso_admin_checkimages_username)",$row['user_name'],$checkimages_content);
+					$checkimages_content = str_replace("(berso_admin_checkimages_userid)",$row['user_id'],$checkimages_content);
+
+					$files = scandir(Image::get_foldername_by_user_id($row['user_id']));
+					
+					$content_errors = null;
+					$count = 0;
+
+					//check files and search inside the database if the entry matches
+					foreach ($files as $key => $value) {
+						if ($value != "." and $value != ".."){
+							if (Image::image_in_database($value) == false)
+							{
+								$content_errors .= File::read_file("templates/admin-checkimages-readfile-error.html");
+								$content_errors = str_replace("(berso_admin_checkimages_filenamecomplete)",$value,$content_errors);	
+								$content_errors = str_replace("(berso_admin_checkimages_folder)",Image::get_foldername_by_user_id($row['user_id']),$content_errors);
+							}
+							$count++;
+						}
+					}
+					$checkimages_content = str_replace("(berso_admin_checkimages_readfile_content)",$content_errors,$checkimages_content);
+					$checkimages_content = str_replace("(berso_admin_checkimages_count)",$count,$checkimages_content);
+
+					// read database and check files
+					$checkimages_content .= File::read_file("templates/admin-checkimages-readdatabase.html");
+					$content_errors = null;
+					$count = 0;
+
+					$result2 = $sql->query("SELECT * from bereso_images  INNER JOIN bereso_item ON bereso_images.images_item = bereso_item.item_id WHERE bereso_item.item_user='".$row['user_id']."'");
+					while($row2 = $result2 -> fetch_assoc())
+					{
+						if (!file_exists(Image::get_foldername_by_user_id($row['user_id']).Image::get_filenamecomplete($row2['item_id'],$row2['images_image_id'])))
+						{
+							$content_errors .= File::read_file("templates/admin-checkimages-readdatabase-error.html");
+							$content_errors = str_replace("(berso_admin_checkimages_filenamecomplete)",Image::get_filenamecomplete($row2['item_id'],$row2['images_image_id']),$content_errors);	
+							$content_errors = str_replace("(berso_admin_checkimages_folder)",Image::get_foldername_by_user_id($row['user_id']),$content_errors);	
+							$content_errors = str_replace("(bereso_admin_checkimages_itemid)",$row2['item_id'],$content_errors);								
+						}
+
+						$count++;
+					}
+					$checkimages_content = str_replace("(berso_admin_checkimages_readdatabase_content)",$content_errors,$checkimages_content);
+					$checkimages_content = str_replace("(berso_admin_checkimages_count)",$count,$checkimages_content);
+				}								
+			}
+			$content = str_replace("(bereso_admin_checkimages_content)",$checkimages_content,$content);
+
+			// add to navigation 2
+			$navigation2 = File::read_file("templates/main-navigation2-admin_last_menu.html");
+			$navigation2 = str_replace("(bereso_admin_last_menu_link)","?module=admin",$navigation2);
+	}
+
+
 
 	// Copy item to another user - same as import - but uses item id and not shareid
 	// save item and show form again afterwards
