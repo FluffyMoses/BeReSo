@@ -117,9 +117,7 @@ elseif ($module == "login")
 {
 	$login_name = @$_POST['login_name']; // the login form
 	$login_password = @$_POST['login_password']; // the login form
-	$generate_user = @$_GET['generate_user']; // just for the action=generate_user_sqlinsert
-	$generate_password = @$_GET['generate_password']; // just for the action=generate_user_sqlinsert
-	$generate_template = @$_GET['generate_template']; // just for the action=generate_user_sqlinsert
+	$switchuser = @$_GET['switchuser']; // login as this username if permission granted
 }
 // for agent_ocr.php
 elseif ($module == "agent_ocr")
@@ -239,9 +237,7 @@ elseif ($module == "login")
 {
 	if (!Text::is_letter($login_name,"a-z-")) { $login_name = null; } // wrong character - reset name - login will fail and return error message
 	if (!Text::is_letter($login_password,"a-z0-9 SPECIAL")) { $login_password = null; } // wrong character - reset password - login will fail and return error message
-	if (!Text::is_letter($generate_user,"a-z-")) { Log::die ("CHECK: \$generate_user failed ".'"'.$generate_user.'"'); }
-	if (!Text::is_letter($generate_password,"a-z0-9 SPECIAL")) { Log::die ("CHECK: \$generate_password failed ".'"'.$generate_password.'"'); }
-	if (strlen($generate_template) > 0) { if (!is_numeric($generate_template)) { Log::die ("CHECK: \$generate_template failed ".'"'.$generate_template.'"'); } }
+	if (!Text::is_letter($switchuser,"a-z-")) { $switchuser = null; } // wrong character - reset name - login will fail and return error message
 }
 // for agent_ocr.php
 elseif ($module == "agent_ocr")

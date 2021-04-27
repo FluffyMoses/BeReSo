@@ -22,6 +22,34 @@ if ($action == "logout")
 	$output_navigation = false;
 }
 
+// Admin switches to another user
+if ($action == "switchuser")
+{
+	// check if user is admin
+	if (User::is_admin($user))
+	{
+		// read the right case sensitive user spelling and the pw hash from the database table 
+		$query = "SELECT user_name, user_pwhash from bereso_user WHERE user_name='".$switchuser."'";
+		if ($result = $sql->query($query))
+		{		
+			$row = $result -> fetch_assoc();
+			// if entry with this user exists
+			if (mysqli_num_rows($result) == 1)
+			{
+				// save session and login
+				$_SESSION['user'] = $row['user_name'];
+				$_SESSION['passwordhash'] = $row['user_pwhash'];						
+			
+				header('Location: index.php', true, 302); // Redirect to the startpage after successfull userswitch!
+			}
+		}
+	}
+	else // User is not an admin
+	{
+		Log::die ("CHECK: switchuser failed - permission denied");
+	}
+}
+
 // Do login
 if ($action == "dologin")
 {
@@ -54,7 +82,7 @@ if ($action == "dologin")
 	// if login is successful
 	if (User::is_logged_in($user,$passwordhash))
 	{						
-			// save cookies and login
+			// save session and login
 			$_SESSION['user'] = $user;
 			$_SESSION['passwordhash'] = $passwordhash;		
 			
