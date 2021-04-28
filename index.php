@@ -388,8 +388,8 @@ if (($module != "show" && $module != "show_image" && $module != "list" && $modul
 	if (!isset($page)) { $page = null; } // prevent error mesages
 	User::set_last_list($user,null,$page); // delete the last list
 }
-// show last list icon and link when last list is set for this user
-if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "edit" && $module != "edit_ocr" && $module != "delete") // do not show icon if we are still in the list menu or in edit or in edit_ocr or in delete module
+// show last list icon and link when last list is set for this user on show module
+if (strlen(User::get_last_list($user)) > 0 && $module == "show") // do not show icon if we are still in the list menu or in edit or in edit_ocr or in delete module
 {
 	$navigation2 = File::read_file("templates/main-navigation2-last_list.html") . $navigation2; // set last tag always first
 	$last_list_explode = explode(",",User::get_last_list($user)); // split response by ,
@@ -397,7 +397,8 @@ if (strlen(User::get_last_list($user)) > 0 && $module != "list" && $module != "e
 	$last_list_page_number = $last_list_explode[1]; // page number
 	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
 	$navigation2 = str_replace("(main-navigation-last_list_value)",$last_list_tag,$navigation2);
-	$navigation2 = str_replace("(main-navigation-last_list_page_number)",$last_list_page_number,$navigation2);
+	$navigation2 = str_replace("(main-navigation-last_list_page_number)",$last_list_page_number,$navigation2);	
+	if ($item > 0) { $navigation2 = str_replace("(main-navigation-last_list_item_anchor)","#".$item,$navigation2); } else { $navigation2 = str_replace("(main-navigation-last_list_item_anchor)",null,$navigation2); } // if item id is set - jump to the item via html anchor
 }
 
 // -> Last list_tags taggroup - "backbutton" on list_tags, delete_taggroup, edit_taggroup, userconfig, admin (+action == null) and list
