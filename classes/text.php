@@ -89,10 +89,13 @@ class Text
 		$hts_text = preg_replace('|([\w\d]*)\s?(https?://([\d\w\.-]+\.[\w\.]{2,6})[^\s\]\[\<\>]*/?)|i', '<a class="none" target="_BLANK" href="$2">$2</a>', $hts_text); // https http insert real link
 
 		preg_match_all("/(#\w+)\s/", $hts_text, $matches);
+		usort($matches[0],"Text::sort_strings_lenght"); // sort array
+
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
-			$hts_text = preg_replace('/('.$matches[0][$i].')/',"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",$matches[0][$i])."\">".$matches[0][$i]."</a>", $hts_text);
+			// save whitespace from hashtag and ed it after the link
+			$whitespace = substr($matches[0][$i],strlen($matches[0][$i])-1,1);
+			$hts_text = str_replace($matches[0][$i],"<a class=\"highlitetag\" href=\"?user=(bereso_user)&module=list&tag=".str_replace("#","",Text::remove_whitespace($matches[0][$i]))."\">".Text::remove_whitespace($matches[0][$i])."</a>".$whitespace, $hts_text);
 		}
 		// checkbox replace - needs to be in one line or else it will fill <br> cause of the \n endings
 		$hts_text = preg_replace('/\[c\]([a-zA-Z0-9 äÄüÜöÖß]*?)\[\/c\]/', '<label class="container">$1<input type="checkbox" class="button" value="" onclick="get_http_request(\''.$bereso['url'].'index.php?module=edit&action=check&replace_text=$1&item='.$item.'\')"><span class="checkmark"></span></label>', $hts_text); // checkbox unchecked - no /i (case sensitive ignored) - no /s (new line characters allowed) - before all replaces so that the $replace_text could be found in the database
@@ -114,10 +117,13 @@ class Text
 		$ht_text = $ht_text . " ";
 		// # highlight # - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)\s/", $ht_text, $matches);
+		usort($matches[0],"Text::sort_strings_lenght"); // sort array
+
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
-			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font class=\"highlitetag\">".$matches[0][$i]."</font></b> ", $ht_text);
+			// save whitespace from hashtag and ed it after the link
+			$whitespace = substr($matches[0][$i],strlen($matches[0][$i])-1,1);
+			$ht_text = str_replace($matches[0][$i],"<b><font class=\"highlitetag\">".Text::remove_whitespace($matches[0][$i])."</font></b>".$whitespace, $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
@@ -136,10 +142,13 @@ class Text
 		$ht_text = $ht_text . " ";
 		// # highlight # - known problems with öäüß_ in #
 		preg_match_all("/(#\w+)\s/", $ht_text, $matches);
+		usort($matches[0],"Text::sort_strings_lenght"); // sort array
+
 		for ($i=0;$i<count($matches[0]);$i++)
 		{
-			$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
-			$ht_text = preg_replace('/('.$matches[0][$i].')/',"<b><font class=\"highlitetag\">".$matches[0][$i]."</font></b>", $ht_text);
+			// save whitespace from hashtag and ed it after the link
+			$whitespace = substr($matches[0][$i],strlen($matches[0][$i])-1,1);
+			$ht_text = str_replace($matches[0][$i],"<b><font class=\"highlitetag\">".Text::remove_whitespace($matches[0][$i])."</font></b>".$whitespace, $ht_text);
 		}			
 		$ht_text = str_replace("\n","<br>",$ht_text); // new line	
 		$ht_text = preg_replace('/\[b\](.*?)\[\/b\]/is', '<b>$1</b>', $ht_text); // bold
@@ -168,6 +177,13 @@ class Text
 	{
 		return strlen($ssl_secondstring) - strlen($ssl_firststring);		
 	}
+
+	// usort callback function to sort an array of strings per name (returns < 0 || == 0 || > 0)
+	public static function sort_strings_name($ssn_firststring, $ssn_secondstring)
+	{
+		return strcmp($ssn_secondstring,$ssn_secondstring);		
+	}
+
 
 }
 ?>

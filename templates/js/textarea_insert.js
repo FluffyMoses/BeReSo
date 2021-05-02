@@ -8,8 +8,10 @@
 // Add text to textarea at cursor position
 function insertAtCursor(valuetarget, valuesource) {
 	const selection_start_position = document.getElementById(valuetarget).selectionStart;
-	const selection_end_position = document.getElementById(valuetarget).selectionEnd;
+	const selection_end_position = document.getElementById(valuetarget).selectionEnd;	
 	document.getElementById(valuetarget).value = document.getElementById(valuetarget).value.slice(0, selection_start_position) + document.getElementById(valuesource).value + document.getElementById(valuetarget).value.slice(selection_end_position);
+	document.getElementById(valuetarget).focus();
+    document.getElementById(valuetarget).setSelectionRange(selection_start_position+document.getElementById(valuesource).value.length, selection_start_position+document.getElementById(valuesource).value.length); // set cursor position at the end of the added hashtag	
 }
 
 // Add text to textarea before and after selection

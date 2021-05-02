@@ -28,4 +28,5 @@ $bereso['log_die_path'] = "die.log"; // path to this textfile
 // Userconfig default values
 $bereso['userconfig_items_per_page'] = 100; // Items per page
 $bereso['userconfig_wakescreenlock'] = 0; // wake screenlock enabled
+$bereso['userconfig_newline_after_hashtag_insert'] = 0; // add a newline after a hashtag is inserted via menu
 ?>

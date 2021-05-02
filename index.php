@@ -164,6 +164,7 @@ elseif ($module == "userconfig")
 {
 	$bereso_wakescreenlock = @$_POST['bereso_wakescreenlock'];
 	$bereso_items_per_page = @$_POST['bereso_items_per_page'];
+	$bereso_newline_after_hashtag_insert = @$_POST['bereso_newline_after_hashtag_insert'];
 }
 
 
@@ -288,6 +289,7 @@ elseif ($module == "userconfig")
 	$form_config_error = 0;
 	if(!Text::is_letter($bereso_wakescreenlock,"a-z")) { $form_config_error = 1;  }	
 	if (!is_numeric($bereso_items_per_page)) { $form_config_error = 1;  }
+	if(!Text::is_letter($bereso_newline_after_hashtag_insert,"a-z_")) { $form_config_error = 1;  }		
 }
 
 

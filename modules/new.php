@@ -130,18 +130,47 @@ if ($action == null){
 	$content = str_replace("(bereso_new_item_add_text)",$add_text,$content); // if entry is saved with errors - show text again
 	$content = str_replace("(bereso_new_item_message)",$item_new_addmessage,$content); // insert or clear message field
 
-	// load all hashtags and add all in the dropdown menu
-	if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
+	// Load all taggroups and hashtags for the dropdown menu
+	if (Config::get_userconfig("userconfig_newline_after_hashtag_insert",$user) == 1) { $insert_after_hashtag = "\n"; } else { $insert_after_hashtag = " "; }
+	// tag groups
+	$insert_hashtag = null;
+	if ($result = $sql->query("SELECT group_name, group_text FROM bereso_group WHERE group_user='".User::get_id_by_name($user)."' ORDER BY group_name ASC"))
 	{	
-		$insert_hashtag = null;
 		while ($row = $result -> fetch_assoc())
 		{
 			$insert_hashtag .= File::read_file("templates/new-hashtag.html");
-			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)",$row['tags_name'],$insert_hashtag);
-			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name']." ",$insert_hashtag);
+			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)","=== ".$row['group_name']." ===",$insert_hashtag);
+			$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)",null,$insert_hashtag);
+			// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
+			$row['group_text'] = $row['group_text'] . " ";
+			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
+			for ($i=0;$i<count($matches[0]);$i++)
+			{			
+				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
+				$insert_hashtag .= File::read_file("templates/new-hashtag.html");
+				$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)","- ".str_replace("#",null,$matches[0][$i]),$insert_hashtag);
+				$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)",$matches[0][$i].$insert_after_hashtag,$insert_hashtag);
+			}		
 		}
 	}
-	$content = str_replace("(bereso_new_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags 
+	// Tags
+	$insert_hashtag .= File::read_file("templates/new-hashtag.html");
+	$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)","=== Tags ===",$insert_hashtag);
+	$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)",null,$insert_hashtag);
+	if ($result = $sql->query("SELECT DISTINCT bereso_tags.tags_name from bereso_tags INNER JOIN bereso_item ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' ORDER BY bereso_tags.tags_name ASC"))
+	{	
+		while ($row = $result -> fetch_assoc())
+		{
+			// show tag in overview if it is not part of any tag group
+			if (Tags::is_tag_in_taggroup($user,$row['tags_name']) == false) 
+			{
+				$insert_hashtag .= File::read_file("templates/new-hashtag.html");
+				$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_name)","- ".str_replace("#",null,$row['tags_name']),$insert_hashtag);
+				$insert_hashtag = str_replace("(bereso_new_item_insert_hashtag_value)","#".$row['tags_name'].$insert_after_hashtag,$insert_hashtag);
+			}
+		}
+	}
+	$content = str_replace("(bereso_new_item_insert_hashtag)",$insert_hashtag,$content); // insert option tags of all hashtags */
 
 	// Load additional image uploads - preview 0 and image 1 are always hardcoded in the template
 	$content_optional_images = null;
