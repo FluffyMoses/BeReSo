@@ -64,12 +64,14 @@ if ($action == null){
 			// add one whitespace character at the end for the regular expression to match when the last word is a hashtag!
 			$row['group_text'] = $row['group_text'] . " ";
 			preg_match_all("/(#\w+)\s/", $row['group_text'], $matches);
-			for ($i=0;$i<count($matches[0]);$i++)
+			natcasesort($matches[0]);
+
+			foreach ($matches[0] as $match)	
 			{			
-				$matches[0][$i] = Text::remove_whitespace($matches[0][$i]); // remove whitespace
+				$match = Text::remove_whitespace($match); // remove whitespace
 				$insert_hashtag .= File::read_file("templates/new_taggroup-hashtag.html");
-				$insert_hashtag = str_replace("(bereso_new_taggroup_insert_hashtag_name)","- ".str_replace("#",null,$matches[0][$i]),$insert_hashtag);
-				$insert_hashtag = str_replace("(bereso_new_taggroup_insert_hashtag_value)",$matches[0][$i].$insert_after_hashtag,$insert_hashtag);
+				$insert_hashtag = str_replace("(bereso_new_taggroup_insert_hashtag_name)","- ".str_replace("#",null,$match),$insert_hashtag);
+				$insert_hashtag = str_replace("(bereso_new_taggroup_insert_hashtag_value)",$match.$insert_after_hashtag,$insert_hashtag);
 			}		
 		}
 	}
