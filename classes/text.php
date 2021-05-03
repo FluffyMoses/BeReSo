@@ -178,12 +178,5 @@ class Text
 		return strlen($ssl_secondstring) - strlen($ssl_firststring);		
 	}
 
-	// usort callback function to sort an array of strings per name (returns < 0 || == 0 || > 0)
-	public static function sort_strings_name($ssn_firststring, $ssn_secondstring)
-	{
-		return strcmp($ssn_secondstring,$ssn_secondstring);		
-	}
-
-
 }
 ?>

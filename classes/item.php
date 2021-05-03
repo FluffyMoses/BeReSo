@@ -84,6 +84,32 @@ class Item
 		}
 	}
 
+	// set item rating
+	public static function set_rating($sr_item_id,$sr_rating)
+	{
+		global $sql;		
+		$sql->query("UPDATE bereso_item SET item_rating='".$sr_rating."' WHERE item_id='$sr_item_id'");
+	}
+
+	// return rating by item id
+	public static function get_rating($gr_item_id)
+	{
+		global $sql;		
+        if ($result = $sql->query("SELECT item_rating from bereso_item WHERE item_id='$gr_item_id'"))
+		{
+			$row = $result -> fetch_assoc();
+			// check if item exists
+			if (@is_numeric($row['item_rating']))
+			{
+				return $row['item_rating'];
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
+
 	// set item ocr status true/false
 	public static function set_ocr($so_item_id,$so_status)
 	{
@@ -203,6 +229,14 @@ class Item
 	{
 		global $sql;
         if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_ocr = '1'"))
+		return mysqli_num_rows($result);
+	}	
+
+	// get number of rated items of user
+	public static function get_ratednumber($gs_user) 
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_rating > '0'"))
 		return mysqli_num_rows($result);
 	}	
 }

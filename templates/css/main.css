@@ -5,6 +5,19 @@ body {
 
 
 /* Div */
+div.stackcontainerlist {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+div.stackclientlist {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+
 div.boxed {
   padding: 10px 10px 10px 10px;
   border: 1px solid #BFBFBF;
@@ -73,9 +86,9 @@ img.image_last_item {
 	margin: auto;
 }
 
-img.favoritelist {
-	max-width: 15;
-	max-height: 15;
+img.statuslist {
+	max-width: 25;
+	max-height: 25;
 }
 
 img.favoriteshow {
@@ -103,11 +116,11 @@ a.highlitetag:focus { font-weight:bold; color:#880c50; text-decoration:none; }
 a.highlitetag:hover { font-weight:bold; color:#b57297; text-decoration:none; }
 a.highlitetag:active { font-weight:bold; color:#880c50; text-decoration:none; }
 
-a.none:link {  text-decoration:none; }
-a.none:visited { text-decoration:none; }
-a.none:focus { text-decoration:none; }
-a.none:hover { text-decoration:none; }
-a.none:active { text-decoration:none; }
+a.none:link {  text-decoration:none; outline:none; }
+a.none:visited { text-decoration:none; outline:none; }
+a.none:focus { text-decoration:none; outline:none; }
+a.none:hover { text-decoration:none; outline:none; }
+a.none:active { text-decoration:none; outline:none; }
 
 font.highlitetag { font-weight:bold; color:#880c50; text-decoration:none; } 
 

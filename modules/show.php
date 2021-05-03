@@ -125,6 +125,24 @@ if (Item::is_owned_by_user($user,$item)) {
 		$content = str_replace("(bereso_show_item_timestamp_edit)",Time::timestamp_to_datetime($row['item_timestamp_edit']),$content);
 		$content = str_replace("(bereso_show_item_imagename)",Image::get_filename($item),$content);
 
+		// rating replace
+		$rating = Item::get_rating($item);
+		$item_rating = null;
+		for ($i=1;$i<=5;$i++)
+		{
+			if ($i <= $rating) 
+			{
+				$item_rating .= File::read_file("templates/show-item-rating.html");
+				if ($rating == $i) { $item_rating = str_replace("(bereso_show_item_rating)","0",$item_rating); } else { $item_rating = str_replace("(bereso_show_item_rating)",$i,$item_rating); }
+			}
+			else 
+			{
+				$item_rating .= File::read_file("templates/show-item-norating.html");
+				$item_rating = str_replace("(bereso_show_item_rating)",$i,$item_rating);
+			}
+		}
+		$item_rating = str_replace("(bereso_show_item_id)",$item,$item_rating);
+		$content = str_replace("(bereso_show_item_rating)",$item_rating,$content);
 	}
 }
 else

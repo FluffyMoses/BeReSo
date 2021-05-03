@@ -314,6 +314,18 @@ if (Item::is_owned_by_user($user,$item)) {
 	}
 
 
+	// set rating
+	if ($action == "rating")
+	{
+		Item::set_rating($item,$rating);
+		Log::useraction($user,$module,$action,"Rating item $item with $rating");  // log when user_log enabled
+
+		// redirect back to show.php
+		header('Location: index.php?module=show&item='.$item,true, 302 ); 
+		exit(); // stops the rest of the script from running 
+	}
+
+
 	// save checkboxes status from show.php ajax script (onclick -> javascript -> calls this url)
 	if ($action == "check")
 	{

@@ -33,3 +33,9 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'userconfig_newline_after_hashtag_insert', 'New line after adding a hashtag', 'en');
 UPDATE `bereso_template_text` SET `template_text_text`='Ger&auml;t nicht unterst&uuml;tzt' WHERE `template_text_name`='userconfig_wakescreenlock_notsupported' and `template_text_language` = 'DE';
 UPDATE `bereso_template_text` SET `template_text_text`='Ger&auml;t unterst&uuml;tzt' WHERE `template_text_name`='userconfig_wakescreenlock_supported' and `template_text_language` = 'DE';
+
+ALTER TABLE `bereso_item` ADD `item_rating` INT(1) NOT NULL DEFAULT '0' COMMENT 'stores the rating of the item' AFTER `item_favorite`;
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (1, 'list_tags_all_rated_items', 'Alle Rezepte mit Bewertung', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'list_tags_all_rated_items', 'Alle Eintr&auml;ge mit Bewertung', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (3, 'list_tags_all_rated_items', 'Alle Projekte mit Bewertung', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'list_tags_all_rated_items', 'All rated recipes', 'en');

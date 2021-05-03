@@ -60,6 +60,12 @@ elseif (strlen($tag) > 0)
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_favorite='1' ORDER BY item_name ASC";
 		$list_items_headline = "(bereso_template-list_tags_all_favorite_items)";
 	}	
+	// list all rated items
+	elseif ($tag == "RATED") 
+	{
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_rating > '0' ORDER BY item_name ASC";
+		$list_items_headline = "(bereso_template-list_tags_all_rated_items)";
+	}	
 	// list all ocr items
 	elseif ($tag == "OCR") 
 	{
@@ -99,12 +105,21 @@ if (strlen($sql_list_items) > 0)
 		while ($row = $result -> fetch_assoc())
 		{
 			$content_item .= File::read_file("templates/list-item.html");
-			if (Item::get_favorite($row['item_id']) == true) { $content_item = str_replace("(berso_list_item_favorite)",File::read_file("templates/list-item-favorite.html"),$content_item); } else { $content_item = str_replace("(berso_list_item_favorite)",null,$content_item); }
+			if (Item::get_favorite($row['item_id']) == true) { $content_item = str_replace("(bereso_list_item_favorite)",File::read_file("templates/list-item-favorite.html"),$content_item); } else { $content_item = str_replace("(bereso_list_item_favorite)",null,$content_item); }
 			$content_item = str_replace("(bereso_item_id)",$row['item_id'],$content_item);
 			$content_item = str_replace("(bereso_item_imagename)",Image::get_filename($row['item_id']),$content_item);
 			$content_item = str_replace("(bereso_item_name)",$row['item_name'],$content_item);		
 			// get image extension
 			$content_item = str_replace("(bereso_item_image_extension)",Image::get_fileextension($row['item_id'],0),$content_item);
+			// rating replace
+			$rating = Item::get_rating($row['item_id']);			
+			$item_rating = null;
+			for ($i=1;$i<=$rating;$i++)
+			{
+				$item_rating .= File::read_file("templates/list-item-rating.html");
+			}
+			$item_rating = str_replace("(bereso_list_item_id)",$item,$item_rating);
+			$content_item = str_replace("(bereso_list_item_rating)",$item_rating,$content_item);
 		}
 		$content = str_replace("(bereso_list_items_item)",$content_item,$content);
 	}

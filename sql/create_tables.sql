@@ -43,9 +43,10 @@ CREATE TABLE IF NOT EXISTS `bereso_item` (
   `item_timestamp_edit` int(15) DEFAULT NULL  COMMENT 'last edit timestamp',
   `item_shareid` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL  COMMENT 'unique id for the sharing link when enabled (null if disabled)',
   `item_favorite` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is favorite true/false',
+  `item_rating` INT(1) NOT NULL DEFAULT 0 COMMENT 'stores the rating of the item',
   `item_ocr` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr enabled for this item',
   `item_ocr_text` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ocr recognized text',
-  `item_ocr_searchable` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr text searchable enabled for this item',
+  `item_ocr_searchable` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'is ocr text searchable enabled for this item',  
   PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
