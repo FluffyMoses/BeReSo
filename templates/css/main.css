@@ -235,6 +235,28 @@ font.highlitetag { font-weight:bold; color:#880c50; text-decoration:none; }
 	border-radius: 8px;
 }
 
+.orderbygraybutton {
+	border: 1px solid #C0C0C0;
+	font-size:11;
+	padding: 3px;
+	height: 48px;
+	width: 48px;
+	margin: 1px;
+	background-color: #e7e7e7;
+	border-radius: 8px;
+}
+
+.orderbyredbutton {
+	border: 1px solid #C0C0C0;
+	font-size:11;
+	padding: 3px;
+	height: 48px;
+	width: 48px;
+	margin: 1px;
+	background-color: #fce5e3;
+	border-radius: 8px;
+}
+
 
 /* Input fields */
 .logininputfield {

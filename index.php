@@ -77,6 +77,7 @@ if ($module == "list")
 {
 	$search = @$_POST['search'];
 	$page = @$_GET['page'];
+	$orderby = @$_GET['orderby'];
 }
 // for new.php 
 elseif ($module == "new") 
@@ -192,8 +193,9 @@ if (!Text::is_letter($taggroup,"a-z0-9")) { Log::die ("CHECK: \$taggroup failed 
 // for list.php
 if ($module == "list")
 {
-	if (!Text::is_letter($search,"a-z0-9 SPECIAL")) { $search_is_letter_failed = true; } else { $search_is_letter_failed = false; }
+	if (!Text::is_letter($search,"a-z0-9 SPECIAL")) { $search_is_letter_failed = true; } else { $search_is_letter_failed = false; }	
 	if (strlen($page) > 0) { if (!is_numeric($page) or $page <= 0) { $page = 1; } } else { $page = 1; } // if page is not set or wrong set it to 1
+	if (!Text::is_letter($orderby,"a-z0-9 SPECIAL")) { $orderby = null; } // delete orderby if wrong chars are set
 }
 // for new.php
 elseif ($module == "new") //  for new.php and new_taggroup.php - user form content will not stop the script but clear the variable!

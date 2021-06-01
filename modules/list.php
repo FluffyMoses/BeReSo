@@ -10,6 +10,39 @@
 // Read all items with this tag or search query
 $content_item = null;
 
+// order sql query - empty == default == by item_name asc
+if ($orderby == "item_name-DESC") 
+{
+	$orderby_query = "ORDER BY item_name DESC";
+	$orderby_order = "DESC";
+}
+elseif ($orderby == "item_rating-ASC")
+{
+	$orderby_query = "ORDER BY item_rating ASC, item_name ASC";
+	$orderby_order = "ASC";
+}
+elseif ($orderby == "item_rating-DESC")
+{
+	$orderby_query = "ORDER BY item_rating DESC, item_name ASC";
+	$orderby_order = "DESC";
+}
+elseif ($orderby == "item_favorite-ASC")
+{
+	$orderby_query = "ORDER BY item_favorite ASC, item_name ASC";
+	$orderby_order = "ASC";
+}
+elseif ($orderby == "item_favorite-DESC")
+{
+	$orderby_query = "ORDER BY item_favorite DESC, item_name ASC";
+	$orderby_order = "DESC";
+}
+else // no orderby is set -> use default
+{
+	$orderby = "item_name-ASC";
+	$orderby_query = "ORDER BY item_name ASC"; // default order by 
+	$orderby_order = "ASC";
+}
+
 // start search empty
 if (strlen($search) == 0 && strlen($tag) == 0) { $tag = "ALL"; } // set All items as default
 
@@ -34,7 +67,7 @@ if (strlen($search) > 0)
 	else // start searching...
 	{
 		// is $search in name, text or ocr_text (if ocr searchable is true for this item)
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%' OR (item_ocr_searchable='1' AND item_ocr_text LIKE '%".$search."%')) ORDER BY item_name ASC"; 
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%' OR (item_ocr_searchable='1' AND item_ocr_text LIKE '%".$search."%')) " . $orderby_query; 
 		$list_items_headline = "(bereso_template-list_search_results) " . $search;	
 		User::set_last_list($user,"SEARCH".$search,$page);
 	}
@@ -45,37 +78,37 @@ elseif (strlen($tag) > 0)
 	// list all items
 	if ($tag == "ALL") 
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' ORDER BY item_name ASC";
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_items)";
 	}
 	// list all shared items
 	elseif ($tag == "SHARED") 
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND LENGTH(item_shareid) > 0 ORDER BY item_name ASC";
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND LENGTH(item_shareid) > 0 " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_shared_items)";
 	}	
 	// list all favorite items
 	elseif ($tag == "FAVORITE") 
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_favorite='1' ORDER BY item_name ASC";
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_favorite='1' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_favorite_items)";
 	}	
 	// list all rated items
 	elseif ($tag == "RATED") 
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_rating > '0' ORDER BY item_name ASC";
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_rating > '0' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_rated_items)";
 	}	
 	// list all ocr items
 	elseif ($tag == "OCR") 
 	{
-		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_ocr='1' ORDER BY item_name ASC";
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_ocr='1' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_ocr_items)";
 	}	
 	// list items with $tag
 	else
 	{
-		$sql_list_items = "SELECT  bereso_tags.tags_name, bereso_item.item_name, bereso_item.item_id from bereso_item INNER JOIN bereso_tags ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' AND bereso_tags.tags_name='".$tag."' ORDER BY bereso_item.item_name ASC";
+		$sql_list_items = "SELECT  bereso_tags.tags_name, bereso_item.item_name, bereso_item.item_id from bereso_item INNER JOIN bereso_tags ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' AND bereso_tags.tags_name='".$tag."' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_items_with) #" . $tag;
 	}	
 	User::set_last_list($user,$tag,$page);
@@ -132,8 +165,7 @@ if (strlen($sql_list_items) > 0)
 	// page links
 	if ($list_items_count > $bereso['items_per_page'])  // more than one page
 	{
-		$page_links = null;
-		if (strlen($search) > 0) { $page_linktag = "SEARCH"; } else { $page_linktag = $tag; }
+		$page_links = null;		
 		$all_pages = ceil($list_items_count/$bereso['items_per_page']); // amount of pages
 		for ($i=1;$i<=$all_pages;$i++)
 		{
@@ -145,8 +177,7 @@ if (strlen($sql_list_items) > 0)
 			{
 				$page_links .= File::read_file("templates/list-page.html");
 			}
-			$page_links = str_replace("(bereso_list_page_number)",$i,$page_links);
-			$page_links = str_replace("(bereso_list_tag)",$page_linktag,$page_links);
+			$page_links = str_replace("(bereso_list_page_number)",$i,$page_links);			
 		}
 		$content = str_replace("(bereso_list_pagelinks)",$page_links,$content);
 	}
@@ -154,5 +185,59 @@ if (strlen($sql_list_items) > 0)
 	{
 		$content = str_replace("(bereso_list_pagelinks)",null,$content);
 	}
+
+	// orderby menu
+	$orderby_menu = null;
+	$char_asc = "&uarr;";
+	$char_desc = "&darr;";
+	if ($orderby_order == "ASC") { $orderby_order_opposite = "DESC"; $orderby_order_char = $char_asc;  } else { $orderby_order_opposite = "ASC"; $orderby_order_char = $char_desc; }
+	// sort by name button	
+	if (substr($orderby,0,10) == "item_name-") 
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby-active.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_name-".$orderby_order_opposite,$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$orderby_order_char,$orderby_menu);		
+	}
+	else
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_name-ASC",$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$char_asc,$orderby_menu);
+	}
+	$orderby_menu = str_replace("(bereso_list_orderby_name)","ABC",$orderby_menu);
+	// sort by favorite button	
+	if (substr($orderby,0,14) == "item_favorite-") 
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby-active.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_favorite-".$orderby_order_opposite,$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$orderby_order_char,$orderby_menu);		
+	}
+	else
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_favorite-ASC",$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$char_asc,$orderby_menu);
+	}
+	$orderby_menu = str_replace("(bereso_list_orderby_name)","&#9825;",$orderby_menu);
+	// sort by rating button	
+	if (substr($orderby,0,12) == "item_rating-") 
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby-active.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_rating-".$orderby_order_opposite,$orderby_menu);	
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$orderby_order_char,$orderby_menu);		
+	}
+	else
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_rating-ASC",$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$char_asc,$orderby_menu);
+	}
+	$orderby_menu = str_replace("(bereso_list_orderby_name)","&#9734;",$orderby_menu);
+	$content = str_replace("(bereso_list_orderbymenu)",$orderby_menu,$content);
+
+	// rest replaces
+	if (strlen($search) > 0) { $content = str_replace("(bereso_list_tag)","SEARCH",$content); } else { $content = str_replace("(bereso_list_tag)",$tag,$content); } // insert search in links or the used tag
+	$content = str_replace("(bereso_list_thispage_number)",$page,$content); // this pagenumber
+	$content = str_replace("(bereso_list_thisorderby)",$orderby,$content); // this orderby	
 }
 ?>
