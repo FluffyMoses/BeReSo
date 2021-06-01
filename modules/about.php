@@ -7,7 +7,7 @@
 // ###################################
 
 // Version
-$bereso['version'] = "3.7";
+$bereso['version'] = "3.8";
 // Last update
 $bereso['last_change'] = "01.06.2021";
 // Creation Date

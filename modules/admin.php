@@ -151,14 +151,18 @@ if (User::is_admin($user))
 				}
 
 				Log::useraction($user,$module,$action,"Copied ".$row['item_id']." (User: ".$row['item_user'].") to $add_id (User: ".$bereso_targetuserid.")");  // log when user_log enabled
-				$copyitem_message = "<font color=\"green\">(bereso_template-admin_copyitem_successful) ID:".$row['item_id']." (User ID: ".$row['item_user'].") -&gt; ID: $add_id (User ID: $bereso_targetuserid)</font>";
+				$copyitem_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-admin_copyitem_successful) ID:".$row['item_id']." (User ID: ".$row['item_user'].") -&gt; ID: $add_id (User ID: $bereso_targetuserid)</font></div>";
 			}
 			// item does not exist
 			else 
 			{
-				$copyitem_message = "<font color=\"red\">(bereso_template-admin_copyitem_error)</font>";
+				$copyitem_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_copyitem_error)</font></div>";
 			}
 		}
+
+		// activate the messagepopup
+		$copyitem_message .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 		$action = "copyitem"; // show form again
 	}
 
@@ -249,7 +253,7 @@ if (User::is_admin($user))
 				// create user directory
 				mkdir(Image::get_foldername_by_user_id($add_id));
 
-				$admin_user_message = "<font color=\"green\">(bereso_template-admin_users_new_saved) <b>\"$user_name\"</b></font>"; // success message
+				$admin_user_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-admin_users_new_saved) <b>\"$user_name\"</b></font></div>"; // success message
 
 				Log::useraction($user,$module,$action,"Added user " . User::get_name_by_id($add_id) . " (".$add_id.")");  // log when user_log enabled
 
@@ -262,15 +266,18 @@ if (User::is_admin($user))
 			}
 			else // user already exists
 			{
-				$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_new_user_exists)</font>"; // error message
+				$admin_user_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_users_new_user_exists)</font></div>"; // error message
 				Log::useraction($user,$module,$action,"Adding user " . $user_name . " failed - User exists");  // log when user_log enabled
 			}
 		}
 		else
 		{
-			$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_new_user_error_missing)</font>"; // error message
+			$admin_user_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_users_new_user_error_missing)</font></div>"; // error message
 			Log::useraction($user,$module,$action,"Adding user failed: Wrong characters or empty");  // log when user_log enabled
 		}
+
+		// activate the messagepopup
+		$admin_user_message .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
 
 		// load new user form after saving or error
 		$action = "new_user";
@@ -311,7 +318,7 @@ if (User::is_admin($user))
 			// save in database
 			$sql->query("UPDATE bereso_user SET user_pwhash='".$user_password_hash."' WHERE user_id='".$user_id."'");
 
-			$admin_user_password_message = "<font color=\"green\">(bereso_template-admin_users_edit_password_saved)</font>"; // error message
+			$admin_user_password_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-admin_users_edit_password_saved)</font></div>"; // error message
 
 			Log::useraction($user,$module,$action,"Edited user password " . User::get_name_by_id($user_id) . " (".$user_id.")");  // log when user_log enabled
 
@@ -320,9 +327,12 @@ if (User::is_admin($user))
 		} 
 		else // password empty or contains forbidden characters
 		{
-			$admin_user_password_message = "<font color=\"red\">(bereso_template-admin_users_edit_password_error)</font>"; // error message
+			$admin_user_password_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_users_edit_password_error)</font></div>"; // error message
 			Log::useraction($user,$module,$action,"Editing user password " . User::get_name_by_id($user_id) . " (".$user_id.") failed: Wrong characters or empty");  // log when user_log enabled
 		}
+
+		// activate the messagepopup
+		$admin_user_password_message .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
 
 		// load edit user form after saving or error
 		$action = "edit_user";
@@ -345,7 +355,7 @@ if (User::is_admin($user))
 			// save in database
 			$sql->query("UPDATE bereso_user SET user_name='".$user_name."', user_template='".$user_templates."', user_admin='".$user_admin."', user_ocr='".$user_ocr."' WHERE user_id='".$user_id."'");
 
-			$admin_user_message = "<font color=\"green\">(bereso_template-admin_users_edit_saved)</font>"; // error message
+			$admin_user_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-admin_users_edit_saved)</font></div>"; // success message
 
 			// reset all buffer variables 
 			$user_name = null;
@@ -357,7 +367,7 @@ if (User::is_admin($user))
 		} 
 		else // empty or contains forbidden characters
 		{
-			$admin_user_message = "<font color=\"red\">(bereso_template-admin_users_edit_user_error_missing)</font>"; // error message
+			$admin_user_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_users_edit_user_error_missing)</font></div>"; // error message
 
 			// set replace variables
 			if ($user_ocr == "edit_ocr") { $user_ocr_replace = 1; } else { $user_ocr_replace = 0; }
@@ -368,7 +378,10 @@ if (User::is_admin($user))
 			Log::useraction($user,$module,$action,"Editing user  " . User::get_name_by_id($user_id) . " (".$user_id.") failed: Wrong characters or empty");  // log when user_log enabled
 
 
-		}		
+		}	
+		
+		// activate the messagepopup
+		$admin_user_message .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
 
 		// load edit user form after saving or error
 		$action = "edit_user";
@@ -468,14 +481,14 @@ if (User::is_admin($user))
 			Config::set_config("login_motd",$bereso_login_motd);
 
 			// return message
-			$admin_config_message = "<font color=\"green\">(bereso_template-admin_config_saved)</font>";
+			$admin_config_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-admin_config_saved)</font></div>";
 
 			Log::useraction($user,$module,$action,"Saved config");  // log when user_log enabled
 		}
 		else // wrong characters in post variables
 		{
 			// return message
-			$admin_config_message = "<font color=\"red\">(bereso_template-admin_config_error_text_characters)</font>";
+			$admin_config_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-admin_config_error_text_characters)</font></div>";
 
 			Log::useraction($user,$module,$action,"Saving config failed - wrong characters");  // log when user_log enabled
 		}
@@ -497,6 +510,9 @@ if (User::is_admin($user))
 		$buffer['ocr_password'] = $bereso_ocr_password;
 		$buffer['login_motd'] = $bereso_login_motd;
 		
+		// activate the messagepopup
+		$admin_config_message .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 		// set action to config to load configuration management after saving
 		$action = "config";
 	}

@@ -98,7 +98,7 @@ class Image
 	// return exif orientation degrees
 	public static function get_exif_orientation($geo_imagepath)
 	{
-		 $exif = exif_read_data($geo_imagepath);
+		 $exif = @exif_read_data($geo_imagepath);
 		 if (empty($exif['Orientation'])) { return 0; }
 		 if ($exif['Orientation'] == 3) { return 180; }
 		 elseif ($exif['Orientation'] == 6) { return -90; }

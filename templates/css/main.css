@@ -399,3 +399,45 @@ font.highlitetag { font-weight:bold; color:#880c50; text-decoration:none; }
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+/* Popups */
+#messagepopup {
+  visibility: hidden; 
+  width: 50%; 
+  left: 50%;
+  margin-left: -26%; 
+  text-align: center;
+  border-radius: 8px; 
+  border: solid black 1px;
+  padding: 16px; 
+  position: fixed; 
+  z-index: 1; 
+
+  bottom: 50px; 
+}
+
+#messagepopup.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 4.5s;
+  animation: fadein 0.5s, fadeout 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 50px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 50px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}

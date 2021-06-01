@@ -18,7 +18,7 @@ if ($action == "add")
 	{
 		$sql->query("INSERT into bereso_group (group_name, group_text, group_user) VALUES ('".$add_name."','".$add_text."','".User::get_id_by_name($user)."')");
 		$add_id = $sql->insert_id;
-	    $taggroup_new_addmessage = "<font color=\"green\">(bereso_template-new_taggroup_entry_saved) <b>\"$add_name\"</b></font>";
+	    $taggroup_new_addmessage = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-new_taggroup_entry_saved) <b>\"$add_name\"</b></font></div>";
 		Log::useraction($user,$module,$action,"Taggroup saved $add_id");  // log when user_log enabled
 
 		// clear $add_name and $add_text for the form
@@ -33,12 +33,16 @@ if ($action == "add")
 			// init variables for logging 0/1
 			$form_taggroup_exists_error = 0;
 
-			if ($form_taggroup_name_error == 1 or strlen($add_name) == 0) { $taggroup_new_addmessage = "<font color=\"red\">(bereso_template-new_taggroup_entry_error_name_characters)</font>"; $form_taggroup_name_error = 1; } // name wrong char or empty
-			elseif ($form_taggroup_text_error == 1) { $taggroup_new_addmessage = "<font color=\"red\">(bereso_template-new_taggroup_entry_error_text_characters)</font>"; } // text wrong char
-			elseif (Tags::is_taggroup($user,$add_name) == true) { $taggroup_new_addmessage = "<font color=\"red\">(bereso_template-new_taggroup_entry_error_name_exists)</font>"; $form_taggroup_exists_error = 1; } // text wrong char
+			if ($form_taggroup_name_error == 1 or strlen($add_name) == 0) { $taggroup_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_taggroup_entry_error_name_characters)</font></div>"; $form_taggroup_name_error = 1; } // name wrong char or empty
+			elseif ($form_taggroup_text_error == 1) { $taggroup_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_taggroup_entry_error_text_characters)</font></div>"; } // text wrong char
+			elseif (Tags::is_taggroup($user,$add_name) == true) { $taggroup_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_taggroup_entry_error_name_exists)</font></div>"; $form_taggroup_exists_error = 1; } // text wrong char
 
 			Log::useraction($user,$module,$action,"Taggroup saving failed - Errors: name($form_taggroup_name_error) text($form_taggroup_text_error) exists($form_taggroup_exists_error)");  // log when user_log enabled
 	}	
+
+	// activate the messagepopup
+	$taggroup_new_addmessage .=  "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 	// load new_taggroup-form again with message success or failure
 	$action = null;
 }

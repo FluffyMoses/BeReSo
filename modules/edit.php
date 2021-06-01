@@ -35,7 +35,7 @@ if (Item::is_owned_by_user($user,$item)) {
 			$edit_text = str_replace("\r\n","\n",$edit_text); // replace windows \r\n with unix stlyle \n
 			$sql->query("UPDATE bereso_item SET item_name='".$edit_name."', item_text='".$edit_text."', item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");
 			
-			$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_entry_saved) <b>\"$edit_name\"</b></font>";		
+			$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-edit_entry_saved) <b>\"$edit_name\"</b></font></div>";		
 
 			Log::useraction($user,$module,$action,"Item $item saved");  // log when user_log enabled
 		} 
@@ -45,14 +45,18 @@ if (Item::is_owned_by_user($user,$item)) {
 				// init variables for logging 0/1
 				$form_item_missing = 0;
 
-				if ($form_item_name_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_characters)</font>"; } // name wrong char
-				elseif ($form_item_text_error == 1) { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_text_characters)</font>"; } // text wrong char
-				else { $item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_name_missing)</font>"; $form_item_missing = 1; } // name missing
+				if ($form_item_name_error == 1) { $item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_name_characters)</font></div>"; } // name wrong char
+				elseif ($form_item_text_error == 1) { $item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_text_characters)</font></div>"; } // text wrong char
+				else { $item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_name_missing)</font></div>"; $form_item_missing = 1; } // name missing
 				$edit_name_replace = $edit_name; // if set the form will replace the text with the variable content, not with the sql loaded content
 				$edit_text_replace = $edit_text; // if set the form will replace the text with the variable content, not with the sql loaded content
 
 				Log::useraction($user,$module,$action,"Item saving failed - Errors: name($form_item_name_error) text($form_item_text_error) missing_name($form_item_missing)");  // log when user_log enabled
 		}	
+
+		// activate the messagepopup
+		$item_edit_addmessage .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 		// load edit-form again with message success or failure
 		$action = null;
 	}
@@ -166,7 +170,7 @@ if (Item::is_owned_by_user($user,$item)) {
 						// change timestamp_edit
 						$sql->query("UPDATE bereso_item SET item_timestamp_edit='".$bereso['now']."' WHERE item_id='".$item."'");					
 						// status message					
-						$item_edit_addmessage = "<font color=\"green\">(bereso_template-edit_image_saved)</font>";	
+						$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-edit_image_saved)</font></div>";	
 
 						 // fix exif orientation
 						$image_path = Image::get_foldername_by_user_id(User::get_id_by_name($user)) . Image::get_filenamecomplete($item,$item_image_id);
@@ -226,7 +230,7 @@ if (Item::is_owned_by_user($user,$item)) {
 				else // Fileextension not ok
 				{
 					// error message
-					$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_filetype)</font>";
+					$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_filetype)</font></div>";
 					Log::useraction($user,$module,$action,"Image upload $item-$item_image_id failed - Wrong Fileextension");  // log when user_log enabled
 				}
 			}					
@@ -234,9 +238,13 @@ if (Item::is_owned_by_user($user,$item)) {
 		// max_file_upload size exceeded
 		else
 		{
-			$item_edit_addmessage = "<font color=\"red\">(bereso_template-edit_entry_error_file (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font>"; // max_file_upload size exceeded					
+			$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_file (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font></div>"; // max_file_upload size exceeded					
 			Log::useraction($user,$module,$action,"Image upload $item-$item_image_id failed - Upload size exceeded");  // log when user_log enabled
 		}
+
+		// activate the messagepopup
+		$item_edit_addmessage .=  "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 		$action = null; // Load Edit Form again	
 	}		
 	

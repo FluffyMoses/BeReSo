@@ -88,7 +88,7 @@ if ($action == "add")
 		imagedestroy($old_image);
 		
 		
-	    $item_new_addmessage = "<font color=\"green\">(bereso_template-new_entry_saved) <b>\"$add_name\"</b></font>";
+	    $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-new_entry_saved) <b>\"$add_name\"</b></font></div>";
 		Log::useraction($user,$module,$action,"Item saved $add_id");  // log when user_log enabled
 
 		// clear $add_name and $add_text for the form
@@ -109,14 +109,17 @@ if ($action == "add")
 			$form_item_file_type_log_error = 0;
 
 			// check error cases
-			if ($form_item_name_error == 1) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_name_characters)</font>"; } // name wrong char
-			elseif ($form_item_text_error == 1) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_text_characters)</font>"; } // text wrong char
-			elseif ($form_item_file_type_error == true) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_filetype)</font>"; $form_item_file_type_log_error = 1; } // Wrong filetype
-			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_filesize) (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font>"; $form_item_filesize_error = 1; } // max_upload_size exceeded
-			else { $item_new_addmessage = "<font color=\"red\">(bereso_template-new_entry_error_missing)</font>"; $form_item_missing_error = 1; } // name, preview or image1 missing
+			if ($form_item_name_error == 1) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_name_characters)</font></div>"; } // name wrong char
+			elseif ($form_item_text_error == 1) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_text_characters)</font></div>"; } // text wrong char
+			elseif ($form_item_file_type_error == true) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_filetype)</font></div>"; $form_item_file_type_log_error = 1; } // Wrong filetype
+			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_filesize) (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font></div>"; $form_item_filesize_error = 1; } // max_upload_size exceeded
+			else { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_missing)</font></div>"; $form_item_missing_error = 1; } // name, preview or image1 missing
 			
 			Log::useraction($user,$module,$action,"Item saving failed - Errors: name($form_item_name_error) text($form_item_text_error) filetype($form_item_file_type_log_error) filesize($form_item_filesize_error) missing_name_preview_image1($form_item_missing_error)");  // log when user_log enabled
 	}	
+	// activate the messagepopup
+	$item_new_addmessage .= "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 	// load new_item-form again with message success or failure
 	$action = null;
 

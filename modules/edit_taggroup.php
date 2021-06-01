@@ -44,7 +44,7 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 			$sql->query("UPDATE bereso_group SET group_name='".$edit_name."', group_text='".$edit_text."' WHERE group_user='".User::get_id_by_name($user)."' AND group_id='".$taggroupid."'");
 			User::set_last_taggroup($user,$edit_name); // reset last_taggroup link for the case when the name is changed
 		
-			$taggroup_edit_message = "<font color=\"green\">(bereso_template-edit_taggroup_entry_saved) <b>\"$edit_name\"</b></font>";
+			$taggroup_edit_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-edit_taggroup_entry_saved) <b>\"$edit_name\"</b></font></div>";
 
 			Log::useraction($user,$module,$action,"Edited taggroup $taggroupid");  // log when user_log enabled
 		
@@ -55,13 +55,17 @@ if (Tags::is_owned_by_user($user,Tags::get_taggroupid_name($user,$taggroupid))) 
 				// init variables for logging 0/1
 				$form_taggroup_doubleentry_log_error = 0;
 
-				if ($form_taggroup_name_error == 1 or strlen($edit_name) == 0) { $taggroup_edit_message = "<font color=\"red\">(bereso_template-edit_taggroup_entry_error_name_characters)</font>"; } // name wrong char or emtpy
-				elseif ($form_taggroup_text_error == 1) { $taggroup_edit_message = "<font color=\"red\">(bereso_template-edit_taggroup_entry_error_text_characters)</font>"; } // text wrong char
-				elseif ($form_taggroup_doubleentry_error == true) { $taggroup_edit_message = "<font color=\"red\">(bereso_template-edit_taggroup_entry_error_name_exists)</font>"; $form_taggroup_doubleentry_log_error = 1; } // text wrong char
+				if ($form_taggroup_name_error == 1 or strlen($edit_name) == 0) { $taggroup_edit_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_taggroup_entry_error_name_characters)</font></div>"; } // name wrong char or emtpy
+				elseif ($form_taggroup_text_error == 1) { $taggroup_edit_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_taggroup_entry_error_text_characters)</font></div>"; } // text wrong char
+				elseif ($form_taggroup_doubleentry_error == true) { $taggroup_edit_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_taggroup_entry_error_name_exists)</font></div>"; $form_taggroup_doubleentry_log_error = 1; } // text wrong char
 				$edit_name_replace = $edit_name; // if set the form will replace the text with the variable content, not with the sql loaded content
 				$edit_text_replace = $edit_text; // if set the form will replace the text with the variable content, not with the sql loaded content
 				Log::useraction($user,$module,$action,"Editing taggroup $taggroupid failed - Errors: name($form_taggroup_name_error) text($form_taggroup_text_error) exists($form_taggroup_doubleentry_log_error)");  // log when user_log enabled
 		}	
+
+		// activate the messagepopup
+		$taggroup_edit_message .=  "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
+
 		// load edit_taggroup-form again with message success or failure
 		$action = null;
 	}

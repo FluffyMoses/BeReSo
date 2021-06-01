@@ -24,14 +24,14 @@ if ($action == "saveconfig") // save configuration
 		Config::set_userconfig("userconfig_newline_after_hashtag_insert",$bereso_newline_after_hashtag_insert,$user);
 
 		// return message
-		$userconfig_message = "<font color=\"green\">(bereso_template-userconfig_saved)</font>";
+		$userconfig_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-userconfig_saved)</font></div>";
 
 		Log::useraction($user,$module,$action,"Saved user config");  // log when user_log enabled
 	}
 	else // wrong characters in post variables
 	{
 		// return message
-		$userconfig_message = "<font color=\"red\">(bereso_template-userconfig_error_text_characters)</font>";
+		$userconfig_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-userconfig_error_text_characters)</font></div>";
 
 		Log::useraction($user,$module,$action,"Saving user config failed - wrong characters");  // log when user_log enabled
 
@@ -40,6 +40,9 @@ if ($action == "saveconfig") // save configuration
 		$buffer['userconfig_items_per_page'] = $bereso_items_per_page;
 		if ($bereso_newline_after_hashtag_insert == "newline_after_hashtag_insert") { $buffer['userconfig_newline_after_hashtag_insert'] = 1; } else { $buffer['userconfig_newline_after_hashtag_insert'] = 0; }
 	}
+
+	// activate the messagepopup
+	$userconfig_message .=  "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
 
 	// set action to null to load user configuration management after saving
 	$action = null;

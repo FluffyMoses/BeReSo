@@ -57,7 +57,7 @@ if (Config::get_config("ocr_enabled") == 1)
 					Item::set_ocr_text($item,$edit_text); // save entry
 					Item::set_ocr_searchable($item,$edit_searchable);
 
-					$ocr_edit_message = "<font color=\"green\">(bereso_template-edit_ocr_entry_saved)</font>";
+					$ocr_edit_message = "<div id=\"messagepopup\" style=\"background: green;\"><font color=\"white\">(bereso_template-edit_ocr_entry_saved)</font></div>";
 
 					if ($edit_searchable == true) { $edit_log_searchable = 1; } else { $edit_log_searchable = 0; }
 					Log::useraction($user,$module,$action,"OCR text saved for item $item - searchable($edit_log_searchable)");  // log when user_log enabled
@@ -67,9 +67,12 @@ if (Config::get_config("ocr_enabled") == 1)
 					$edit_text_replace = $edit_text;
 					$edit_searchable_replace = $edit_searchable;
 
-					$ocr_edit_message = "<font color=\"red\">(bereso_template-edit_ocr_entry_error_text_characters)</font>";
+					$ocr_edit_message = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_ocr_entry_error_text_characters)</font></div>";
 					Log::useraction($user,$module,$action,"OCR text not saved for item $item - Wrong characters");  // log when user_log enabled
 				}
+
+				// activate the messagepopup
+				$ocr_edit_message .=  "\n<script src=\"templates/js/show_messagepopup.js\"></script>\n";
 
 				// load edit_ocr-form again with message success or failure
 				$action = null;
