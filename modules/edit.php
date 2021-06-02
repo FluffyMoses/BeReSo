@@ -238,7 +238,7 @@ if (Item::is_owned_by_user($user,$item)) {
 		// max_file_upload size exceeded
 		else
 		{
-			$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_file (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font></div>"; // max_file_upload size exceeded					
+			$item_edit_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-edit_entry_error_filesize) (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font></div>"; // max_file_upload size exceeded					
 			Log::useraction($user,$module,$action,"Image upload $item-$item_image_id failed - Upload size exceeded");  // log when user_log enabled
 		}
 

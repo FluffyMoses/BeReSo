@@ -422,6 +422,26 @@ font.highlitetag { font-weight:bold; color:#880c50; text-decoration:none; }
   animation: fadein 0.5s, fadeout 0.5s 4.5s;
 }
 
+#waitpopup {
+  visibility: hidden; 
+  width: 50%; 
+  left: 50%;
+  margin-left: -26%; 
+  text-align: center;
+  border-radius: 8px; 
+  border: solid black 1px;
+  padding: 16px; 
+  position: fixed; 
+  z-index: 1; 
+  bottom: 50px; 
+}
+
+#waitpopup.show { 
+  visibility: visible;
+  /* no fadein - safari doesn't fade while loading next page */
+}
+
+
 @-webkit-keyframes fadein {
   from {bottom: 0; opacity: 0;}
   to {bottom: 50px; opacity: 1;}

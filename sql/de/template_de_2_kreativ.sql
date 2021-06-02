@@ -19,3 +19,5 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'list_tags_all_ocr_items', 'Alle Eintr&auml;ge mit OCR Text', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'userconfig_items_per_page', 'Eintr&auml;ge pro Seite', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'list_tags_all_rated_items', 'Alle Eintr&auml;ge mit Bewertung', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'new_item_saving_message', 'Eintrag wird gespeichert...', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (2, 'edit_item_saving_message', 'Eintrag wird gespeichert...', 'de');

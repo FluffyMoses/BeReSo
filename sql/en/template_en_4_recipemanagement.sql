@@ -19,3 +19,5 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'list_tags_all_ocr_items', 'All recipes with ocr text', 'en');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'userconfig_items_per_page', 'Recipes per page', 'en');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'list_tags_all_rated_items', 'All rated recipes', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'new_item_saving_message', 'Saving recipe...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (4, 'edit_item_saving_message', 'Saving recipe...', 'en');

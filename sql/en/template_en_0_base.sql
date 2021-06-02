@@ -166,3 +166,11 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_copyitem_sourceitemid', 'Source item id', 'en');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_copyitem_targetuser', 'Target user', 'en');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'userconfig_newline_after_hashtag_insert', 'New line after adding a hashtag', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'edit_ocr_saving_message', 'Saving ocr text...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'edit_ocr_saving_message', 'Saving tag group...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'userconfig_saving_message', 'Saving configuration...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_config_saving_message', 'Saving configuration...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_checkimages_message', 'Checking images...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_copyitem_saving_message', 'Copy entry...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_edit_saving_message', 'Saving user...', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_new_saving_message', 'Saving user...', 'en');

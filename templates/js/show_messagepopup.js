@@ -1,7 +1,7 @@
 // Bereso
 // BEst REcipe SOftware
 // ###################################
-// shows messagepopup for a few seconds
+// shows messagepopup for a few seconds (status messages: success and error)
 // included by ../../index.php (via new.php, edit.php, etc.)
 // ###################################
 
