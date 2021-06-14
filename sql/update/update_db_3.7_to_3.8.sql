@@ -25,3 +25,5 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_new_saving_message', 'Benutzer wird gespeichert...', 'de');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_edit_saving_message', 'Saving user...', 'en');
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_new_saving_message', 'Saving user...', 'en');
+
+UPDATE `bereso_template_text` SET `template_text_text`='Zeitzone - Liste mit unterst&uuml;tzten Zeitzonen: <a href="https://www.php.net/manual/de/timezones.php" target="_BLANK">https://www.php.net/manual/de/timezones.php</a>' WHERE `template_text_name`='admin_config_timezone' AND `template_text_language`='de';
