@@ -36,6 +36,16 @@ elseif ($orderby == "item_favorite-DESC")
 	$orderby_query = "ORDER BY item_favorite DESC, item_name ASC";
 	$orderby_order = "DESC";
 }
+elseif ($orderby == "item_timestamp_creation-ASC")
+{
+	$orderby_query = "ORDER BY item_timestamp_creation ASC, item_name ASC";
+	$orderby_order = "ASC";
+}
+elseif ($orderby == "item_timestamp_creation-DESC")
+{
+	$orderby_query = "ORDER BY item_timestamp_creation DESC, item_name ASC";
+	$orderby_order = "DESC";
+}
 else // no orderby is set -> use default
 {
 	$orderby = "item_name-ASC";
@@ -233,6 +243,21 @@ if (strlen($sql_list_items) > 0)
 		$orderby_menu = str_replace("(bereso_list_orderby_order)",$char_asc,$orderby_menu);
 	}
 	$orderby_menu = str_replace("(bereso_list_orderby_name)","&#9734;",$orderby_menu);
+	// sort by creation date button	
+	if (substr($orderby,0,24) == "item_timestamp_creation-") 
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby-active.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_timestamp_creation-".$orderby_order_opposite,$orderby_menu);	
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$orderby_order_char,$orderby_menu);		
+	}
+	else
+	{
+		$orderby_menu .= File::read_file("templates/list-orderby.html");	
+		$orderby_menu = str_replace("(bereso_list_orderby)","item_timestamp_creation-ASC",$orderby_menu);
+		$orderby_menu = str_replace("(bereso_list_orderby_order)",$char_asc,$orderby_menu);
+	}
+	$orderby_menu = str_replace("(bereso_list_orderby_name)","&#x1F553;",$orderby_menu);
+
 	$content = str_replace("(bereso_list_orderbymenu)",$orderby_menu,$content);
 
 	// rest replaces
