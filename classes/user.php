@@ -160,10 +160,10 @@ class User
 	}
 
 	// set last listed tag for this user
-	public static function set_last_list($sll_user,$sll_tag,$sll_page)
+	public static function set_last_list($sll_user,$sll_tag,$sll_page,$sll_orderby)
 	{
 		global $sql;
-		if ($sll_tag != null) { $set_tag = $sll_tag.",".$sll_page; } else { $set_tag = null; }
+		if ($sll_tag != null) { $set_tag = $sll_tag.",".$sll_page.",".$sll_orderby; } else { $set_tag = null; }
         $sql->query("UPDATE bereso_user SET user_last_list='".$set_tag."' WHERE user_name='$sll_user'");
 	}
 

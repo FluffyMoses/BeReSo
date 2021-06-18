@@ -121,13 +121,13 @@ elseif (strlen($tag) > 0)
 		$sql_list_items = "SELECT  bereso_tags.tags_name, bereso_item.item_name, bereso_item.item_id from bereso_item INNER JOIN bereso_tags ON bereso_tags.tags_item = bereso_item.item_id WHERE bereso_item.item_user='".User::get_id_by_name($user)."' AND bereso_tags.tags_name='".$tag."' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_items_with) #" . $tag;
 	}	
-	User::set_last_list($user,$tag,$page);
+	User::set_last_list($user,$tag,$page,$orderby);
 }	
 // no valid list request
 else
 {
 	Log::die ("CHECK: no valid list_items request");
-	User::set_last_list($user,null,$page); // delete the last list
+	User::set_last_list($user,null,$page,$orderby); // delete the last list
 }
 
 // if there is no error - execute sql and show all items

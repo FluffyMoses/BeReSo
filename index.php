@@ -392,7 +392,8 @@ if ($module == "list_tags")
 if (($module != "show" && $module != "show_image" && $module != "list" && $module != "share" && $module != "share_image" && $module != "edit" && $module != "edit_ocr" && $module != "delete" && $module != "show_printpreview") or $action == "random")
 {
 	if (!isset($page)) { $page = null; } // prevent error mesages
-	User::set_last_list($user,null,$page); // delete the last list
+	if (!isset($orderby)) { $orderby = null; } // prevent error message
+	User::set_last_list($user,null,$page,$orderby); // delete the last list
 }
 // show last list icon and link when last list is set for this user on show module
 if (strlen(User::get_last_list($user)) > 0 && $module == "show") // do not show icon if we are still in the list menu or in edit or in edit_ocr or in delete module
@@ -401,9 +402,11 @@ if (strlen(User::get_last_list($user)) > 0 && $module == "show") // do not show 
 	$last_list_explode = explode(",",User::get_last_list($user)); // split response by ,
 	$last_list_tag = $last_list_explode[0]; // tag
 	$last_list_page_number = $last_list_explode[1]; // page number
+	$last_list_orderby = $last_list_explode[2]; // orderby
 	if (substr($last_list_tag,0,6) == "SEARCH") { $last_list_tag = "SEARCH"; }  // do not link the whole search string, just SEARCH
 	$navigation2 = str_replace("(main-navigation-last_list_value)",$last_list_tag,$navigation2);
 	$navigation2 = str_replace("(main-navigation-last_list_page_number)",$last_list_page_number,$navigation2);	
+	$navigation2 = str_replace("(main-navigation-last_list_orderby)",$last_list_orderby,$navigation2);	
 	if ($item > 0) { $navigation2 = str_replace("(main-navigation-last_list_item_anchor)","#".$item,$navigation2); } else { $navigation2 = str_replace("(main-navigation-last_list_item_anchor)",null,$navigation2); } // if item id is set - jump to the item via html anchor
 }
 
