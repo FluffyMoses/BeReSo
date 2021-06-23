@@ -72,14 +72,14 @@ if (strlen($search) > 0)
 	{
 		$sql_list_items = null;
 		$content = File::read_file("templates/list-searcherror.html"); // load error template for content	
-		User::set_last_list($user,null,$page); // delete the last list
+		User::set_last_list($user,null,$page,$orderby); // delete the last list
 	}
 	else // start searching...
 	{
 		// is $search in name, text or ocr_text (if ocr searchable is true for this item)
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND (item_name LIKE '%".$search."%' OR item_text LIKE '%".$search."%' OR (item_ocr_searchable='1' AND item_ocr_text LIKE '%".$search."%')) " . $orderby_query; 
 		$list_items_headline = "(bereso_template-list_search_results) " . $search;	
-		User::set_last_list($user,"SEARCH".$search,$page);
+		User::set_last_list($user,"SEARCH".$search,$page,$orderby);
 	}
 }
 // list items via tag
