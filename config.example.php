@@ -29,4 +29,5 @@ $bereso['log_die_path'] = "die.log"; // path to this textfile
 $bereso['userconfig_items_per_page'] = 100; // Items per page
 $bereso['userconfig_wakescreenlock'] = 0; // wake screenlock enabled
 $bereso['userconfig_newline_after_hashtag_insert'] = 0; // add a newline after a hashtag is inserted via menu
+$bereso['userconfig_ocr_checked_new_item'] = 1; // The OCR Checkbox (if OCR is activated) is enabled by default in the new item module
 ?>

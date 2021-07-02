@@ -28,12 +28,15 @@ if ($action == "add")
 	}
 
 	// insert when file 1 is ok, name is longer than 1 char - preview file is ok - no specialchars in name or text
-	if (@file_exists($add_photo['tmp_name'][0]) && @file_exists($add_photo['tmp_name'][1]) && strlen($add_name) > 0 && $form_item_name_error == 0 && $form_item_text_error == 0 && $form_item_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
-		
+	if (@file_exists($add_photo['tmp_name'][0]) && @file_exists($add_photo['tmp_name'][1]) && strlen($add_name) > 0 && $form_item_name_error == 0 && $form_item_text_error == 0 && $form_item_ocr_error == 0 && $form_item_file_type_error == false && $_SERVER['CONTENT_LENGTH'] < $bereso['max_upload_size']) {
+	
+		// check ocr status
+		if ($add_ocr == "ocr") { $add_ocr = 1; } else { $add_ocr = 0; } // if checked set to 1 - else 0
+
 		// generate uniqueid that is used for the imagename
 		$add_uniqueid = uniqid();
 
-		$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit) VALUES ('".$add_name."','".$add_text."','".User::get_id_by_name($user)."','".$add_uniqueid."','".$bereso['now']."','".$bereso['now']."')");
+		$sql->query("INSERT into bereso_item (item_name, item_text,item_user, item_imagename, item_timestamp_creation, item_timestamp_edit, item_ocr) VALUES ('".$add_name."','".$add_text."','".User::get_id_by_name($user)."','".$add_uniqueid."','".$bereso['now']."','".$bereso['now']."','".$add_ocr."')");
 		$add_id = $sql->insert_id;
 		
 		// save tags
@@ -94,6 +97,7 @@ if ($action == "add")
 		// clear $add_name and $add_text for the form
 		$add_name = null;
 		$add_text = null;
+		$add_ocr = null;
 
 		// add to navigation -> Last item
 		$navigation2 .= File::read_file("templates/main-navigation2-last_item.html");
@@ -103,14 +107,19 @@ if ($action == "add")
 	// form not correct
 	else
 	{		
+			// check ocr status
+			if ($add_ocr == "ocr") { $add_ocr = 1; } else { $add_ocr = 0; } // if checked set to 1 - else 0
+
 			// init variables for logging 0/1
 			$form_item_filesize_error = 0;
 			$form_item_missing_error = 0;
 			$form_item_file_type_log_error = 0;
+			
 
 			// check error cases
 			if ($form_item_name_error == 1) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_name_characters)</font></div>"; } // name wrong char
 			elseif ($form_item_text_error == 1) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_text_characters)</font></div>"; } // text wrong char
+			elseif ($form_item_ocr_error == 1) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_ocr_characters)</font></div>"; } // ocr text wrong char
 			elseif ($form_item_file_type_error == true) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_filetype)</font></div>"; $form_item_file_type_log_error = 1; } // Wrong filetype
 			elseif ($_SERVER['CONTENT_LENGTH'] > $bereso['max_upload_size']) { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_filesize) (". ($bereso['max_upload_size']/1024/1024)." MB - ". $bereso['max_upload_size']." Bytes)</font></div>"; $form_item_filesize_error = 1; } // max_upload_size exceeded
 			else { $item_new_addmessage = "<div id=\"messagepopup\" style=\"background: red;\"><font color=\"white\">(bereso_template-new_entry_error_missing)</font></div>"; $form_item_missing_error = 1; } // name, preview or image1 missing
@@ -186,5 +195,23 @@ if ($action == null){
 		$content_optional_images = str_replace("(bereso_new_item_image_optional_image_id)",$i,$content_optional_images);
 	}	
 	$content = str_replace("(bereso_new_item_optional_images)",$content_optional_images,$content); // Insert additional images into main template
+
+
+	// if user has ocr permissions - show configs related to ocr
+	if (User::get_ocr($user) == 1 && Config::get_config("ocr_enabled") == 1)
+	{
+		$content = str_replace("(bereso_new_item_ocr)",File::read_file("templates/new-ocr.html"),$content);
+		// insert config values in template
+		// if save is with errors 
+		if (is_numeric($add_ocr)) {
+			if ($add_ocr == 1) { $content = str_replace("(bereso_new_item_ocr_checked)","checked",$content); } else { $content = str_replace("(bereso_new_item_ocr_checked)",null,$content); }
+		}
+		// else use default setting
+		if (Config::get_userconfig("userconfig_ocr_checked_new_item",$user) == 1) { $content = str_replace("(bereso_new_item_ocr_checked)","checked",$content); } else { $content = str_replace("(bereso_new_item_ocr_checked)",null,$content); }
+	}
+	else // no ocr permission 
+	{
+		$content = str_replace("(bereso_new_item_ocr)",null,$content);
+	}
 }
 ?>

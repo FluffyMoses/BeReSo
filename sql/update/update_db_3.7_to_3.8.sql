@@ -27,3 +27,10 @@ INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_
 INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'admin_users_new_saving_message', 'Saving user...', 'en');
 
 UPDATE `bereso_template_text` SET `template_text_text`='Zeitzone - Liste mit unterst&uuml;tzten Zeitzonen: <a href="https://www.php.net/manual/de/timezones.php" target="_BLANK">https://www.php.net/manual/de/timezones.php</a>' WHERE `template_text_name`='admin_config_timezone' AND `template_text_language`='de';
+
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'userconfig_ocr_checked_new_item', 'Default setting for new items OCR checkbox', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'userconfig_ocr_checked_new_item', 'Standardeinstellung für die OCR Checkbox bei Erstellung eines neuen Eintrags', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'new_item_ocr', 'OCR', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'new_item_ocr', 'OCR', 'en');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'new_entry_error_ocr_characters', 'Eintrag <b>NICHT</b> gespeichert. OCR Checkbox enth&auml;lt nicht erlaubte Zeichen.', 'de');
+INSERT INTO `bereso_template_text` (`template_text_template_id`, `template_text_name`, `template_text_text`, `template_text_language`) VALUES (0, 'new_entry_error_ocr_characters', 'Entry <b>NOT</b> saved. OCR checkbox contains forbidden characters.', 'en');

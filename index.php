@@ -85,6 +85,7 @@ elseif ($module == "new")
 	$add_name = @$_POST['add_name'];
 	$add_text = @$_POST['add_text'];
 	$add_photo = @$_FILES['add_photo']; // Array of multiple file input fields
+	$add_ocr = @$_POST['add_ocr'];
 }
 // for edit.php
 elseif ($module == "edit") 
@@ -167,6 +168,7 @@ elseif ($module == "userconfig")
 	$bereso_wakescreenlock = @$_POST['bereso_wakescreenlock'];
 	$bereso_items_per_page = @$_POST['bereso_items_per_page'];
 	$bereso_newline_after_hashtag_insert = @$_POST['bereso_newline_after_hashtag_insert'];
+	$bereso_ocr_checked_new_item = @$_POST['bereso_ocr_checked_new_item'];
 }
 
 
@@ -202,8 +204,10 @@ elseif ($module == "new") //  for new.php and new_taggroup.php - user form conte
 {
 	$form_item_name_error = 0;
 	$form_item_text_error = 0;
+	$form_item_ocr_error = 0;
 	if(!Text::is_letter($add_name,"a-z0-9 SPECIAL")) { $form_item_name_error = 1; }
 	if(!Text::is_letter($add_text,"a-z0-9 SPECIAL")) { $form_item_text_error = 1; }
+	if(!Text::is_letter($add_ocr,"a-z0-9 SPECIAL")) { $form_item_ocr_error = 1; }	
 }
 // for edit.php
 elseif ($module == "edit") // for edit.php - user form content will not stop the script but clear the variable!
@@ -294,6 +298,7 @@ elseif ($module == "userconfig")
 	if(!Text::is_letter($bereso_wakescreenlock,"a-z")) { $form_config_error = 1;  }	
 	if (!is_numeric($bereso_items_per_page)) { $form_config_error = 1;  }
 	if(!Text::is_letter($bereso_newline_after_hashtag_insert,"a-z_")) { $form_config_error = 1;  }		
+	if(!Text::is_letter($bereso_ocr_checked_new_item,"a-z_")) { $form_config_error = 1;  }		
 }
 
 
@@ -327,6 +332,7 @@ if (User::is_logged_in($user,$passwordhash))
 	// Load user configuration
 	$bereso['items_per_page'] = Config::get_userconfig("userconfig_items_per_page",$user); // Items per page
 	$bereso['wakescreenlock'] = Config::get_userconfig("userconfig_wakescreenlock",$user); // wake screenlock enabled
+	$bereso['ocr_checked_new_item'] = Config::get_userconfig("userconfig_ocr_checked_new_item",$user); // wake screenlock enabled
 
 	// Load modules
 	if ($module == "list_tags") { include ("modules/list_tags.php"); }
@@ -378,14 +384,15 @@ if ($module == "list_tags" or $module == "list")
 // only on module list_tags (startpage)
 if ($module == "list_tags") 
 {
-	$navigation .= File::read_file("templates/main-navigation-list_tags-random.html"); // random item
-	$navigation .= File::read_file("templates/main-navigation-list_tags-userconfig.html");  // user config
+	$navigation .= File::read_file("templates/main-navigation-list_tags-random.html"); // random item	
 	// is admin
 	if (User::is_admin($user))
 	{
 		$navigation .= File::read_file("templates/main-navigation-list_tags-admin.html"); // admin center
 	}
-} 
+}
+// always show userconfig
+$navigation .= File::read_file("templates/main-navigation-userconfig.html");  // user config
 
 // -> Last list - backbutton on show, edit, edit_ocr, delete
 // delete user_last_list for this user if user is not navigating in list.php or show.php or show_image.php or share_image.php or share.php or edit.php or edit_ocr.php or show.php?action=random

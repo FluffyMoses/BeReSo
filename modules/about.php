@@ -9,7 +9,7 @@
 // Version
 $bereso['version'] = "3.8";
 // Last update
-$bereso['last_change'] = "23.06.2021";
+$bereso['last_change'] = "02.07.2021";
 // Creation Date
 $bereso['created'] = "14.01.2021";
 // Title
