@@ -57,10 +57,23 @@ if ($action == null)
 	{
 		$content = str_replace("(bereso_list_tags_allocritems)",File::read_file("templates/list_tags-allocritems.html"),$content); // no ocr - delete the replace placeholder
 		$content = str_replace("(bereso_list_tags_ocritem_numbers)",Item::get_ocrnumber($user),$content); // item count for all ocr items of $user
+		// ocr searchable
+		$ocritems_without_search = Item::get_ocrwithoutsearchnumber($user);
+		echo $ocritems_without_search;
+		if ($ocritems_without_search > 0) // ocr text exists but is not used for search for this items
+		{
+			$content = str_replace("(bereso_list_tags_allocritems_without_search)",File::read_file("templates/list_tags-allocritems_without_search.html"),$content);
+			$content = str_replace("(bereso_list_tags_ocritemwithoutsearch_numbers)",$ocritems_without_search,$content);
+		}
+		else // no ocr text exists or search is enabled in all of the items
+		{
+			$content = str_replace("(bereso_list_tags_allocritems_without_search)",null,$content); // no ocr - delete the replace placeholder
+		}
 	}
 	else // ocr disabled
 	{
 		$content = str_replace("(bereso_list_tags_allocritems)",null,$content); // no ocr - delete the replace placeholder
+		$content = str_replace("(bereso_list_tags_allocritems_without_search)",null,$content); // no ocr - delete the replace placeholder
 	}
 	
 	$content_item = null;

@@ -115,6 +115,12 @@ elseif (strlen($tag) > 0)
 		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_ocr='1' " . $orderby_query;
 		$list_items_headline = "(bereso_template-list_tags_all_ocr_items)";
 	}	
+	// list all ocr items with search disabled
+	elseif ($tag == "OCRWITHOUTSEARCH") 
+	{
+		$sql_list_items = "SELECT item_id, item_name from bereso_item WHERE item_user='".User::get_id_by_name($user)."' AND item_ocr = '1' AND item_ocr_text is NOT null AND item_ocr_searchable='0' " . $orderby_query;
+		$list_items_headline = "(bereso_template-list_tags_all_ocr_items_without_search)";
+	}	
 	// list items with $tag
 	else
 	{

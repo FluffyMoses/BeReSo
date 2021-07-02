@@ -232,6 +232,14 @@ class Item
 		return mysqli_num_rows($result);
 	}	
 
+	// get number of ocr items with disabled search of user
+	public static function get_ocrwithoutsearchnumber($gs_user) 
+	{
+		global $sql;
+        if ($result = $sql->query("SELECT * from bereso_item WHERE item_user='".User::get_id_by_name($gs_user)."' AND item_ocr = '1' AND item_ocr_text is NOT null AND item_ocr_searchable='0'"))
+		return mysqli_num_rows($result);
+	}	
+
 	// get number of rated items of user
 	public static function get_ratednumber($gs_user) 
 	{
