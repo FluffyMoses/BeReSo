@@ -58,8 +58,7 @@ if ($action == null)
 		$content = str_replace("(bereso_list_tags_allocritems)",File::read_file("templates/list_tags-allocritems.html"),$content); // no ocr - delete the replace placeholder
 		$content = str_replace("(bereso_list_tags_ocritem_numbers)",Item::get_ocrnumber($user),$content); // item count for all ocr items of $user
 		// ocr searchable
-		$ocritems_without_search = Item::get_ocrwithoutsearchnumber($user);
-		echo $ocritems_without_search;
+		$ocritems_without_search = Item::get_ocrwithoutsearchnumber($user);		
 		if ($ocritems_without_search > 0) // ocr text exists but is not used for search for this items
 		{
 			$content = str_replace("(bereso_list_tags_allocritems_without_search)",File::read_file("templates/list_tags-allocritems_without_search.html"),$content);
